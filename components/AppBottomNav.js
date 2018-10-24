@@ -1,13 +1,6 @@
 import React, {Component} from 'react';
 import {
-  Alert, 
-  Platform, 
-  StyleSheet, 
-  Text, 
-  TextInput, 
-  View, 
-  KeyboardAvoidingView, 
-  Button
+  View
   } from 'react-native';
 import {createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs'
 import Icon from 'react-native-vector-icons/FontAwesome'

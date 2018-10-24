@@ -1,14 +1,7 @@
 import React, {Component} from 'react';
-
+import { Button, Container, Content, Form, Item, Input, Label, Text as NBText  } from 'native-base';
 import {
-    Alert, 
-    Platform, 
-    StyleSheet, 
-    Text, 
-    TextInput, 
-    View, 
-    KeyboardAvoidingView, 
-    Button 
+    View
 } from 'react-native';
 
 import styles from './Style.js'
@@ -18,9 +11,15 @@ import AppHeader from './AppHeader.js';
 export default class StatusScreen extends Component<Props> {
     constructor(props){
       super(props)
-      this.state = {text: ''};
+      this.state = {
+        text: '',
+        username: ''
+      };
     }
     
+    _confirm = () => {
+      this.props.navigation.goBack();
+    }
     render() {
 
       return (
@@ -31,9 +30,23 @@ export default class StatusScreen extends Component<Props> {
           </View>
           {/*Content*/}
           <View  style={[styles.background,{flex:9}]}>
-            <View style={[styles.container, {flex:1}]}>
-              <Text style={styles.welcome}>Earn Screen</Text>
-            </View>
+            <Container>
+              <Content padder >
+                <Form>
+                  <Item floatingLabel>
+                    <Label>Username</Label>
+                    <Input onChangeText={(username) => this.setState({username})} />
+                  </Item>
+                  <Item floatingLabel last>
+                    <Label>Password</Label>
+                    <Input />
+                  </Item>
+                </Form>
+                <Button onPress={ ()=>
+                  this._confirm()
+                }><NBText>Confirm</NBText></Button>
+              </Content>
+            </Container>
           </View>
         </View>
       );

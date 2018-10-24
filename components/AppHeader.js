@@ -10,7 +10,7 @@ import {
     KeyboardAvoidingView, 
     Button 
 } from 'react-native';
-import { Container, Header, Left, Body, Right, Title, Subtitle } from 'native-base';
+import { Container, Header, Left, Body, Right, Title } from 'native-base';
 
 class AppHeader extends Component<Props>{
     render(){

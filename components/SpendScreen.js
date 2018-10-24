@@ -1,14 +1,8 @@
 import React, {Component} from 'react';
 
 import {
-    Alert, 
-    Platform, 
-    StyleSheet, 
     Text, 
-    TextInput, 
-    View, 
-    KeyboardAvoidingView, 
-    Button 
+    View
 } from 'react-native';
 
 import styles from './Style.js'

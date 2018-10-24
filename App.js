@@ -8,18 +8,9 @@
 
 import React, {Component} from 'react';
 import {
-  Alert, 
-  Platform, 
-  StyleSheet, 
-  Text, 
-  TextInput, 
-  View, 
-  KeyboardAvoidingView, 
-  Button
+  View
   } from 'react-native';
-import {createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs'
 import {createStackNavigator} from 'react-navigation'
-import Icon from 'react-native-vector-icons/FontAwesome'
 import {Provider} from 'react-native-paper'
 
 import AppBottomNav from './components/AppBottomNav'
