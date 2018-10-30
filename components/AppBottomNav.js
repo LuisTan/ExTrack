@@ -4,7 +4,7 @@ import {
   } from 'react-native';
 import {createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs'
 import Icon from 'react-native-vector-icons/FontAwesome'
-import { FAB } from 'react-native-paper';
+import { FAB, Button } from 'react-native-paper';
 
 import HomeScreen from './HomeScreen'
 import StatusScreen from './StatusScreen'
@@ -19,6 +19,7 @@ export default class AppBottomNav extends Component{
           open: false
       };
     }
+
     render(){
         return (
             <View style={{flex:1}}>
