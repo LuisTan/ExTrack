@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 import { 
     Text, 
     View,
-    FlatList
+    FlatList,
     AsyncStorage
 } from 'react-native';
 import { connect } from 'react-redux';
