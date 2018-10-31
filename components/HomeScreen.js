@@ -3,7 +3,9 @@ import React, {Component} from 'react';
 import { 
     Text, 
     View,
-    FlatList
+    FlatList,
+    ScrollView,
+    Platform,
     AsyncStorage
 } from 'react-native';
 import { connect } from 'react-redux';
@@ -41,7 +43,7 @@ class HomeScreen extends Component<Props> {
         };
     }
     
-    pesoString(whole,part){
+    pesoString=(whole,part)=>{
         sentimo = (whole*100)%100;
         peso = whole;
         pesoStr = '';
@@ -80,42 +82,49 @@ class HomeScreen extends Component<Props> {
 
     render() {
 
-      return (
-        <View style={{flex:1}}>
-          {/*Header*/}
-          <View style={{flex:1}}>
-            <AppNoLeftHeader route={this.props.navigation.state.routeName} />
-          </View>
-          {/*Content*/}
-          <View  style={[styles.background,{flex:9}]}>
-            <View style={[styles.background,{flexDirection:'row', flex:1}]}>
-                <View style={[styles.container,{flex:1,marginRight:5,marginBottom:5}]}>
-                    <Text style={[styles.welcome,{marginBottom:0}]}>Current Money</Text>
-                    <Text style={[styles.moneyDisplay,this.state.amount < 0 ? styles.moneySpent:styles.moneyEarned,{marginTop:5}]}>{this.pesoString(this.state.amount,0)}</Text>
+        return (
+            <View style={{flex:1}}>
+                {/*Header*/}
+                <View style={[{flexDirection: 'column'}, Platform.select({
+                    ios:{
+                        height: 64,
+                    },
+                    android:{
+                        height: 56,
+                    }
+                })]}>
+                    <AppNoLeftHeader route={this.props.navigation.state.routeName} />
                 </View>
-                <View style={[styles.container,{flex:1,marginLeft:5,marginBottom:5}]}>
-                    <Text style={[styles.welcome,{marginBottom:0}]}>Spent Today</Text>
-                    <Text style={[styles.moneyDisplay,this.state.spent > 0 ? styles.moneySpent:styles.moneyEarned,{marginTop:5}]}>{this.pesoString(this.state.spent,0)}</Text>
-                </View>
+                {/*Content*/}
+                <ScrollView style={[styles.background,{flex:1}]}>
+                    <View style={[styles.background,{flexDirection:'row', flex:1}]}>
+                        <View style={[styles.container,{flex:1,marginRight:5,marginBottom:5}]}>
+                            <Text style={[styles.welcome,{marginBottom:0}]}>Current Money</Text>
+                            <Text style={[styles.moneyDisplay,this.state.amount < 0 ? styles.moneySpent:styles.moneyEarned,{marginTop:5}]}>{this.pesoString(this.state.amount,0)}</Text>
+                        </View>
+                        <View style={[styles.container,{flex:1,marginLeft:5,marginBottom:5}]}>
+                            <Text style={[styles.welcome,{marginBottom:0}]}>Spent Today</Text>
+                            <Text style={[styles.moneyDisplay,this.state.spent > 0 ? styles.moneySpent:styles.moneyEarned,{marginTop:5}]}>{this.pesoString(this.state.spent,0)}</Text>
+                        </View>
+                    </View>
+                    <View style={[styles.container, {flex:2,marginTop:5,marginBottom:5}]}>
+                        <Text style={styles.welcome}>Cumulative Spending Today</Text>
+                        <FlatList
+                            data={this.state.spentToday}
+                            renderItem={({item}) => <Text style={styles.listItems}>{item.key}: <Text style={item.amount < 0 ? styles.moneySpent:styles.moneyEarned}>{this.pesoString(item.amount,0)}</Text></Text>}
+                        />
+                    </View>
+                    <View style={[styles.container, {flex:3,marginTop:5}]}>
+                        <Text style={styles.welcome}>Spending Today History</Text>
+                        <FlatList
+                            data={this.state.historyToday}
+                            renderItem={({item}) => <Text style={styles.listItems}>{item.reason}:{"\t"}<Text style={item.amount < 0 ? styles.moneySpent:styles.moneyEarned}>{this.pesoString(item.amount,0)}</Text></Text>}
+                        />
+                    </View>
+                    {/*  */}
+                </ScrollView>
             </View>
-            <View style={[styles.container, {flex:2,marginTop:5,marginBottom:5}]}>
-                <Text style={styles.welcome}>Cumulative Spending Today</Text>
-                <FlatList
-                    data={this.state.spentToday}
-                    renderItem={({item}) => <Text style={styles.listItems}>{item.key}: <Text style={item.amount < 0 ? styles.moneySpent:styles.moneyEarned}>{this.pesoString(item.amount,0)}</Text></Text>}
-                />
-            </View>
-            <View style={[styles.container, {flex:3,marginTop:5}]}>
-                <Text style={styles.welcome}>History of Money</Text>
-                <FlatList
-                    data={this.state.historyToday}
-                    renderItem={({item}) => <Text style={styles.listItems}>{item.reason}:{"\t"}<Text style={item.amount < 0 ? styles.moneySpent:styles.moneyEarned}>{this.pesoString(item.amount,0)}</Text></Text>}
-                />
-            </View>
-            {/*  */}
-          </View>
-        </View>
-      );
+        );
     }
 }
 
