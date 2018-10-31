@@ -4,12 +4,15 @@ import {
     Text,  
     View
 } from 'react-native';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
-import styles from './Style.js'
+import {  addRecord } from './RecordsReducer.js';
+import styles from './Style.js';
 import AppNoLeftHeader from './AppNoLeftHeader.js';
 
 
-export default class StatusScreen extends Component<Props> {
+class StatusScreen extends Component<Props> {
     constructor(props){
       super(props)
       this.state = {text: ''};
@@ -32,3 +35,17 @@ export default class StatusScreen extends Component<Props> {
       );
     }
 }
+
+const mapStatetoProps = (state) => {
+  const { records } = state
+  return { records }
+}
+
+const mapDispatchToProps = dispatch => (
+  bindActionCreators({
+    addRecord,
+  }, dispatch)
+);
+
+export default connect(mapStatetoProps, mapDispatchToProps)(StatusScreen)
+

@@ -4,12 +4,17 @@ import {
     Text, 
     View,
     FlatList
+    AsyncStorage
 } from 'react-native';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
+import {  addRecord } from './RecordsReducer.js';
 import styles from './Style.js';
 import AppNoLeftHeader from './AppNoLeftHeader.js';
+import { Button } from 'react-native-paper';
 
-export default class HomeScreen extends Component<Props> {
+class HomeScreen extends Component<Props> {
     constructor(props){
         super(props)
         this.state = {
@@ -74,9 +79,6 @@ export default class HomeScreen extends Component<Props> {
     }
 
     render() {
-      const {navigate} = () => {
-        this.props.navigation('History')
-      }
 
       return (
         <View style={{flex:1}}>
@@ -116,3 +118,16 @@ export default class HomeScreen extends Component<Props> {
       );
     }
 }
+
+const mapStatetoProps = (state) => {
+  const { records } = state
+  return { records }
+}
+
+const mapDispatchToProps = dispatch => (
+  bindActionCreators({
+    addRecord,
+  }, dispatch)
+);
+
+export default connect(mapStatetoProps, mapDispatchToProps)(HomeScreen)
