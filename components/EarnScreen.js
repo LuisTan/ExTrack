@@ -4,19 +4,23 @@ import {
     View,
     AsyncStorage
 } from 'react-native';
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
-import styles from './Style.js'
+import {  addRecord } from './RecordsReducer.js';
+import styles from './Style.js';
 import AppHeader from './AppHeader.js';
 import AppBottomNav from './AppBottomNav.js';
 
 
-class StatusScreen extends Component<Props> {
+class EarnScreen extends Component<Props> {
     constructor(props){
       super(props)
       this.state = {
         text: '',
-        username: ''
+        details: '',
+        category: '',
+        cost: ''
       };
     }
     
@@ -25,7 +29,8 @@ class StatusScreen extends Component<Props> {
       let obj = {
         username: this.state.username
       }
-      AsyncStorage.setItem('user', JSON.stringify(obj))
+      AsyncStorage.setItem('user', JSON.stringify(obj));
+      this.props.addRecord('Earn',this.state.details,this.state.category, this.state.cost)
       this.props.navigation.goBack()
     }
 
@@ -54,8 +59,16 @@ class StatusScreen extends Component<Props> {
                 {/*Form*/}
                 <Form>
                   <Item floatingLabel>
-                    <Label>Username</Label>
-                    <Input onChangeText={(username) => this.setState({username})} />
+                    <Label>Details</Label>
+                    <Input onChangeText={(details) => this.setState({details})} />
+                  </Item>
+                  <Item floatingLabel>
+                    <Label>Category</Label>
+                    <Input onChangeText={(category) => this.setState({category})} />
+                  </Item>
+                  <Item floatingLabel>
+                    <Label>Cost</Label>
+                    <Input onChangeText={(cost) => this.setState({cost})} />
                   </Item>
                 </Form>
 
@@ -80,4 +93,10 @@ const mapStatetoProps = (state) => {
   return { records }
 }
 
-export default connect(mapStatetoProps)(StatusScreen)
+const mapDispatchToProps = dispatch => (
+  bindActionCreators({
+    addRecord,
+  }, dispatch)
+);
+
+export default connect(mapStatetoProps, mapDispatchToProps)(EarnScreen)

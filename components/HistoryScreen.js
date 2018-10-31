@@ -4,9 +4,11 @@ import {
     Text,
     View
 } from 'react-native';
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
-import styles from './Style.js'
+import {  addRecord } from './RecordsReducer.js';
+import styles from './Style.js';
 import AppNoLeftHeader from './AppNoLeftHeader.js';
 
 class HistoryScreen extends Component<Props> {
@@ -37,4 +39,10 @@ const mapStatetoProps = (state) => {
   return { records }
 }
 
-export default connect(mapStatetoProps)(HistoryScreen)
+const mapDispatchToProps = dispatch => (
+  bindActionCreators({
+    addRecord,
+  }, dispatch)
+);
+
+export default connect(mapStatetoProps, mapDispatchToProps)(HistoryScreen)

@@ -4,9 +4,11 @@ import {
     Text, 
     View
 } from 'react-native';
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
-import styles from './Style.js'
+import {  addRecord } from './RecordsReducer.js';
+import styles from './Style.js';
 import AppHeader from './AppHeader.js';
 
 class SpendScreen extends Component<Props> {
@@ -38,4 +40,10 @@ const mapStatetoProps = (state) => {
   return { records }
 }
 
-export default connect(mapStatetoProps)(SpendScreen)
+const mapDispatchToProps = dispatch => (
+  bindActionCreators({
+    addRecord,
+  }, dispatch)
+);
+
+export default connect(mapStatetoProps, mapDispatchToProps)(SpendScreen)

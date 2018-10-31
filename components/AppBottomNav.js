@@ -5,13 +5,16 @@ import {
 import {createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import { FAB, Button } from 'react-native-paper';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 
+import {  addRecord } from './RecordsReducer.js';
 import HomeScreen from './HomeScreen'
 import StatusScreen from './StatusScreen'
 import HistoryScreen from './HistoryScreen'
 import styles from './Style'
 
-export default class AppBottomNav extends Component{
+class AppBottomNav extends Component{
     constructor(props){
       super(props)
       this.state = {
@@ -73,3 +76,16 @@ const BottomNav = createMaterialBottomTabNavigator({
     shifting:true
   }
 )
+
+const mapStatetoProps = (state) => {
+  const { records } = state
+  return { records }
+}
+
+const mapDispatchToProps = dispatch => (
+  bindActionCreators({
+    addRecord,
+  }, dispatch)
+);
+
+export default connect(mapStatetoProps, mapDispatchToProps)(AppBottomNav)
