@@ -2,15 +2,18 @@ import React, {Component} from 'react';
 import { Button, Container, Content, Form, Item, Input, Label, Text as NBText  } from 'native-base';
 import {StyleSheet, TextInput, Alert} from 'react-native';
 import {
-    View
+    View,
+    AsyncStorage
 } from 'react-native';
+import { connect } from 'react-redux'
 
 import styles from './Style.js'
 import AppHeader from './AppHeader.js';
 import DropdownMenu from 'react-native-dropdown-menu';
+import AppBottomNav from './AppBottomNav.js';
 
 
-export default class StatusScreen extends Component<Props> {
+class StatusScreen extends Component<Props> {
     constructor(props){
       super(props)
       this.state = {
@@ -19,7 +22,7 @@ export default class StatusScreen extends Component<Props> {
         earn: ''
       };
     }
-
+  
     _InpValidation = () => {
       if((this.state.category == "Choose Category" || this.state.others == '') || isNaN(this.state.earn)){
         Alert.alert("Please enter all valid categories");
@@ -31,6 +34,7 @@ export default class StatusScreen extends Component<Props> {
     _confirm = () => {
       this.props.navigation.goBack();
     }
+
     render() {
       var data = [["Choose Category", "Food & Drinks", "Bills", "Transportation", "Grocery", "Shopping/Entertainment", "Maintenance/Repair", "Health/Medication", " "]]
       // console.log("test")
@@ -62,6 +66,7 @@ export default class StatusScreen extends Component<Props> {
 
             <Container>
               <Content padder >
+                {/*Form*/}
                 <Form>
                   <Item floatingLabel>
                     <Label>Enter Other Category</Label>
@@ -72,6 +77,7 @@ export default class StatusScreen extends Component<Props> {
                     <Input onChangeText={(earn) => this.setState({earn})}/>
                   </Item>
                 </Form>
+
                 <Button onPress={ ()=>
                   // this._confirm()
                   // this.EmptyInp
@@ -82,6 +88,11 @@ export default class StatusScreen extends Component<Props> {
                   //   this.setState(() => ({ nameError: null}));
                   // }
                 }><NBText>Confirm</NBText></Button>
+
+                <Button onPress={ ()=>
+                  this.displayData()
+                }><NBText>Display</NBText></Button>
+
               </Content>
             </Container>
           </View>
@@ -89,3 +100,10 @@ export default class StatusScreen extends Component<Props> {
       );
     }
 }
+
+const mapStatetoProps = (state) => {
+  const { records } = state
+  return { records }
+}
+
+export default connect(mapStatetoProps)(StatusScreen)

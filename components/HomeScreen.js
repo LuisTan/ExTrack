@@ -2,16 +2,36 @@ import React, {Component} from 'react';
 
 import { 
     Text, 
-    View
+    View,
+    AsyncStorage
 } from 'react-native';
+import { connect } from 'react-redux'
 
 import styles from './Style.js';
 import AppNoLeftHeader from './AppNoLeftHeader.js';
+import { Button } from 'react-native-paper';
 
-export default class HomeScreen extends Component<Props> {
+class HomeScreen extends Component<Props> {
     constructor(props){
       super(props)
-      this.state = { text: '' };
+      this.state ={
+        text: '',
+        username: 'test'
+      }
+    }
+
+    componentDidMount(){
+      this.loadData()
+    }
+
+    loadData = async () => {
+      try{
+        let user = await AsyncStorage.getItem('user')
+        user = JSON.parse(user).username
+        this.setState({username: user})
+      } catch (error){
+        alert(error)
+      }
     }
 
 
@@ -31,6 +51,7 @@ export default class HomeScreen extends Component<Props> {
           <View  style={[styles.background,{flex:9}]}>
             <View style={[styles.container, {flex:1}]}>
               <Text style={styles.welcome}>Home Screen</Text>
+              <Text style={styles.welcome}>{this.props.navigation.getParam('name','Peter')}</Text>
             </View>
             {/*  */}
           </View>
@@ -38,3 +59,10 @@ export default class HomeScreen extends Component<Props> {
       );
     }
 }
+
+const mapStatetoProps = (state) => {
+  const { records } = state
+  return { records }
+}
+
+export default connect(mapStatetoProps)(HomeScreen)

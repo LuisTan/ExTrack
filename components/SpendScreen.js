@@ -4,13 +4,13 @@ import {StyleSheet, TextInput, Alert} from 'react-native';
 import {
     View
 } from 'react-native';
+import { connect } from 'react-redux'
 
 import styles from './Style.js'
 import AppHeader from './AppHeader.js';
 import DropdownMenu from 'react-native-dropdown-menu';
 
-
-export default class StatusScreen extends Component<Props> {
+class SpendScreen extends Component<Props> {
     constructor(props){
       super(props)
       this.state = {
@@ -90,3 +90,10 @@ export default class StatusScreen extends Component<Props> {
       );
     }
 }
+
+const mapStatetoProps = (state) => {
+  const { records } = state
+  return { records }
+}
+
+export default connect(mapStatetoProps)(SpendScreen)
