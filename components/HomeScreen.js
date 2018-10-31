@@ -106,7 +106,8 @@ class HomeScreen extends Component<Props> {
                 />
             </View>
             <View style={[styles.container, {flex:3,marginTop:5}]}>
-                <Text style={styles.welcome}>History of Money</Text>
+                {/*Editedvvvvvvvv*/}
+                <Text style={styles.welcome}>{this.props.records.categorical_records.earn.salary.size}</Text>
                 <FlatList
                     data={this.state.historyToday}
                     renderItem={({item}) => <Text style={styles.listItems}>{item.reason}:{"\t"}<Text style={item.amount < 0 ? styles.moneySpent:styles.moneyEarned}>{this.pesoString(item.amount,0)}</Text></Text>}
