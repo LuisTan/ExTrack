@@ -50,6 +50,27 @@ export default StyleSheet.create({
       margin: 0,
       right: 0,
       bottom: -20,
+    },
+    moneyDisplay:{
+        textAlign: 'center',
+        fontSize: 30,
+        margin: 10,
+    },
+    moneyList:{
+        textAlign: 'center',
+        fontSize: 20,
+        margin: 10,
+    },
+    moneySpent:{
+        color:'red',
+    },
+    moneyEarned:{
+        color:'green',
+    },
+    listItems:{
+        textAlign: 'left',
+        fontSize: 20,
+        margin: 5
     }
 });
 
