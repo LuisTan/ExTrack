@@ -16,16 +16,17 @@ class SpendScreen extends Component<Props> {
     constructor(props){
       super(props)
       this.state = {
+        details: '',
         category: '',
-        others: '',
         spend: ''
       };
     }
 
     _InpValidation = () => {
-      if((this.state.category == "Choose Category" || this.state.others == '') || isNaN(this.state.spend)){
-        Alert.alert("Please enter all valid categories");
+      if(this.state.category == "Choose Category" || isNaN(this.state.details) || isNaN(this.state.spend)){
+        Alert.alert("Please fill up all fields with valid input");
       } else {
+        this.props.addRecord('Spend',this.state.details,this.state.category, this.state.spend)
         this.props.navigation.goBack();
       }
     }
@@ -35,7 +36,7 @@ class SpendScreen extends Component<Props> {
     }
 
     render() {
-      var data = [["Choose Category", "Food & Drinks", "Bills", "Transportation", "Grocery", "Shopping/Entertainment", "Maintenance/Repair", "Health/Medication", " "]]
+      var data = [["Choose Category", "Food & Drinks", "Bills", "Transportation", "Grocery", "Shopping/Entertainment", "Maintenance/Repair", "Health/Medication", "Lost", "Others"]]
 
       return (
         <View style={{flex:1}}>
@@ -67,8 +68,8 @@ class SpendScreen extends Component<Props> {
               <Content padder >
                 <Form>
                   <Item floatingLabel>
-                    <Label>Enter Other Category</Label>
-                    <Input onChangeText={(others) => this.setState({others})} />
+                    <Label>Details</Label>
+                    <Input onChangeText={(details) => this.setState({details})} />
                   </Item>
                   <Item floatingLabel>
                     <Label>Spendings (Number only)</Label>

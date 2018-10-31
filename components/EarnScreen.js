@@ -19,21 +19,19 @@ class EarnScreen extends Component<Props> {
     constructor(props){
       super(props)
       this.state = {
-        text: '',
         details: '',
+        category: '',
         earn: ''
       };
     }
   
     _InpValidation = () => {
-      if((this.state.category == "Choose Category" || this.state.others == '') || isNaN(this.state.earn)){
-        Alert.alert("Please enter all valid categories");
+      if(this.state.category == "Choose Category" || this.state.details == '' || isNaN(this.state.earn)){
+        Alert.alert("Please fill up all fields with valid input");
       } else {
+        this.props.addRecord('Earn',this.state.details,this.state.category, this.state.earn)
         this.props.navigation.goBack();
       }
-      AsyncStorage.setItem('user', JSON.stringify(obj));
-      this.props.addRecord('Earn',this.state.details,this.state.category, this.state.cost)
-      this.props.navigation.goBack()
     }
 
     _confirm = () => {
@@ -41,7 +39,7 @@ class EarnScreen extends Component<Props> {
     }
 
     render() {
-      var data = [["Choose Category", "Food & Drinks", "Bills", "Transportation", "Grocery", "Shopping/Entertainment", "Maintenance/Repair", "Health/Medication", " "]]
+      var data = [["Choose Category", "Salary", "Allowance", "Found", "Others"]]
       // console.log("test")
       return (
         <View style={{flex:1}}>
@@ -93,10 +91,6 @@ class EarnScreen extends Component<Props> {
                   //   this.setState(() => ({ nameError: null}));
                   // }
                 }><NBText>Confirm</NBText></Button>
-
-                <Button onPress={ ()=>
-                  this.displayData()
-                }><NBText>Display</NBText></Button>
 
               </Content>
             </Container>
