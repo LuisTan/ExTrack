@@ -18,30 +18,11 @@ class HomeScreen extends Component<Props> {
       super(props)
       this.state ={
         text: '',
-        username: 'test'
       }
     }
-
-    componentDidMount(){
-      this.loadData()
-    }
-
-    loadData = async () => {
-      try{
-        let user = await AsyncStorage.getItem('user')
-        user = JSON.parse(user).username
-        this.setState({username: user})
-      } catch (error){
-        alert(error)
-      }
-    }
-
 
 
     render() {
-      const {navigate} = () => {
-        this.props.navigation('History')
-      }
 
       return (
         <View style={{flex:1}}>
@@ -53,7 +34,6 @@ class HomeScreen extends Component<Props> {
           <View  style={[styles.background,{flex:9}]}>
             <View style={[styles.container, {flex:1}]}>
               <Text style={styles.welcome}>Home Screen</Text>
-              <Text style={styles.welcome}>{this.props.records.categorical_records.earn.salary.size}</Text>
             </View>
             {/*  */}
           </View>
