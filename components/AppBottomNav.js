@@ -46,6 +46,7 @@ const BottomNav = createMaterialBottomTabNavigator({
     Home: {
       screen:HomeScreen,
       navigationOptions:{
+        tabBarColor: 'green',
         tabBarLabel: 'Home',
         tabBarIcon:({tintColor}) =>(
           <Icon name='home' color={tintColor} size={24}/>
@@ -55,6 +56,7 @@ const BottomNav = createMaterialBottomTabNavigator({
     Status:{
       screen:StatusScreen,
       navigationOptions:{
+        tabBarColor: 'blue',
         tabBarLabel: 'Status',
         tabBarIcon:({tintColor}) =>(
           <Icon name='bar-chart' color={tintColor} size={24}/>
@@ -64,6 +66,7 @@ const BottomNav = createMaterialBottomTabNavigator({
     History:{
       screen:HistoryScreen,
       navigationOptions:{
+        tabBarColor: 'red',
         tabBarLabel: 'History',
         tabBarIcon:({tintColor}) =>(
           <Icon name='history' color={tintColor} size={24}/>

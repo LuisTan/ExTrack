@@ -78,6 +78,10 @@ class HomeScreen extends Component<Props> {
         return pesoStr;
     }
 
+    componentDidUpdate(prevProps){
+      alert('boi')
+    }
+
     render() {
 
       return (

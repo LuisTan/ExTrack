@@ -21,7 +21,7 @@ class EarnScreen extends Component<Props> {
       this.state = {
         details: '',
         category: '',
-        earn: ''
+        earn: 0,
       };
     }
   
@@ -29,7 +29,7 @@ class EarnScreen extends Component<Props> {
       if(this.state.category == "Choose Category" || this.state.details == '' || isNaN(this.state.earn)){
         Alert.alert("Please fill up all fields with valid input");
       } else {
-        this.props.addRecord('Earn',this.state.details,this.state.category, this.state.earn)
+        this.props.addRecord('Earn',this.state.details,this.state.category, parseFloat(this.state.earn))
         this.props.navigation.goBack();
       }
     }
@@ -64,36 +64,36 @@ class EarnScreen extends Component<Props> {
               handler={(selection, row) => this.setState({category: data[selection][row]})}
               data={data}
             >
+              <Container>
+                <Content padder >
+                  {/*Form*/}
+                  <Form>
+                    <Item floatingLabel>
+                      <Label>Details</Label>
+                      <Input onChangeText={(details) => this.setState({details})} />
+                    </Item>
+                    <Item floatingLabel>
+                      <Label>Earnings (Number only)</Label>
+                      <Input onChangeText={(earn) => this.setState({earn})}/>
+                    </Item>
+                  </Form>
+
+                  <Button onPress={ ()=>
+                    // this._confirm()
+                    // this.EmptyInp
+                    this._InpValidation()
+                    // if (this.state.category.trim() == ""){
+                    //   this.setState(() => ({ nameError: "First name required."}));
+                    // } else {
+                    //   this.setState(() => ({ nameError: null}));
+                    // }
+                  }><NBText>Confirm</NBText></Button>
+
+                </Content>
+              </Container>
             </DropdownMenu>
           </View>
 
-            <Container>
-              <Content padder >
-                {/*Form*/}
-                <Form>
-                  <Item floatingLabel>
-                    <Label>Details</Label>
-                    <Input onChangeText={(details) => this.setState({details})} />
-                  </Item>
-                  <Item floatingLabel>
-                    <Label>Earnings (Number only)</Label>
-                    <Input onChangeText={(earn) => this.setState({earn})}/>
-                  </Item>
-                </Form>
-
-                <Button onPress={ ()=>
-                  // this._confirm()
-                  // this.EmptyInp
-                  this._InpValidation()
-                  // if (this.state.category.trim() == ""){
-                  //   this.setState(() => ({ nameError: "First name required."}));
-                  // } else {
-                  //   this.setState(() => ({ nameError: null}));
-                  // }
-                }><NBText>Confirm</NBText></Button>
-
-              </Content>
-            </Container>
           </View>
         </View>
       );

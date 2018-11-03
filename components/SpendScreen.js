@@ -18,15 +18,15 @@ class SpendScreen extends Component<Props> {
       this.state = {
         details: '',
         category: '',
-        spend: ''
+        spend: 0,
       };
     }
 
     _InpValidation = () => {
-      if(this.state.category == "Choose Category" || isNaN(this.state.details) || isNaN(this.state.spend)){
+      if(this.state.category == "Choose Category" || this.state.details == '' || isNaN(this.state.spend)){
         Alert.alert("Please fill up all fields with valid input");
       } else {
-        this.props.addRecord('Spend',this.state.details,this.state.category, this.state.spend)
+        this.props.addRecord('Spend',this.state.details,this.state.category, parseFloat(this.state.spend))
         this.props.navigation.goBack();
       }
     }
@@ -46,48 +46,48 @@ class SpendScreen extends Component<Props> {
           </View>
           {/*Content*/}
           <View  style={[styles.background,{flex:9}]}>
-          <View style={{flex: 1}}>
-            <View style={{height: 0}} />
-            <DropdownMenu
-              style={{flex: 1}}
-              bgColor={'white'}
-              // tintColor={'#666666'}
-              activityTintColor={'green'}
-              // arrowImg={}
-              // checkImage={}
-              optionTextStyle={{color: '#333333'}}
-              // titleStyle={{color: '#333333'}}
-              maxHeight={300}
-              handler={(selection, row) => this.setState({category: data[selection][row]})}
-              data={data}
-            >
-            </DropdownMenu>
-          </View>
+            <View style={{flex: 1}}>
+              <View style={{height: 0}} />
+              <DropdownMenu
+                style={{flex: 1}}
+                bgColor={'white'}
+                // tintColor={'#666666'}
+                activityTintColor={'green'}
+                // arrowImg={}
+                // checkImage={}
+                optionTextStyle={{color: '#333333'}}
+                // titleStyle={{color: '#333333'}}
+                maxHeight={300}
+                handler={(selection, row) => this.setState({category: data[selection][row]})}
+                data={data}
+              >
 
-            <Container>
-              <Content padder >
-                <Form>
-                  <Item floatingLabel>
-                    <Label>Details</Label>
-                    <Input onChangeText={(details) => this.setState({details})} />
-                  </Item>
-                  <Item floatingLabel>
-                    <Label>Spendings (Number only)</Label>
-                    <Input onChangeText={(spend) => this.setState({spend})}/>
-                  </Item>
-                </Form>
-                <Button onPress={ ()=>
-                  // this._confirm()
-                  // this.EmptyInp
-                  this._InpValidation()
-                  // if (this.state.category.trim() == ""){
-                  //   this.setState(() => ({ nameError: "First name required."}));
-                  // } else {
-                  //   this.setState(() => ({ nameError: null}));
-                  // }
-                }><NBText>Confirm</NBText></Button>
-              </Content>
-            </Container>
+                <Container>
+                  <Content padder >
+                    <Form>
+                      <Item floatingLabel>
+                        <Label>Details</Label>
+                        <Input onChangeText={(details) => this.setState({details})} />
+                      </Item>
+                      <Item floatingLabel>
+                        <Label>Spendings (Number only)</Label>
+                        <Input onChangeText={(spend) => this.setState({spend})}/>
+                      </Item>
+                    </Form>
+                    <Button onPress={ ()=>
+                      // this._confirm()
+                      // this.EmptyInp
+                      this._InpValidation()
+                      // if (this.state.category.trim() == ""){
+                      //   this.setState(() => ({ nameError: "First name required."}));
+                      // } else {
+                      //   this.setState(() => ({ nameError: null}));
+                      // }
+                    }><NBText>Confirm</NBText></Button>
+                  </Content>
+                </Container>
+              </DropdownMenu>
+            </View>
           </View>
         </View>
       );
