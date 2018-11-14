@@ -8,29 +8,37 @@
 
 import React, {Component} from 'react';
 import {
-  View
+  View,
+  ActivityIndicator
   } from 'react-native';
 import { createStackNavigator } from 'react-navigation'
 import { Provider as NPProvider } from 'react-native-paper'
 import { Provider } from 'react-redux';
-import { createStore } from 'redux';
+import { PersistGate } from 'redux-persist/integration/react'
 
-import recordsReducer from './components/RecordsReducer.js';
 import AppBottomNav from './components/AppBottomNav'
 import EarnScreen from './components/EarnScreen'
 import SpendScreen from './components/SpendScreen'
 
-const store = createStore(recordsReducer)
+import {store,persistor} from './components/store.js'
 
 export default class App extends Component {
+  renderLoading = () => {
+    <View >
+      <ActivityIndicator size="large"/>
+    </View>
+  };
+
   render(){
     return (
       <Provider store = { store }>
-        <NPProvider>
-          <View style={{flex:1}}>
-            <AppStackNav/>
-          </View>
-        </NPProvider>
+        <PersistGate loading={this.renderLoading} persistor={persistor}>
+          <NPProvider>
+            <View style={{flex:1}}>
+              <AppStackNav/>
+            </View>
+          </NPProvider>
+        </PersistGate>
       </Provider>
     )
   }

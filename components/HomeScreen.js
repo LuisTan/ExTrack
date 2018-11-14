@@ -95,6 +95,7 @@ class HomeScreen extends Component<Props> {
                 })]}>
                     <AppNoLeftHeader route={this.props.navigation.state.routeName} />
                 </View>
+
                 {/*Content*/}
                 <ScrollView style={[styles.background,{flex:1}]}>
                     <View style={[styles.background,{flexDirection:'row', flex:1}]}>
