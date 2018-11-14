@@ -33,10 +33,46 @@ class StatusScreen extends Component<Props> {
       };
     }
 
+    getEveryDateNet = () => {
+      const length = this.props.records.data_records.length
+      let date_net = []
+      if (length == 0){
+        date_net.push({date: new Date().toLocaleDateString().replace(/-/g,'/').substring(0,5), net: 0})
+        date_net.push({date: new Date(new Date() - 864e5).toLocaleDateString().replace(/-/g,'/').substring(0,5), net: 0})
+        date_net.push({date: new Date(new Date() - (864e5*2)).toLocaleDateString().replace(/-/g,'/').substring(0,5), net: 0})
+      }
+      else{
+        date_net = this.props.records.data_records.map(obj => {
+          return {date: obj.date.toLocaleDateString().replace(/-/g,'/').substring(0,5),net: obj.net};
+        })
+        date_net.push({date: new Date(this.props.records.data_records[length-1].date - 864e5).toLocaleDateString().replace(/-/g,'/').substring(0,5), net: 0})
+        date_net.push({date: new Date(this.props.records.data_records[length-1].date - (864e5*2)).toLocaleDateString().replace(/-/g,'/').substring(0,5), net: 0})
+      }
+      return date_net.reverse()
+    }
+
+    getEveryDateSpent = () => {
+      const length = this.props.records.data_records.length
+      let date_spent = []
+      if (length == 0){
+        date_spent.push({date: new Date().toLocaleDateString().replace(/-/g,'/').substring(0,5), spent: 0})
+        date_spent.push({date: new Date(new Date() - 864e5).toLocaleDateString().replace(/-/g,'/').substring(0,5), spent: 0})
+        date_spent.push({date: new Date(new Date() - (864e5*2)).toLocaleDateString().replace(/-/g,'/').substring(0,5), spent: 0})
+      }
+      else{
+        date_spent = this.props.records.data_records.map(obj => {
+          return {date: obj.date.toLocaleDateString().replace(/-/g,'/').substring(0,5),spent: obj.total_spent};
+        })
+        date_spent.push({date: new Date(this.props.records.data_records[length-1].date - 864e5).toLocaleDateString().replace(/-/g,'/').substring(0,5), spent: 0})
+        date_spent.push({date: new Date(this.props.records.data_records[length-1].date - (864e5*2)).toLocaleDateString().replace(/-/g,'/').substring(0,5), spent: 0})
+      }
+      return date_spent.reverse()
+    }
+
+
 
     render() {
-      var data = [["Choose Category", "Food & Drinks", "Bills", "Transportation", "Grocery", "Shopping/Entertainment", "Maintenance/Repair", "Health/Medication", "Lost", "Others"]]
-
+      var category = [["Choose Category", "Food & Drinks", "Bills", "Transportation", "Grocery", "Shopping/Entertainment", "Maintenance/Repair", "Health/Medication", "Lost", "Others"]]
       return (
         <View style={{flex:1}}>
           {/*Header*/}
@@ -63,7 +99,7 @@ class StatusScreen extends Component<Props> {
               </Text>
               <View pointerEvents="none">
                 <VictoryChart theme={VictoryTheme.material}>
-                  <VictoryArea
+                  <VictoryBar horizontal
                     style={{
                       data: { fill: "#c43a31" }
                     }}
@@ -82,25 +118,6 @@ class StatusScreen extends Component<Props> {
                     y="cost"
                   />
                 </VictoryChart>
-                </View>
-                <Text>
-                  Line Graph of Net Money for each day:
-                </Text>
-                <VictoryChart
-                  containerComponent={<VictoryZoomContainer
-                    zoomDimension="x"
-                    allowZoom={false}
-                    zoomDomain={{x:[1,5]}}
-                  />}
-                >
-                  <VictoryLine data={ this.props.records.data_records.map(obj =>{
-                      var rObj = {date: obj.date.substring(0,5),net: obj.net};
-                      return rObj;
-                    })} 
-                    x="date"
-                    y="net"
-                  />
-                </VictoryChart>
                 <Text>
                   Line Graph of Spent for each day:
                 </Text>
@@ -111,14 +128,13 @@ class StatusScreen extends Component<Props> {
                     zoomDomain={{x:[1,5]}}
                   />}
                 >
-                  <VictoryLine data={ this.props.records.data_records.map(obj =>{
-                    var rObj = {date: obj.date.substring(0,5),net: obj.total_spent};
-                    return rObj;
-                  })} 
+                  <VictoryLine data={ this.getEveryDateSpent() }
                     x="date"
-                    y="net"
+                    y="spent"
                   />
-                </VictoryChart>
+                  </VictoryChart>
+                <Text>{Object.keys(this.getEveryDateSpent()).length}</Text>
+                </View>
             </ScrollView>
           </View>
         </View>

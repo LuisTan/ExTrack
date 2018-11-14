@@ -12,11 +12,13 @@ const INITIAL_STATE = {
             //net: 0,
             //total_spent: 0,
             //items: [
-                //inout: 'Earn' or 'Spend',
-                //details: 'Example',
-                //category: 'Food and Drinks' or 'Salary',
-                //cost: 1000,
-                //time: '22:34:22'
+                //{
+                //    inout: 'Earn' or 'Spend',
+                //    details: 'Example',
+                //    category: 'Food and Drinks' or 'Salary',
+                //    cost: 1000,
+                //    time: '22:34:22'
+                //}
             //],[
 
             //]
@@ -28,70 +30,57 @@ const INITIAL_STATE = {
         spend: {
             fooddrinks: {
                 size: 0,
-                cost: 0,
-                spent_today: 0
+                cost: 0
             },
             bills: {
                 size: 0,
-                cost: 0,
-                spent_today: 0
+                cost: 0
             },
             transportation: {
                 size: 0,
-                cost: 0,
-                spent_today: 0
+                cost: 0
             },
             grocery: {
                 size: 0,
-                cost: 0,
-                spent_today: 0
+                cost: 0
             },
             shoppingentertainment: {
                 size: 0,
-                cost: 0,
-                spent_today: 0
+                cost: 0
             },
             maintenancerepair: {
                 size: 0,
-                cost: 0,
-                spent_today: 0
+                cost: 0
             },
             healthmedication: {
                 size: 0,
-                cost: 0,
-                spent_today: 0
+                cost: 0
             },
             lost: {
                 size: 0,
-                cost: 0,
-                spent_today: 0
+                cost: 0
             },
             others: {
                 size: 0,
-                cost: 0,
-                spent_today: 0
+                cost: 0
             },
         },
         earn: {
             salary: {
                 size: 0,
-                cost: 0,
-                earned_today: 0
+                cost: 0
             },
             allowance: {
                 size: 0,
-                cost: 0,
-                earned_today: 0
+                cost: 0
             },
             found: {
                 size: 0,
-                cost: 0,
-                earned_today: 0
+                cost: 0
             },
             others: {
                 size: 0,
-                cost: 0,
-                earned_today: 0
+                cost: 0
             }
         }
     }
@@ -101,10 +90,25 @@ const recordsReducer = (state = INITIAL_STATE,action) => {
     switch(action.type) {
         case 'ADD_RECORD':
             const {statistical_data,data_records,categorical_records} = state;
-            if(data_records.length == 0 || data_records[0].date!=action.date){
+            if (data_records.length == 0){
                 data_records.unshift(
                     {
                         date: action.date,
+                        net: 0,
+                        total_spent: 0,
+                        items: []
+                    }
+                );
+            }
+            while(
+                data_records[0].date.getFullYear()!=action.date.getFullYear() &&
+                data_records[0].date.getMonth()!=action.date.getMonth() &&
+                data_records[0].date.getDate()!=action.date.getDate() &&
+                data_records[0].date.getDay()!=action.date.getDay() ){
+                    
+                data_records.unshift(
+                    {
+                        date: new Date(new Date().setDate(data_records[0].date.getDate() + 1)),
                         net: 0,
                         total_spent: 0,
                         items: []
@@ -204,7 +208,7 @@ export default combineReducers({
 export const addRecord = (inout, details, category, cost) =>(
     {
         type: 'ADD_RECORD',
-        date: new Date().toLocaleDateString().replace(/-/g,'/'),
+        date: new Date(),
         payload: {
             inout: inout,
             details: details,

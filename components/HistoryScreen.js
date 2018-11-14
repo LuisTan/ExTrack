@@ -26,7 +26,10 @@ class HistoryScreen extends Component<Props> {
           {/*Content*/}
           <View  style={[styles.background,{flex:9}]}>
             <View style={[styles.container, {flex:1}]}>
-              <Text style={styles.welcome}>History Screen</Text>
+              <Text style={styles.welcome}>{JSON.stringify(this.props.records.data_records.map(obj =>{
+                    var rObj = {date: obj.date.substring(0,5),net: obj.total_spent};
+                    return rObj;
+                  }))}</Text>
             </View>
           </View>
         </View>
