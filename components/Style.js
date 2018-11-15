@@ -76,7 +76,7 @@ export default StyleSheet.create({
       justifyContent: 'center',
       alignItems: 'center',
       backgroundColor: 'white',
-      margin: 1,
+      margin: 0,
     },
 });
 

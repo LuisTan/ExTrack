@@ -31,7 +31,6 @@ class HomeScreen extends Component<Props> {
                     cost: 30.00,
                     inout: "Spend",
                     time: new Date().toLocaleTimeString(),
-                    key:'7'
                 },
                 {
                     details: "Stolen",
@@ -39,7 +38,6 @@ class HomeScreen extends Component<Props> {
                     cost: 10.25,
                     inout: "Spend",
                     time: new Date().toLocaleTimeString(),
-                    key:'6'
                 },
                 {
                     details: "Art Stuff",
@@ -47,7 +45,6 @@ class HomeScreen extends Component<Props> {
                     cost: 150.00,
                     inout: "Spend",
                     time: new Date().toLocaleTimeString(),
-                    key:'5'
                 },
                 {
                     details: "Part Time Work",
@@ -55,7 +52,6 @@ class HomeScreen extends Component<Props> {
                     cost: 30.00,
                     inout: "Earn",
                     time: new Date().toLocaleTimeString(),
-                    key:'4'
                 },
                 {
                     details: "Lunch",
@@ -63,7 +59,6 @@ class HomeScreen extends Component<Props> {
                     cost: 95.00,
                     inout: "Spend",
                     time: new Date().toLocaleTimeString(),
-                    key:'3'
                 },
                 {
                     details: "Go To Work",
@@ -71,7 +66,6 @@ class HomeScreen extends Component<Props> {
                     cost: 30.00,
                     inout: "Spend",
                     time: new Date().toLocaleTimeString(),
-                    key:'2'
                 },
                 {
                     details: "Some Money From Dad",
@@ -79,7 +73,6 @@ class HomeScreen extends Component<Props> {
                     cost: 1000.00,
                     inout: "Earn",
                     time: new Date().toLocaleTimeString(),
-                    key:'1'
                 },
             ];
         }
@@ -105,7 +98,6 @@ class HomeScreen extends Component<Props> {
 
         for(x = 0; x < spendCategories.length; x++){
             spendingRecord.push({
-                key: '' + x,
                 category: spendCategories[x],
                 cost: 0,
             })
@@ -157,6 +149,30 @@ class HomeScreen extends Component<Props> {
         }
         return pesoStr;
     }
+    
+    renderSpentItem=(item)=>{
+        return(
+            <View style={[styles.homeContainer,{flexDirection:'row',marginTop:0,flex:1}]}>
+                <View style={{textAlign:'left', width:'50%'}}><Text style={[styles.listItems,{flex:1}]}>{item.category}</Text></View>
+                <View style={{textAlign:'right', width:'50%'}}><Text style={[styles.listItems,item.cost > 0 ? styles.moneySpent:styles.moneyEarned,{flex:1}]}>{this.pesoString(item.cost,"Spend")}</Text></View>
+            </View>
+        );
+    }
+
+    renderHistoryItem=(item)=>{
+        return(
+            <View style={[styles.background,{flex:1}]}>
+                <View style={[styles.homeContainer,{flexDirection:'row',flex:1,marginTop:1}]}>
+                <View style={{textAlign:'left', width:'50%'}}><Text style={[styles.listItems,{flex:1}]}>{item.details}</Text></View>
+                    <View style={{textAlign:'right', width:'50%'}}><Text style={[styles.listItems,{flex:1}]}>{item.time}</Text></View>
+                </View>
+                <View style={[styles.homeContainer,{flexDirection:'row',flex:2}]}>
+                    <View style={{textAlign:'left', width:'50%'}}><Text style={[styles.listItems,{flex:1}]}>{item.category}</Text></View>
+                    <View style={{textAlign:'right', width:'50%'}}><Text style={[styles.listItems,item.inout === 'Spend' ? styles.moneySpent:styles.moneyEarned,{flex:1}]}>{this.pesoString(item.cost,item.inout)}</Text></View>
+                </View>
+            </View>
+        );
+    }
 
     render() {
 
@@ -176,29 +192,29 @@ class HomeScreen extends Component<Props> {
 
                 {/*Content*/}
                 <ScrollView style={[styles.background,{flex:1}]}>
-                    <View style={[styles.background,{flexDirection:'column', flex:1}]}>
-                        <View style={[styles.homeContainer,{flex:1}]}>
-                            <Text style={[styles.welcome,{}]}>Current Money</Text>
-                            <Text style={[styles.moneyDisplay,
-                                this.state.amount < 0 ? styles.moneySpent:styles.moneyEarned,{marginTop:0}]}>{this.pesoString(this.state.amount,"Earn")}</Text>
-                        </View>
-                        <View style={[styles.homeContainer,{flex:1}]}>
-                            <Text style={[styles.welcome,{}]}>Spent Today</Text>
-                            <Text style={[styles.moneyDisplay,this.state.spent > 0 ? styles.moneySpent:styles.moneyEarned,{marginTop:0}]}>{this.pesoString(this.state.spent,"Spend")}</Text>
-                        </View>
+                    <View style={[styles.homeContainer,{flex:1}]}>
+                        <Text style={[styles.welcome,{}]}>Current Money</Text>
+                        <Text style={[styles.moneyDisplay,
+                            this.state.amount < 0 ? styles.moneySpent:styles.moneyEarned,{marginTop:0}]}>{this.pesoString(this.state.amount,"Earn")}</Text>
+                    </View>
+                    <View style={[styles.homeContainer,{flex:1}]}>
+                        <Text style={[styles.welcome,{}]}>Spent Today</Text>
+                        <Text style={[styles.moneyDisplay,this.state.spent > 0 ? styles.moneySpent:styles.moneyEarned,{marginTop:0}]}>{this.pesoString(this.state.spent,"Spend")}</Text>
                     </View>
                     <View style={[styles.homeContainer, {flex:2}]}>
                         <Text style={styles.welcome}>Cumulative Spending Today</Text>
                         <FlatList
                             data={this.state.spentToday}
-                            renderItem={({item}) => <Text style={styles.listItems}>{item.category}: <Text style={item.cost > 0 ? styles.moneySpent:styles.moneyEarned}>{this.pesoString(item.cost,"Spend")}</Text></Text>}
+                            keyExtractor={(item)=>item.category}
+                            renderItem={({item}) => this.renderSpentItem(item)}
                         />
                     </View>
                     <View style={[styles.homeContainer, {flex:3}]}>
                         <Text style={styles.welcome}>Spending Today History</Text>
                         <FlatList
                             data={this.state.historyToday}
-                            renderItem={({item}) => <Text style={styles.listItems}>{item.category}: <Text style={item.inout === "Spend" ? styles.moneySpent:styles.moneyEarned}>{this.pesoString(item.cost,item.inout)}</Text></Text>}
+                            keyExtractor={(item,index)=>item.category + index}
+                            renderItem={({item}) => this.renderHistoryItem(item)}
                         />
                     </View>
                     {/*  */}
