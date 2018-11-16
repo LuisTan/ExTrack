@@ -8,7 +8,7 @@ const INITIAL_STATE = {
                 size: 0,
                 cost: 0
             },
-            biils: {
+            bills: {
                 size: 0,
                 cost: 0
             },
@@ -91,8 +91,8 @@ const recordsReducer = (state = INITIAL_STATE,action) => {
                     categorical_records.spend.fooddrinks.cost+= action.payload.cost;
                     break;
                 case "Bills" : 
-                    categorical_records.spend.biils.size++;
-                    categorical_records.spend.biils.cost+= action.payload.cost;
+                    categorical_records.spend.bills.size++;
+                    categorical_records.spend.bills.cost+= action.payload.cost;
                     break;
                 case "Transportation" : 
                     categorical_records.spend.transportation.size++;
