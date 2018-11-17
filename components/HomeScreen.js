@@ -154,9 +154,37 @@ class HomeScreen extends Component<Props> {
     
     renderSpentItem=(item)=>{
         return(
-            <View style={[styles.homeContainer,{flexDirection:'row',marginTop:0,flex:1}]}>
-                <View style={{textAlign:'left', width:'50%'}}><Text style={[styles.listItems,{flex:1}]}>{item.category}</Text></View>
-                <View style={{textAlign:'right', width:'50%'}}><Text style={[styles.listItems,item.cost > 0 ? styles.moneySpent:styles.moneyEarned,{flex:1}]}>{this.pesoString(item.cost,"Spend")}</Text></View>
+            <View style={
+                [
+                    styles.homeContainer,
+                    {
+                        flexDirection:'row',
+                        marginTop:0,
+                        flex:1,
+                        borderBottomColor: 'black',
+                        borderBottomWidth: 1,
+                    }
+                ]}>
+                <View style={
+                    {
+                        alignItems:'flex-start',
+                        width:'50%'
+                    }}>
+                    <Text style={[styles.listItems,{flex:1}]}>
+                        {item.category}
+                    </Text>
+                </View>
+                <View style={{alignItems:'flex-end', verticalAlign:'middle', width:'50%'}}>
+                    <Text
+                        style={
+                            [
+                                styles.listItems,item.cost > 0 ? styles.moneySpent:styles.moneyEarned,
+                                {flex:1}
+                            ]
+                        }>
+                        {this.pesoString(item.cost,"Spend")}
+                    </Text>
+                </View>
             </View>
         );
     }
@@ -164,20 +192,45 @@ class HomeScreen extends Component<Props> {
     renderHistoryItem=(item)=>{
         return(
             <View style={[styles.background,{flex:1}]}>
+                <View style={{
+                        borderBottomColor: 'black',
+                        borderBottomWidth: 1,
+                    }}/>
                 <View style={[styles.homeContainer,{flexDirection:'row',flex:1,marginTop:1}]}>
-                <View style={{textAlign:'left', width:'50%'}}><Text style={[styles.listItems,{flex:1}]}>{item.details}</Text></View>
-                    <View style={{textAlign:'right', width:'50%'}}><Text style={[styles.listItems,{flex:1}]}>{item.time}</Text></View>
+                    <View style={{alignItems:'flex-start', width:'50%'}}>
+                        <Text style={[styles.listItems,{flex:1}]}>
+                            {item.details}
+                        </Text>
+                    </View>
+                    <View style={{alignItems:'flex-end', width:'50%'}}>
+                        <Text style={[styles.listItems,{flex:1}]}>
+                            {item.time}
+                        </Text>
+                    </View>
                 </View>
                 <View style={[styles.homeContainer,{flexDirection:'row',flex:2}]}>
-                    <View style={{textAlign:'left', width:'50%'}}><Text style={[styles.listItems,{flex:1}]}>{item.category}</Text></View>
-                    <View style={{textAlign:'right', width:'50%'}}><Text style={[styles.listItems,item.inout === 'Spend' ? styles.moneySpent:styles.moneyEarned,{flex:1}]}>{this.pesoString(item.cost,item.inout)}</Text></View>
+                    <View style={{alignItems:'flex-start', width:'50%'}}>
+                        <Text style={[styles.listItems,{flex:1}]}>
+                            {item.category}
+                        </Text>
+                    </View>
+                    <View style={{alignItems:'flex-end', width:'50%'}}>
+                        <Text
+                            style={
+                                [
+                                    styles.listItems,
+                                    item.inout === 'Spend' ? styles.moneySpent:styles.moneyEarned,
+                                    {flex:1}
+                                ]
+                                }>
+                            {this.pesoString(item.cost,item.inout)}
+                        </Text>
+                    </View>
                 </View>
             </View>
         );
     }
-
     render() {
-
         return (
             <View style={{flex:1}}>
                 {/*Header*/}
@@ -197,28 +250,41 @@ class HomeScreen extends Component<Props> {
                     <View style={[styles.homeContainer,{flex:1}]}>
                         <Text style={[styles.welcome,{}]}>Current Money</Text>
                         <Text style={[styles.moneyDisplay,
-                            this.state.amount < 0 ? styles.moneySpent:styles.moneyEarned,{marginTop:0}]}>{this.pesoString(this.state.amount,"Earn")}</Text>
+                            this.state.amount > 0 ? styles.moneySpent:styles.moneyEarned,{}]}>{this.pesoString(this.state.amount,"Earn")}</Text>
                     </View>
+                    <View style={{
+                            borderBottomColor: 'black',
+                            borderBottomWidth: 2,
+                        }}/>
                     <View style={[styles.homeContainer,{flex:1}]}>
                         <Text style={[styles.welcome,{}]}>Spent Today</Text>
                         <Text style={[styles.moneyDisplay,this.state.spent > 0 ? styles.moneySpent:styles.moneyEarned,{marginTop:0}]}>{this.pesoString(this.state.spent,"Spend")}</Text>
                     </View>
-                    <View style={[styles.homeContainer, {flex:2}]}>
+                    <View style={{
+                            borderBottomColor: 'black',
+                            borderBottomWidth: 2,
+                        }}/>
+                    <View style={[styles.homeContainer, {flex:4, borderBottomColor: 'black',
+                    borderBottomWidth: 1,}]}>
                         <Text style={styles.welcome}>Cumulative Spending Today</Text>
-                        <FlatList
+                    </View>
+                    <FlatList
                             data={this.state.spentToday}
                             keyExtractor={(item)=>item.category}
                             renderItem={({item}) => this.renderSpentItem(item)}
                         />
-                    </View>
-                    <View style={[styles.homeContainer, {flex:3}]}>
+                    <View style={{
+                            borderBottomColor: 'black',
+                            borderBottomWidth: 2,
+                        }}/>
+                    <View style={[styles.homeContainer, {flex:4}]}>
                         <Text style={styles.welcome}>Spending Today History</Text>
-                        <FlatList
+                    </View>
+                    <FlatList
                             data={this.state.historyToday}
                             keyExtractor={(item,index)=>item.category + index}
                             renderItem={({item}) => this.renderHistoryItem(item)}
                         />
-                    </View>
                     {/*  */}
                 </ScrollView>
             </View>
