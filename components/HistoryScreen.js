@@ -119,13 +119,6 @@ class HistoryScreen extends Component<Props> {
             <AppNoLeftHeader route={this.props.navigation.state.routeName} />
           </View>
           {/*Content*/}
-<<<<<<< HEAD
-          <View  style={[styles.background,{flex:9}]}>
-            <View style={[styles.container, {flex:1}]}>
-              <Text style={styles.welcome}>{this.props.records.data_records[0].date} </Text>
-            </View>
-          </View>
-=======
           <ScrollView style={[styles.background,{flex:1}]}>
               <SectionList
                       sections={this.state.history}
@@ -136,7 +129,6 @@ class HistoryScreen extends Component<Props> {
                       renderItem={({item}) => this.renderListItem(item)}
                   />
           </ScrollView>
->>>>>>> af93744dbe52159139fd862c6ca8a21e6de07ff5
         </View>
       );
     }

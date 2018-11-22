@@ -154,12 +154,6 @@ class HomeScreen extends Component<Props> {
         );
     }
 
-<<<<<<< HEAD
-    componentDidUpdate(prevProps){
-      alert('boi')
-    }
-
-=======
     renderHistoryItem=(item)=>{
         return(
             <View style={[styles.background,{flex:1}]}>
@@ -201,7 +195,6 @@ class HomeScreen extends Component<Props> {
             </View>
         );
     }
->>>>>>> af93744dbe52159139fd862c6ca8a21e6de07ff5
     render() {
         return (
             <View style={{flex:1}}>

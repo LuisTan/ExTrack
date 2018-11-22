@@ -1,7 +1,6 @@
 import { combineReducers } from 'redux'
 
 const INITIAL_STATE = {
-<<<<<<< HEAD
     statistical_data: {
         current: 0,
         total_earned: 0,
@@ -27,67 +26,6 @@ const INITIAL_STATE = {
 
         //}
     ]
-=======
-    data_records: [],
-    categorical_records: {
-        spend: {
-            fooddrinks: {
-                size: 0,
-                cost: 0
-            },
-            bills: {
-                size: 0,
-                cost: 0
-            },
-            transportation: {
-                size: 0,
-                cost: 0
-            },
-            grocery: {
-                size: 0,
-                cost: 0
-            },
-            shoppingentertainment: {
-                size: 0,
-                cost: 0
-            },
-            maintenancerepair: {
-                size: 0,
-                cost: 0
-            },
-            healthmedication: {
-                size: 0,
-                cost: 0
-            },
-            lost: {
-                size: 0,
-                cost: 0
-            },
-            others: {
-                size: 0,
-                cost: 0
-            },
-        },
-        earn: {
-            salary: {
-                size: 0,
-                cost: 0
-            },
-            allowance: {
-                size: 0,
-                cost: 0
-            },
-            found: {
-                size: 0,
-                cost: 0,
-            },
-            others: {
-                size: 0,
-                cost: 0
-            }
-        }
-    }
->>>>>>> af93744dbe52159139fd862c6ca8a21e6de07ff5
 }
 
 const recordsReducer = (state = INITIAL_STATE,action) => {
