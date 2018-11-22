@@ -17,13 +17,100 @@ import AppNoLeftHeader from './AppNoLeftHeader.js';
 import { store } from './store.js'
 import { Button } from 'react-native-paper';
 
+/* const INITIAL_STATE = {
+    statistical_data: {
+        current: 0,
+        total_earned: 0,
+        total_spent: 0,
+    },
+    data_records: [
+        //{per date ang isang element sa data_records
+            //date: '2018 Oct 31',
+            //net: 0,
+            //total_spent: 0,
+            //items: [
+                //{
+                //    inout: 'Earn' or 'Spend',
+                //    details: 'Example',
+                //    category: 'Food and Drinks' or 'Salary',
+                //    cost: 1000,
+                //    time: '22:34:22'
+                //}
+            //],[
+
+            //]
+        //},{
+
+        //}
+    ],
+    categorical_records: {
+        spend: {
+            fooddrinks: {
+                size: 0,
+                cost: 0
+            },
+            bills: {
+                size: 0,
+                cost: 0
+            },
+            transportation: {
+                size: 0,
+                cost: 0
+            },
+            grocery: {
+                size: 0,
+                cost: 0
+            },
+            shoppingentertainment: {
+                size: 0,
+                cost: 0
+            },
+            maintenancerepair: {
+                size: 0,
+                cost: 0
+            },
+            healthmedication: {
+                size: 0,
+                cost: 0
+            },
+            lost: {
+                size: 0,
+                cost: 0
+            },
+            others: {
+                size: 0,
+                cost: 0
+            },
+        },
+        earn: {
+            salary: {
+                size: 0,
+                cost: 0
+            },
+            allowance: {
+                size: 0,
+                cost: 0
+            },
+            found: {
+                size: 0,
+                cost: 0
+            },
+            others: {
+                size: 0,
+                cost: 0
+            }
+        }
+    }
+} */
+
+
 class HomeScreen extends Component<Props> {
     constructor(props){
         super(props);
 
         record = this.props.records
 
-        if(record.data_records == null){
+        if(record.data_records == null||record.statistical_data== null){
             net = 714.75;
             moneySpent = 315.25;
             items = [
@@ -84,7 +171,7 @@ class HomeScreen extends Component<Props> {
             items = [];
         }
         else{
-            net = record.data_records[0].net;
+            net = record.statistical_data.current;
             if(record.data_records.date == new Date()){
                 moneySpent = record.data_records[0].total_spent;
                 items = record.data_records[0].items;
@@ -264,8 +351,15 @@ class HomeScreen extends Component<Props> {
                             borderBottomColor: 'black',
                             borderBottomWidth: 2,
                         }}/>
-                    <View style={[styles.homeContainer, {flex:4, borderBottomColor: 'black',
-                    borderBottomWidth: 1,}]}>
+                    <View style={
+                        [
+                            styles.homeContainer,
+                            {
+                                flex:4,
+                                borderBottomColor: 'black',
+                                borderBottomWidth: 1,
+                            }
+                        ]}>
                         <Text style={styles.welcome}>Cumulative Spending Today</Text>
                     </View>
                     <FlatList
