@@ -110,7 +110,7 @@ class HomeScreen extends Component<Props> {
 
         if(this.props.records.data_records == null){
             net = 714.75;
-            moneySpent = 315.25;
+            // moneySpent = 315.25;
             items = [
                 {
                     details: "Go Home",
@@ -165,7 +165,7 @@ class HomeScreen extends Component<Props> {
         }
         else if(this.props.records.data_records.length == 0){
             net = 0.00;
-            moneySpent = 0.00;
+            // moneySpent = 0.00;
             items = [];
         }
         else{
@@ -184,15 +184,16 @@ class HomeScreen extends Component<Props> {
             mydate = new Date(this.props.records.data_records[0].date);
             mydateString = mydate.toDateString();
             if(currdateString == mydateString){
-                moneySpent = this.props.records.data_records[0].total_spent;
+                // moneySpent = this.props.records.data_records[0].total_spent;
                 items = this.props.records.data_records[0].items;
             }
             else{
-                moneySpent = 0.00;
+                // moneySpent = 0.00;
                 items = [];
             }
         }
 
+        moneySpent = 0.00;
         spendCategories = ["Food & Drinks", "Bills", "Transportation", "Grocery", "Shopping/Entertainment", "Maintenance/Repair", "Health/Medication", "Lost", "Others"];
         spendingRecord =[];
 
@@ -205,8 +206,10 @@ class HomeScreen extends Component<Props> {
 
         for(x = 0; x < items.length; x++){
             for(c = 0; c < spendingRecord.length; c++){
-                if(spendingRecord[c].category === items[x].category)
+                if(spendingRecord[c].category === items[x].category){
                     spendingRecord[c].cost = spendingRecord[c].cost + items[x].cost;
+                    moneySpent = moneySpent + items[x].cost;
+                }
             }
         }
 
