@@ -25,7 +25,7 @@ class HomeScreen extends Component<Props> {
         if(this.props.records.data_records == null){
             net = 0.00;
             // moneySpent = 315.25;
-            items = ];
+            items = [];
         }
         else if(this.props.records.data_records.length == 0){
             net = 0.00;
