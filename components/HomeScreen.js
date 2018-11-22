@@ -17,84 +17,47 @@ import AppNoLeftHeader from './AppNoLeftHeader.js';
 import { store } from './store.js'
 import { Button } from 'react-native-paper';
 
+
 class HomeScreen extends Component<Props> {
     constructor(props){
         super(props);
 
-        record = this.props.records
-
-        if(record.data_records == null){
-            net = 714.75;
-            moneySpent = 315.25;
-            items = [
-                {
-                    details: "Go Home",
-                    category: "Transportation",
-                    cost: 30.00,
-                    inout: "Spend",
-                    time: new Date().toLocaleTimeString(),
-                },
-                {
-                    details: "Stolen",
-                    category: "Lost",
-                    cost: 10.25,
-                    inout: "Spend",
-                    time: new Date().toLocaleTimeString(),
-                },
-                {
-                    details: "Art Stuff",
-                    category: "Others",
-                    cost: 150.00,
-                    inout: "Spend",
-                    time: new Date().toLocaleTimeString(),
-                },
-                {
-                    details: "Part Time Work",
-                    category: "Salary",
-                    cost: 30.00,
-                    inout: "Earn",
-                    time: new Date().toLocaleTimeString(),
-                },
-                {
-                    details: "Lunch",
-                    category: "Food & Drinks",
-                    cost: 95.00,
-                    inout: "Spend",
-                    time: new Date().toLocaleTimeString(),
-                },
-                {
-                    details: "Go To Work",
-                    category: "Transportation",
-                    cost: 30.00,
-                    inout: "Spend",
-                    time: new Date().toLocaleTimeString(),
-                },
-                {
-                    details: "Some Money From Dad",
-                    category: "Allowance",
-                    cost: 1000.00,
-                    inout: "Earn",
-                    time: new Date().toLocaleTimeString(),
-                },
-            ];
-        }
-        else if(record.data_records.length == 0){
+        if(this.props.records.data_records == null){
             net = 0.00;
-            moneySpent = 0.00;
+            // moneySpent = 315.25;
+            items = ];
+        }
+        else if(this.props.records.data_records.length == 0){
+            net = 0.00;
+            // moneySpent = 0.00;
             items = [];
         }
         else{
-            net = record.data_records[0].net;
-            if(record.data_records.date == new Date()){
-                moneySpent = record.data_records[0].total_spent;
-                items = record.data_records[0].items;
+            net = 0.00;
+            for(x = 0; x < this.props.records.data_records.length; x++){
+                for(y = 0; y < this.props.records.data_records[x].items.length; y++){
+                    if(this.props.records.data_records[x].items[y].inout == "earn"){
+                        net = net + this.props.records.data_records[x].items[y].cost;
+                    }
+                    else
+                        net = net - this.props.records.data_records[x].items[y].cost;
+                }
+            }
+            currdate = new Date();
+            currdateString = currdate.toDateString();
+            mydate = new Date(this.props.records.data_records[0].date);
+            mydateString = mydate.toDateString();
+            if(currdateString == mydateString){
+                // moneySpent = this.props.records.data_records[0].total_spent;
+                items = this.props.records.data_records[0].items;
             }
             else{
-                moneySpent = 0.00;
+                // moneySpent = 0.00;
                 items = [];
             }
         }
 
+        moneySpent = 0.00;
         spendCategories = ["Food & Drinks", "Bills", "Transportation", "Grocery", "Shopping/Entertainment", "Maintenance/Repair", "Health/Medication", "Lost", "Others"];
         spendingRecord =[];
 
@@ -107,8 +70,10 @@ class HomeScreen extends Component<Props> {
 
         for(x = 0; x < items.length; x++){
             for(c = 0; c < spendingRecord.length; c++){
-                if(spendingRecord[c].category === items[x].category)
+                if(spendingRecord[c].category === items[x].category){
                     spendingRecord[c].cost = spendingRecord[c].cost + items[x].cost;
+                    moneySpent = moneySpent + items[x].cost;
+                }
             }
         }
 
@@ -250,7 +215,7 @@ class HomeScreen extends Component<Props> {
                     <View style={[styles.homeContainer,{flex:1}]}>
                         <Text style={[styles.welcome,{}]}>Current Money</Text>
                         <Text style={[styles.moneyDisplay,
-                            this.state.amount > 0 ? styles.moneySpent:styles.moneyEarned,{}]}>{this.pesoString(this.state.amount,"Earn")}</Text>
+                            this.state.amount <= 0 ? styles.moneySpent:styles.moneyEarned,{}]}>{this.pesoString(this.state.amount,"Earn")}</Text>
                     </View>
                     <View style={{
                             borderBottomColor: 'black',
@@ -264,8 +229,15 @@ class HomeScreen extends Component<Props> {
                             borderBottomColor: 'black',
                             borderBottomWidth: 2,
                         }}/>
-                    <View style={[styles.homeContainer, {flex:4, borderBottomColor: 'black',
-                    borderBottomWidth: 1,}]}>
+                    <View style={
+                        [
+                            styles.homeContainer,
+                            {
+                                flex:4,
+                                borderBottomColor: 'black',
+                                borderBottomWidth: 1,
+                            }
+                        ]}>
                         <Text style={styles.welcome}>Cumulative Spending Today</Text>
                     </View>
                     <FlatList
