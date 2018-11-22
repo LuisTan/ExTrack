@@ -71,6 +71,12 @@ export default StyleSheet.create({
         textAlign: 'left',
         fontSize: 20,
         margin: 5
-    }
+    },
+    homeContainer: {
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: 'white',
+      margin: 0,
+    },
 });
 
