@@ -23,59 +23,9 @@ class HomeScreen extends Component<Props> {
         super(props);
 
         if(this.props.records.data_records == null){
-            net = 714.75;
+            net = 0.00;
             // moneySpent = 315.25;
-            items = [
-                {
-                    details: "Go Home",
-                    category: "Transportation",
-                    cost: 30.00,
-                    inout: "Spend",
-                    time: new Date().toLocaleTimeString(),
-                },
-                {
-                    details: "Stolen",
-                    category: "Lost",
-                    cost: 10.25,
-                    inout: "Spend",
-                    time: new Date().toLocaleTimeString(),
-                },
-                {
-                    details: "Art Stuff",
-                    category: "Others",
-                    cost: 150.00,
-                    inout: "Spend",
-                    time: new Date().toLocaleTimeString(),
-                },
-                {
-                    details: "Part Time Work",
-                    category: "Salary",
-                    cost: 30.00,
-                    inout: "Earn",
-                    time: new Date().toLocaleTimeString(),
-                },
-                {
-                    details: "Lunch",
-                    category: "Food & Drinks",
-                    cost: 95.00,
-                    inout: "Spend",
-                    time: new Date().toLocaleTimeString(),
-                },
-                {
-                    details: "Go To Work",
-                    category: "Transportation",
-                    cost: 30.00,
-                    inout: "Spend",
-                    time: new Date().toLocaleTimeString(),
-                },
-                {
-                    details: "Some Money From Dad",
-                    category: "Allowance",
-                    cost: 1000.00,
-                    inout: "Earn",
-                    time: new Date().toLocaleTimeString(),
-                },
-            ];
+            items = ];
         }
         else if(this.props.records.data_records.length == 0){
             net = 0.00;
