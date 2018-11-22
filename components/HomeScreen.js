@@ -108,9 +108,7 @@ class HomeScreen extends Component<Props> {
     constructor(props){
         super(props);
 
-        record = this.props.records
-
-        if(record.data_records == null||record.statistical_data== null){
+        if(this.props.records.data_records == null){
             net = 714.75;
             moneySpent = 315.25;
             items = [
@@ -165,16 +163,19 @@ class HomeScreen extends Component<Props> {
                 },
             ];
         }
-        else if(record.data_records.length == 0){
+        else if(this.props.records.data_records.length == 0){
             net = 0.00;
             moneySpent = 0.00;
             items = [];
         }
         else{
-            net = record.statistical_data.current;
-            if(record.data_records.date == new Date()){
-                moneySpent = record.data_records[0].total_spent;
-                items = record.data_records[0].items;
+            net = 0.00;
+            for(x = 0; x < this.props.records.data_records.length; x++){
+                net = net + this.props.records.data_records[x].net;
+            }
+            if(this.props.records.data_records.date == new Date()){
+                moneySpent = this.props.records.data_records[0].total_spent;
+                items = this.props.records.data_records[0].items;
             }
             else{
                 moneySpent = 0.00;
