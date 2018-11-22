@@ -171,7 +171,13 @@ class HomeScreen extends Component<Props> {
         else{
             net = 0.00;
             for(x = 0; x < this.props.records.data_records.length; x++){
-                net = net + this.props.records.data_records[x].net;
+                for(y = 0; y < this.props.records.data_records[x].items.length; y++){
+                    if(this.props.records.data_records[x].items[y].inout == "earn"){
+                        net = net + this.props.records.data_records[x].items[y].cost;
+                    }
+                    else
+                        net = net - this.props.records.data_records[x].items[y].cost;
+                }
             }
             if(this.props.records.data_records.date == new Date()){
                 moneySpent = this.props.records.data_records[0].total_spent;
@@ -338,7 +344,7 @@ class HomeScreen extends Component<Props> {
                     <View style={[styles.homeContainer,{flex:1}]}>
                         <Text style={[styles.welcome,{}]}>Current Money</Text>
                         <Text style={[styles.moneyDisplay,
-                            this.state.amount > 0 ? styles.moneySpent:styles.moneyEarned,{}]}>{this.pesoString(this.state.amount,"Earn")}</Text>
+                            this.state.amount <= 0 ? styles.moneySpent:styles.moneyEarned,{}]}>{this.pesoString(this.state.amount,"Earn")}</Text>
                     </View>
                     <View style={{
                             borderBottomColor: 'black',
