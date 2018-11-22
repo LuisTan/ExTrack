@@ -3,7 +3,8 @@ import React, {Component} from 'react';
 import {
     Text,  
     View,
-    ScrollView
+    ScrollView,
+    Alert
 } from 'react-native';
 import { 
   VictoryArea, 
@@ -16,6 +17,8 @@ import {
   VictoryTheme,
   VictoryZoomContainer
 } from "victory-native";
+import PureChart from 'react-native-pure-chart';
+
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
@@ -37,16 +40,16 @@ class StatusScreen extends Component<Props> {
       const length = this.props.records.data_records.length
       let date_net = []
       if (length == 0){
-        date_net.push({date: new Date().toLocaleDateString().replace(/-/g,'/').substring(0,5), net: 0})
-        date_net.push({date: new Date(new Date() - 864e5).toLocaleDateString().replace(/-/g,'/').substring(0,5), net: 0})
-        date_net.push({date: new Date(new Date() - (864e5*2)).toLocaleDateString().replace(/-/g,'/').substring(0,5), net: 0})
+        date_net.push({date: new Date().toLocaleString().replace(/-/g,'/').substring(0,5), net: 0})
+        date_net.push({date: new Date(new Date() - 864e5).toLocaleString().replace(/-/g,'/').substring(0,5), net: 0})
+        date_net.push({date: new Date(new Date() - (864e5*2)).toLocaleString().replace(/-/g,'/').substring(0,5), net: 0})
       }
       else{
         date_net = this.props.records.data_records.map(obj => {
-          return {date: obj.date.toLocaleDateString().replace(/-/g,'/').substring(0,5),net: obj.net};
+          return {date: obj.date.toLocaleString().replace(/-/g,'/').substring(0,5),net: obj.net};
         })
-        date_net.push({date: new Date(this.props.records.data_records[length-1].date - 864e5).toLocaleDateString().replace(/-/g,'/').substring(0,5), net: 0})
-        date_net.push({date: new Date(this.props.records.data_records[length-1].date - (864e5*2)).toLocaleDateString().replace(/-/g,'/').substring(0,5), net: 0})
+        date_net.push({date: new Date(this.props.records.data_records[length-1].date - 864e5).toLocaleString().replace(/-/g,'/').substring(0,5), net: 0})
+        date_net.push({date: new Date(this.props.records.data_records[length-1].date - (864e5*2)).toLocaleString().replace(/-/g,'/').substring(0,5), net: 0})
       }
       return date_net.reverse()
     }
@@ -55,16 +58,16 @@ class StatusScreen extends Component<Props> {
       const length = this.props.records.data_records.length
       let date_spent = []
       if (length == 0){
-        date_spent.push({date: new Date().toLocaleDateString().replace(/-/g,'/').substring(0,5), spent: 0})
-        date_spent.push({date: new Date(new Date() - 864e5).toLocaleDateString().replace(/-/g,'/').substring(0,5), spent: 0})
-        date_spent.push({date: new Date(new Date() - (864e5*2)).toLocaleDateString().replace(/-/g,'/').substring(0,5), spent: 0})
+        date_spent.push({date: new Date().toLocaleString().replace(/-/g,'/').substring(0,5), spent: 0})
+        date_spent.push({date: new Date(new Date() - 864e5).toLocaleString().replace(/-/g,'/').substring(0,5), spent: 0})
+        date_spent.push({date: new Date(new Date() - (864e5*2)).toLocaleString().replace(/-/g,'/').substring(0,5), spent: 0})
       }
       else{
-        date_spent = this.props.records.data_records.map(obj => {
-          return {date: obj.date.toLocaleDateString().replace(/-/g,'/').substring(0,5),spent: obj.total_spent};
+        date_spent = this.props.records.data_records.map((obj) => {
+          return {date: obj.date.toLocaleString().replace(/-/g,'/').substring(0,5),spent: obj.total_spent};
         })
-        date_spent.push({date: new Date(this.props.records.data_records[length-1].date - 864e5).toLocaleDateString().replace(/-/g,'/').substring(0,5), spent: 0})
-        date_spent.push({date: new Date(this.props.records.data_records[length-1].date - (864e5*2)).toLocaleDateString().replace(/-/g,'/').substring(0,5), spent: 0})
+        date_spent.push({date: new Date(this.props.records.data_records[length-1].date - 864e5).toLocaleString().replace(/-/g,'/').substring(0,5), spent: 0})
+        date_spent.push({date: new Date(this.props.records.data_records[length-1].date - (864e5*2)).toLocaleString().replace(/-/g,'/').substring(0,5), spent: 0})
       }
       return date_spent.reverse()
     }
@@ -73,6 +76,25 @@ class StatusScreen extends Component<Props> {
 
     render() {
       var category = [["Choose Category", "Food & Drinks", "Bills", "Transportation", "Grocery", "Shopping/Entertainment", "Maintenance/Repair", "Health/Medication", "Lost", "Others"]]
+      let sampleData = [{x: '1', y: 300}, { x: '2', y: 100 }, { x: '2', y: 250 }, {x: '3', y: 50}, {x: '4', y: 400}];
+      //let sampleData = [30, 200, 170, 250, 10]
+      /*
+      let sampleData = [
+        {
+          value: 50,
+          label: 'Marketing',
+          color: 'red',
+        }, {
+          value: 40,
+          label: 'Sales',
+          color: 'blue'
+        }, {
+          value: 25,
+          label: 'Support',
+          color: 'green'
+        }
+     
+      ]*/
       return (
         <View style={{flex:1}}>
           {/*Header*/}
@@ -134,6 +156,18 @@ class StatusScreen extends Component<Props> {
                   />
                   </VictoryChart>
                 <Text>{Object.keys(this.getEveryDateSpent()).length}</Text>
+                </View>
+                <View>
+                  <Text>Bar</Text>
+                   <PureChart type={'bar'}
+            data={sampleData}
+            xAxisColor={'red'}
+            yAxisColor={'red'}
+            xAxisGridLineColor={'red'}
+            yAxisGridLineColor={'red'}
+            labelColor={'red'}
+            backgroundColor={'blue'}
+            color={'blue'} />
                 </View>
             </ScrollView>
           </View>

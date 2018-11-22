@@ -23,16 +23,11 @@ import SpendScreen from './components/SpendScreen'
 import {store,persistor} from './components/store.js'
 
 export default class App extends Component {
-  renderLoading = () => {
-    <View >
-      <ActivityIndicator size="large"/>
-    </View>
-  };
 
   render(){
     return (
       <Provider store = { store }>
-        <PersistGate loading={this.renderLoading} persistor={persistor}>
+        <PersistGate persistor={persistor}>
           <NPProvider>
             <View style={{flex:1}}>
               <AppStackNav/>

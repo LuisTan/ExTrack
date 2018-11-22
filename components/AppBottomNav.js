@@ -8,7 +8,7 @@ import { FAB, Button } from 'react-native-paper';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import {  addRecord } from './RecordsReducer.js';
+import {  addRecord, addDate } from './RecordsReducer.js';
 import HomeScreen from './HomeScreen'
 import StatusScreen from './StatusScreen'
 import HistoryScreen from './HistoryScreen'
@@ -21,6 +21,10 @@ class AppBottomNav extends Component{
           text: '',
           open: false
       };
+    }
+
+    componentDidMount() {
+      this.props.addDate()
     }
 
     render(){
@@ -88,6 +92,7 @@ const mapStatetoProps = (state) => {
 const mapDispatchToProps = dispatch => (
   bindActionCreators({
     addRecord,
+    addDate,
   }, dispatch)
 );
 
