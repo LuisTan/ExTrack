@@ -179,7 +179,11 @@ class HomeScreen extends Component<Props> {
                         net = net - this.props.records.data_records[x].items[y].cost;
                 }
             }
-            if(this.props.records.data_records.date == new Date()){
+            currdate = new Date();
+            currdateString = currdate.toDateString();
+            mydate = new Date(this.props.records.data_records[0].date);
+            mydateString = mydate.toDateString();
+            if(currdateString == mydateString){
                 moneySpent = this.props.records.data_records[0].total_spent;
                 items = this.props.records.data_records[0].items;
             }
