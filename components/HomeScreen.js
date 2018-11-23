@@ -14,8 +14,7 @@ import { bindActionCreators } from 'redux';
 import { addRecord } from './RecordsReducer.js';
 import styles from './Style.js';
 import AppNoLeftHeader from './AppNoLeftHeader.js';
-import { store } from './store.js'
-import { Button } from 'react-native-paper';
+
 
 
 class HomeScreen extends Component<Props> {
@@ -24,40 +23,28 @@ class HomeScreen extends Component<Props> {
 
         if(this.props.records.data_records == null){
             net = 0.00;
-            // moneySpent = 315.25;
             items = [];
         }
         else if(this.props.records.data_records.length == 0){
             net = 0.00;
-            // moneySpent = 0.00;
             items = [];
         }
         else{
-            net = 0.00;
-            for(x = 0; x < this.props.records.data_records.length; x++){
-                for(y = 0; y < this.props.records.data_records[x].items.length; y++){
-                    if(this.props.records.data_records[x].items[y].inout == "earn"){
-                        net = net + this.props.records.data_records[x].items[y].cost;
-                    }
-                    else
-                        net = net - this.props.records.data_records[x].items[y].cost;
-                }
-            }
+            net = this.props.records.statistical_data.current;
             currdate = new Date();
             currdateString = currdate.toDateString();
             mydate = new Date(this.props.records.data_records[0].date);
             mydateString = mydate.toDateString();
             if(currdateString == mydateString){
-                // moneySpent = this.props.records.data_records[0].total_spent;
+                moneySpent = this.props.records.data_records[0].total_spent;
                 items = this.props.records.data_records[0].items;
             }
             else{
-                // moneySpent = 0.00;
+                moneySpent = 0.00;
                 items = [];
             }
         }
-
-        moneySpent = 0.00;
+        
         spendCategories = ["Food & Drinks", "Bills", "Transportation", "Grocery", "Shopping/Entertainment", "Maintenance/Repair", "Health/Medication", "Lost", "Others"];
         spendingRecord =[];
 
@@ -72,7 +59,6 @@ class HomeScreen extends Component<Props> {
             for(c = 0; c < spendingRecord.length; c++){
                 if(spendingRecord[c].category === items[x].category){
                     spendingRecord[c].cost = spendingRecord[c].cost + items[x].cost;
-                    moneySpent = moneySpent + items[x].cost;
                 }
             }
         }
