@@ -43,10 +43,10 @@ const recordsReducer = (state = INITIAL_STATE,action) => {
                 );
             }
             while(
-                data_records[0].date.getFullYear()!=action.date.getFullYear() &&
-                data_records[0].date.getMonth()!=action.date.getMonth() &&
-                data_records[0].date.getDate()!=action.date.getDate() &&
-                data_records[0].date.getDay()!=action.date.getDay() ){
+                new Date(data_records[0].date).getFullYear()!=action.date.getFullYear() &&
+                new Date(data_records[0].date).getMonth()!=action.date.getMonth() &&
+                new Date(data_records[0].date).getDate()!=action.date.getDate() &&
+                new Date(data_records[0].date).getDay()!=action.date.getDay() ){
                     
                 data_records.unshift(
                     {
@@ -73,78 +73,7 @@ const recordsReducer = (state = INITIAL_STATE,action) => {
                 data_records[0].total_spent = parseFloat(data_records[0].total_spent) + action.payload.cost
             }
 
-<<<<<<< HEAD
             return {statistical_data,data_records,categorical_records}
-=======
-            switch(action.payload.category){
-                case "Food & Drinks" : 
-                    categorical_records.spend.fooddrinks.size++;
-                    categorical_records.spend.fooddrinks.cost+= action.payload.cost;
-                    break;
-                case "Bills" : 
-                    categorical_records.spend.bills.size++;
-                    categorical_records.spend.bills.cost+= action.payload.cost;
-                    break;
-                case "Transportation" : 
-                    categorical_records.spend.transportation.size++;
-                    categorical_records.spend.transportation.cost+= action.payload.cost;
-                    break;
-                case "Grocery" : 
-                    categorical_records.spend.grocery.size++;
-                    categorical_records.spend.grocery.cost+= action.payload.cost;
-                    break;
-                case "Shopping/Entertainment" : 
-                    categorical_records.spend.shoppingentertainment.size++;
-                    categorical_records.spend.fooddrinks.cost+= action.payload.cost;
-                    break;
-                case "Maintenance/Repair" : 
-                    categorical_records.spend.maintenancerepair.size++;
-                    categorical_records.spend.maintenancerepair.cost+= action.payload.cost;
-                    break;
-                case "Health/Medication" : 
-                    categorical_records.spend.healthmedication.size++;
-                    categorical_records.spend.healthmedication.cost+= action.payload.cost;
-                    break;
-                case "Lost" : 
-                    categorical_records.spend.lost.size++;
-                    categorical_records.spend.lost.cost+= action.payload.cost;
-                    break;
-                case "Others" : 
-                    if (action.inout == "Spend"){
-                        categorical_records.spend.others.size++;
-                        categorical_records.spend.others.cost+= action.payload.cost;
-                    }
-                    else{
-                        categorical_records.earn.others.size++;
-                        categorical_records.earn.others.cost+= action.payload.cost;
-                    }
-                    break;
-                case "Salary":
-                    categorical_records.earn.salary.size++;
-                    categorical_records.earn.salary.cost+= action.payload.cost;
-                    break;
-                case "Allowance" : 
-                    categorical_records.earn.allowance.size++;
-                    categorical_records.earn.allowance.cost+= action.payload.cost;
-                    break;
-                case "Found" : 
-                    categorical_records.earn.found.size++;
-                    categorical_records.earn.found.cost+= action.payload.cost;
-                    break;
-                default:
-                    if (action.inout == "Spend"){
-                        categorical_records.spend.others.size++;
-                        categorical_records.spend.others.cost+= action.payload.cost;
-                    }
-                    else{
-                        categorical_records.earn.others.size++;
-                        categorical_records.earn.others.cost+= action.payload.cost;
-                    }
-            }
-
-            const newState = {data_records,categorical_records}
-            return newState
->>>>>>> af93744dbe52159139fd862c6ca8a21e6de07ff5
         default: 
             return state
     }
