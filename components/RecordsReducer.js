@@ -42,6 +42,7 @@ const recordsReducer = (state = INITIAL_STATE,action) => {
                     }
                 );
             }
+            alert(JSON.stringify(statistical_data));
             while(
                 new Date(data_records[0].date).getFullYear()!=action.date.getFullYear() &&
                 new Date(data_records[0].date).getMonth()!=action.date.getMonth() &&
@@ -60,15 +61,31 @@ const recordsReducer = (state = INITIAL_STATE,action) => {
 
             return {statistical_data,data_records,categorical_records}
         case 'ADD_RECORD':
+            while(
+                new Date(data_records[0].date).getFullYear()!=action.date.getFullYear() &&
+                new Date(data_records[0].date).getMonth()!=action.date.getMonth() &&
+                new Date(data_records[0].date).getDate()!=action.date.getDate() &&
+                new Date(data_records[0].date).getDay()!=action.date.getDay() ){
+                    
+                data_records.unshift(
+                    {
+                        date: new Date(new Date().setDate(data_records[0].date.getDate() + 1)),
+                        net: 0,
+                        total_spent: 0,
+                        items: []
+                    }
+                );
+            }
             data_records[0].items.unshift(action.payload);
-            statistical_data.current = parseFloat(statistical_data.current) + (action.payload.inout == 'Earn') ? action.payload.cost : (-1)* action.payload.cost ;
-            statistical_data.total_earned = parseFloat(statistical_data.total_earned) + ((action.payload.inout == 'Earn') ? action.payload.cost : 0);
-            statistical_data.total_spent = parseFloat(statistical_data.total_spent) + ((action.payload.inout == 'Spend') ? action.payload.cost : 0);
 
             if (action.payload.inout=='Earn') {
+                statistical_data.current = parseFloat(statistical_data.current) + action.payload.cost;
+                statistical_data.total_earned = parseFloat(statistical_data.total_earned) + action.payload.cost;
                 data_records[0].net = parseFloat(data_records[0].net) + action.payload.cost;
             }
             else{
+                statistical_data.current = parseFloat(statistical_data.current)-  action.payload.cost;
+                statistical_data.total_spent = parseFloat(statistical_data.total_spent) + action.payload.cost;
                 data_records[0].net = parseFloat(data_records[0].net) + (action.payload.cost*-1)
                 data_records[0].total_spent = parseFloat(data_records[0].total_spent) + action.payload.cost
             }
