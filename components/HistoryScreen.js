@@ -20,8 +20,9 @@ class HistoryScreen extends Component<Props> {
 
       sectioning = [];
       for(x = 0; x < this.props.records.data_records.length; x++){
+        date = new Date(this.props.records.data_records[x].date)
         sectioning.push({
-          title: this.props.records.data_records[x].date,
+          title: date.toDateString(),
           data: this.props.records.data_records[x].items,
         })
       }
@@ -70,24 +71,24 @@ class HistoryScreen extends Component<Props> {
                     borderBottomWidth: 1,
                 }}/>
             <View style={[styles.homeContainer,{flexDirection:'row',flex:1,marginTop:1}]}>
-                <View style={{alignItems:'flex-start', width:'50%'}}>
+                <View style={{alignItems:'flex-start', width:'70%'}}>
                     <Text style={[styles.listItems,{flex:1}]}>
                         {item.details}
                     </Text>
                 </View>
-                <View style={{alignItems:'flex-end', width:'50%'}}>
+                <View style={{alignItems:'flex-end', width:'30%'}}>
                     <Text style={[styles.listItems,{flex:1}]}>
                         {item.time}
                     </Text>
                 </View>
             </View>
             <View style={[styles.homeContainer,{flexDirection:'row',flex:2}]}>
-                <View style={{alignItems:'flex-start', width:'50%'}}>
+                <View style={{alignItems:'flex-start', width:'70%'}}>
                     <Text style={[styles.listItems,{flex:1}]}>
                         {item.category}
                     </Text>
                 </View>
-                <View style={{alignItems:'flex-end', width:'50%'}}>
+                <View style={{alignItems:'flex-end', width:'30%'}}>
                     <Text
                         style={
                             [

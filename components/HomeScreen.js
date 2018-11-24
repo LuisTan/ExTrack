@@ -15,38 +15,25 @@ import { addRecord } from './RecordsReducer.js';
 import styles from './Style.js';
 import AppNoLeftHeader from './AppNoLeftHeader.js';
 
-
-
 class HomeScreen extends Component<Props> {
     constructor(props){
         super(props);
 
-        if(this.props.records.data_records == null){
-            net = 0.00;
-            items = [];
-        }
-        else if(this.props.records.data_records.length == 0){
-            net = 0.00;
-            items = [];
+        currdate = new Date();
+        currdateString = currdate.toDateString();
+        mydate = new Date(this.props.records.data_records[0].date);
+        mydateString = mydate.toDateString();
+        if(currdateString == mydateString){
+            moneySpent = this.props.records.data_records[0].total_spent;
+            items = this.props.records.data_records[0].items;
         }
         else{
-            net = this.props.records.statistical_data.current;
-            currdate = new Date();
-            currdateString = currdate.toDateString();
-            mydate = new Date(this.props.records.data_records[0].date);
-            mydateString = mydate.toDateString();
-            if(currdateString == mydateString){
-                moneySpent = this.props.records.data_records[0].total_spent;
-                items = this.props.records.data_records[0].items;
-            }
-            else{
-                moneySpent = 0.00;
-                items = [];
-            }
+            moneySpent = 0.00;
+            items = [];
         }
         
         spendCategories = ["Food & Drinks", "Bills", "Transportation", "Grocery", "Shopping/Entertainment", "Maintenance/Repair", "Health/Medication", "Lost", "Others"];
-        spendingRecord =[];
+        spendingRecord = [];
 
         for(x = 0; x < spendCategories.length; x++){
             spendingRecord.push({
@@ -64,11 +51,45 @@ class HomeScreen extends Component<Props> {
         }
 
         this.state = {
-            amount: net,
+            amount: this.props.records.statistical_data.current,
             spent: moneySpent,
             spentToday: spendingRecord,
             historyToday: items,
+            refreshing: false,
         };
+    }
+
+    update=()=>{
+        currdate = new Date();
+        currdateString = currdate.toDateString();
+        mydate = new Date(this.props.records.data_records[0].date);
+        mydateString = mydate.toDateString();
+        if(currdateString == mydateString){
+            moneySpent = this.props.records.data_records[0].total_spent;
+            items = this.props.records.data_records[0].items;
+        }
+        else{
+            moneySpent = 0.00;
+            items = [];
+        }
+        
+        spendCategories = ["Food & Drinks", "Bills", "Transportation", "Grocery", "Shopping/Entertainment", "Maintenance/Repair", "Health/Medication", "Lost", "Others"];
+        spendingRecord = [];
+
+        for(x = 0; x < spendCategories.length; x++){
+            spendingRecord.push({
+                category: spendCategories[x],
+                cost: 0,
+            })
+        }
+
+        this.setState({
+            amount: this.props.records.statistical_data.current,
+            spent: moneySpent,
+            spentToday: spendingRecord,
+            historyToday: items,
+            refreshing: false
+        })
     }
     
     pesoString=(money,inout)=>{
@@ -119,13 +140,13 @@ class HomeScreen extends Component<Props> {
                 <View style={
                     {
                         alignItems:'flex-start',
-                        width:'50%'
+                        width:'70%'
                     }}>
                     <Text style={[styles.listItems,{flex:1}]}>
                         {item.category}
                     </Text>
                 </View>
-                <View style={{alignItems:'flex-end', verticalAlign:'middle', width:'50%'}}>
+                <View style={{alignItems:'flex-end',width:'30%'}}>
                     <Text
                         style={
                             [
@@ -148,24 +169,24 @@ class HomeScreen extends Component<Props> {
                         borderBottomWidth: 1,
                     }}/>
                 <View style={[styles.homeContainer,{flexDirection:'row',flex:1,marginTop:1}]}>
-                    <View style={{alignItems:'flex-start', width:'50%'}}>
+                    <View style={{alignItems:'flex-start', width:'70%'}}>
                         <Text style={[styles.listItems,{flex:1}]}>
                             {item.details}
                         </Text>
                     </View>
-                    <View style={{alignItems:'flex-end', width:'50%'}}>
+                    <View style={{alignItems:'flex-end', width:'30%'}}>
                         <Text style={[styles.listItems,{flex:1}]}>
                             {item.time}
                         </Text>
                     </View>
                 </View>
                 <View style={[styles.homeContainer,{flexDirection:'row',flex:2}]}>
-                    <View style={{alignItems:'flex-start', width:'50%'}}>
+                    <View style={{alignItems:'flex-start', width:'70%'}}>
                         <Text style={[styles.listItems,{flex:1}]}>
                             {item.category}
                         </Text>
                     </View>
-                    <View style={{alignItems:'flex-end', width:'50%'}}>
+                    <View style={{alignItems:'flex-end', width:'30%'}}>
                         <Text
                             style={
                                 [
@@ -197,7 +218,8 @@ class HomeScreen extends Component<Props> {
                 </View>
 
                 {/*Content*/}
-                <ScrollView style={[styles.background,{flex:1}]}>
+                <ScrollView 
+                    style={[styles.background,{flex:1}]}>
                     <View style={[styles.homeContainer,{flex:1}]}>
                         <Text style={[styles.welcome,{}]}>Current Money</Text>
                         <Text style={[styles.moneyDisplay,
