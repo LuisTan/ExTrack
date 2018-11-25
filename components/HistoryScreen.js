@@ -130,8 +130,6 @@ class HistoryScreen extends Component {
                     }}
                     />
             </View>
-          {/*DatePicker*/}
-
           {/*Content*/}
           <ScrollView style={[styles.background,{flex:20}]}>
               <SectionList
