@@ -116,11 +116,11 @@ class StatusScreen extends Component<Props> {
               <Text>
                 Average spent per day: {this.props.records.statistical_data.total_spent/this.props.records.data_records.length}
               </Text>
-              <Text>
+              {/* <Text>
                 Bar Graph of Overall Spendings for each category:
-              </Text>
+              </Text> */}
               <View pointerEvents="none">
-                <VictoryChart theme={VictoryTheme.material}>
+                {/* <VictoryChart theme={VictoryTheme.material}>
                   <VictoryBar horizontal
                     style={{
                       data: { fill: "#c43a31" }
@@ -139,7 +139,7 @@ class StatusScreen extends Component<Props> {
                     x="category"
                     y="cost"
                   />
-                </VictoryChart>
+                </VictoryChart> */}
                 <Text>
                   Line Graph of Spent for each day:
                 </Text>

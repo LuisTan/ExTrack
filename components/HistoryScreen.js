@@ -14,7 +14,9 @@ import {  addRecord } from './RecordsReducer.js';
 import styles from './Style.js';
 import AppNoLeftHeader from './AppNoLeftHeader.js';
 
-class HistoryScreen extends Component<Props> {
+import { pesoString } from './ExTrackParsers.js';
+
+class HistoryScreen extends Component {
     constructor(props){
       super(props)
 
@@ -31,38 +33,7 @@ class HistoryScreen extends Component<Props> {
         history: sectioning
       };
     }
-    pesoString=(money,inout)=>{
-      absValMoney = money;
-      if(money < 0)
-        absValMoney = -money;
-      sentimo = Math.floor(absValMoney * 100) % 100;
-      peso = Math.floor(absValMoney);
-      pesoStr = '';
-      sentimoStr = '';
-      if(inout === "Spend" && money != 0){
-        pesoStr = '-';
-        sentimoStr = '-';
-      }
-      pesoStr = pesoStr + '₱' + peso + ".";
-      sentimoStr = sentimoStr + sentimo + '¢';
-      if(sentimo > 0){
-        if(peso == 0){
-            return sentimoStr;
-          }
-          if(sentimo < 10){
-            pesoStr = pesoStr + "0" + sentimo;
-            return pesoStr;
-          }
-          else{
-            pesoStr = pesoStr + sentimo;
-          }
-        }
-        else{
-          pesoStr = pesoStr + "00";
-        }
-        return pesoStr;
-      }
-
+    
     renderListItem = (item) =>{
       return(
         <View style={[styles.background,{flex:1}]}>
@@ -97,7 +68,7 @@ class HistoryScreen extends Component<Props> {
                                 {flex:1}
                             ]
                             }>
-                        {this.pesoString(item.cost,item.inout)}
+                        {pesoString(item.cost,item.inout)}
                     </Text>
                 </View>
             </View>

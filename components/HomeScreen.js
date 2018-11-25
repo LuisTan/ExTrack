@@ -5,8 +5,7 @@ import {
     View,
     FlatList,
     ScrollView,
-    Platform,
-    AsyncStorage
+    Platform
 } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -14,8 +13,9 @@ import { bindActionCreators } from 'redux';
 import { addRecord } from './RecordsReducer.js';
 import styles from './Style.js';
 import AppNoLeftHeader from './AppNoLeftHeader.js';
+import { pesoString } from './ExTrackParsers.js';
 
-class HomeScreen extends Component<Props> {
+class HomeScreen extends Component {
     constructor(props){
         super(props);
 
@@ -92,38 +92,6 @@ class HomeScreen extends Component<Props> {
         })
     }
     
-    pesoString=(money,inout)=>{
-        absValMoney = money;
-        if(money < 0)
-            absValMoney = -money;
-        sentimo = Math.floor(absValMoney * 100) % 100;
-        peso = Math.floor(absValMoney);
-        pesoStr = '';
-        sentimoStr = '';
-        if(inout === "Spend" && money != 0){
-            pesoStr = '-';
-            sentimoStr = '-';
-        }
-        pesoStr = pesoStr + '₱' + peso + ".";
-        sentimoStr = sentimoStr + sentimo + '¢';
-        if(sentimo > 0){
-            if(peso == 0){
-                return sentimoStr;
-            }
-            if(sentimo < 10){
-                pesoStr = pesoStr + "0" + sentimo;
-                return pesoStr;
-            }
-            else{
-                pesoStr = pesoStr + sentimo;
-            }
-        }
-        else{
-            pesoStr = pesoStr + "00";
-        }
-        return pesoStr;
-    }
-    
     renderSpentItem=(item)=>{
         return(
             <View style={
@@ -154,7 +122,7 @@ class HomeScreen extends Component<Props> {
                                 {flex:1}
                             ]
                         }>
-                        {this.pesoString(item.cost,"Spend")}
+                        {pesoString(item.cost,"Spend")}
                     </Text>
                 </View>
             </View>
@@ -195,7 +163,7 @@ class HomeScreen extends Component<Props> {
                                     {flex:1}
                                 ]
                                 }>
-                            {this.pesoString(item.cost,item.inout)}
+                            {pesoString(item.cost,item.inout)}
                         </Text>
                     </View>
                 </View>
@@ -223,7 +191,7 @@ class HomeScreen extends Component<Props> {
                     <View style={[styles.homeContainer,{flex:1}]}>
                         <Text style={[styles.welcome,{}]}>Current Money</Text>
                         <Text style={[styles.moneyDisplay,
-                            this.state.amount <= 0 ? styles.moneySpent:styles.moneyEarned,{}]}>{this.pesoString(this.state.amount,"Earn")}</Text>
+                            this.state.amount <= 0 ? styles.moneySpent:styles.moneyEarned,{}]}>{pesoString(this.state.amount,"Earn")}</Text>
                     </View>
                     <View style={{
                             borderBottomColor: 'black',
@@ -231,7 +199,7 @@ class HomeScreen extends Component<Props> {
                         }}/>
                     <View style={[styles.homeContainer,{flex:1}]}>
                         <Text style={[styles.welcome,{}]}>Spent Today</Text>
-                        <Text style={[styles.moneyDisplay,this.state.spent > 0 ? styles.moneySpent:styles.moneyEarned,{marginTop:0}]}>{this.pesoString(this.state.spent,"Spend")}</Text>
+                        <Text style={[styles.moneyDisplay,this.state.spent > 0 ? styles.moneySpent:styles.moneyEarned,{marginTop:0}]}>{pesoString(this.state.spent,"Spend")}</Text>
                     </View>
                     <View style={{
                             borderBottomColor: 'black',
