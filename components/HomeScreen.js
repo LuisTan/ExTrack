@@ -14,18 +14,28 @@ import { addRecord } from './RecordsReducer.js';
 import styles from './Style.js';
 import AppNoLeftHeader from './AppNoLeftHeader.js';
 import { pesoString } from './ExTrackParsers.js';
+import HistoryItem from './HistoryItem.js';
 
 class HomeScreen extends Component {
     constructor(props){
         super(props);
 
         currdate = new Date();
-        currdateString = currdate.toDateString();
-        mydate = new Date(this.props.records.data_records[0].date);
-        mydateString = mydate.toDateString();
+        currdateString = currdate.toLocaleDateString();
+        if(this.props.records.data_records.length <= 0)
+            mydate = new Date();
+        else
+            mydate = new Date(this.props.records.data_records[0].date);
+        mydateString = mydate.toLocaleDateString();
         if(currdateString == mydateString){
-            moneySpent = this.props.records.data_records[0].total_spent;
-            items = this.props.records.data_records[0].items;
+            if(this.props.records.data_records.length <= 0){
+                moneySpent = 0;
+                items = [];
+            }
+            else{
+                moneySpent = this.props.records.data_records[0].total_spent;
+                items = this.props.records.data_records[0].items;
+            }
         }
         else{
             moneySpent = 0.00;
@@ -61,9 +71,9 @@ class HomeScreen extends Component {
 
     update=()=>{
         currdate = new Date();
-        currdateString = currdate.toDateString();
+        currdateString = currdate.toLocaleDateString();
         mydate = new Date(this.props.records.data_records[0].date);
-        mydateString = mydate.toDateString();
+        mydateString = mydate.toLocaleDateString();
         if(currdateString == mydateString){
             moneySpent = this.props.records.data_records[0].total_spent;
             items = this.props.records.data_records[0].items;
@@ -129,47 +139,6 @@ class HomeScreen extends Component {
         );
     }
 
-    renderHistoryItem=(item)=>{
-        return(
-            <View style={[styles.background,{flex:1}]}>
-                <View style={{
-                        borderBottomColor: 'black',
-                        borderBottomWidth: 1,
-                    }}/>
-                <View style={[styles.homeContainer,{flexDirection:'row',flex:1,marginTop:1}]}>
-                    <View style={{alignItems:'flex-start', width:'70%'}}>
-                        <Text style={[styles.listItems,{flex:1}]}>
-                            {item.details}
-                        </Text>
-                    </View>
-                    <View style={{alignItems:'flex-end', width:'30%'}}>
-                        <Text style={[styles.listItems,{flex:1}]}>
-                            {item.time}
-                        </Text>
-                    </View>
-                </View>
-                <View style={[styles.homeContainer,{flexDirection:'row',flex:2}]}>
-                    <View style={{alignItems:'flex-start', width:'70%'}}>
-                        <Text style={[styles.listItems,{flex:1}]}>
-                            {item.category}
-                        </Text>
-                    </View>
-                    <View style={{alignItems:'flex-end', width:'30%'}}>
-                        <Text
-                            style={
-                                [
-                                    styles.listItems,
-                                    item.inout === 'Spend' ? styles.moneySpent:styles.moneyEarned,
-                                    {flex:1}
-                                ]
-                                }>
-                            {pesoString(item.cost,item.inout)}
-                        </Text>
-                    </View>
-                </View>
-            </View>
-        );
-    }
     render() {
         return (
             <View style={{flex:1}}>
@@ -231,7 +200,7 @@ class HomeScreen extends Component {
                     <FlatList
                             data={this.state.historyToday}
                             keyExtractor={(item,index)=>item.category + index}
-                            renderItem={({item}) => this.renderHistoryItem(item)}
+                            renderItem={({item}) => <HistoryItem item={item}/>}
                         />
                     {/*  */}
                 </ScrollView>
