@@ -12,6 +12,7 @@
     "navigationbar-react-native": "0.0.3",
     "react-inputs-validation": "^2.0.9",
     "react-native": "^0.57.5",
+    "react-native-datepicker": "^1.7.2",
     "react-native-dropdown-menu": "^2.0.0",
     "react-native-elements": "^0.19.1",
     "react-native-formik": "^1.5.5",
