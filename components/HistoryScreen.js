@@ -7,12 +7,13 @@ import {
     SectionList,
     Platform,
     Alert,
-    Modal,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import DatePicker from 'react-native-datepicker';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import moment from 'moment';
+
 
 import {  addRecord } from './RecordsReducer.js';
 import styles from './Style.js';
@@ -32,16 +33,16 @@ class HistoryScreen extends Component {
     getItemSections=()=>{
         sectioning = [];
         for(x = 0; x < this.props.records.data_records.length; x++){
-          date = new Date(this.props.records.data_records[x].date)
+          date = moment(this.props.records.data_records[x].date)
           sectioning.push({
             date: date,
-            title: date.toLocaleDateString(),
+            title: date.format("ddd MMM DD, YYYY"),
             data: this.props.records.data_records[x].items,
           })
         }
         if(this.state.filtering){
-            chosendate = new Date(this.state.date);
-            return sectioning.filter(section => section.date.toLocaleDateString() == chosendate.toLocaleDateString());
+            chosendate = moment(this.state.date);
+            return sectioning.filter(section => section.date.format("MM-DD-YYYY") == chosendate.format("MM-DD-YYYY"));
         }
         else{
             return sectioning;
@@ -144,10 +145,10 @@ class HistoryScreen extends Component {
                     }}
                     date={this.state.date}
                     mode="date"
-                    placeholder="select date"
-                    format="MM/DD/YYYY"
-                    minDate={new Date(this.state.data_records[this.state.data_records.length-1].date)}
-                    maxDate={new Date(this.state.data_records[0].date)}
+                    placeholder="Select Date"
+                    format="YYYY-MM-DD"
+                    minDate={moment(this.state.data_records[this.state.data_records.length-1].date).toDate()}
+                    maxDate={moment(this.state.data_records[0].date).toDate()}
                     confirmBtnText="Confirm"
                     cancelBtnText="Cancel"
                     customStyles={{
@@ -174,17 +175,19 @@ class HistoryScreen extends Component {
                     style={
                         {
                             alignItems:'center',
-                            justifyContent:"center",                         
+                            justifyContent:"center",
+                            margin: 0,
                         }
                     }
                     name="times"
                     backgroundColor="skyblue"
                     borderRadius={0}
-                    size={32}
+                    size={36}
                     iconStyle={
                         {
                             alignItems:'center',
-                            justifyContent:"center",                         
+                            justifyContent:"center",
+                            margin: 0,
                         }
                     }
                     onPress={()=>{
