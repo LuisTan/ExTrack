@@ -1,4 +1,4 @@
-package com.myproject;
+package com.extrack;
 
 import android.app.Application;
 
