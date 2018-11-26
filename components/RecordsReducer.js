@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux'
+import moment from 'moment'
 
 const INITIAL_STATE = {
     statistical_data: {
@@ -29,47 +30,39 @@ const INITIAL_STATE = {
 }
 
 const recordsReducer = (state = INITIAL_STATE,action) => {
-    const {statistical_data,data_records,categorical_records} = state;
+    const {statistical_data,data_records} = state;
+    const date_today = moment().format()
     switch(action.type) {
         case 'ADD_DATE':
             if (data_records.length == 0){
                 data_records.unshift(
                     {
-                        date: action.date,
+                        date: date_today,
                         net: 0,
                         total_spent: 0,
                         items: []
                     }
                 );
             }
-            alert(JSON.stringify(statistical_data));
-            while(
-                new Date(data_records[0].date).getFullYear()!=action.date.getFullYear() &&
-                new Date(data_records[0].date).getMonth()!=action.date.getMonth() &&
-                new Date(data_records[0].date).getDate()!=action.date.getDate() &&
-                new Date(data_records[0].date).getDay()!=action.date.getDay() ){
+            alert("48 ----" + data_records[0].date);
+            while( data_records[0].date.substring(0,10)!=date_today.substring(0,10) ){
                     
-                data_records.unshift(
-                    {
-                        date: new Date(new Date().setDate(data_records[0].date.getDate() + 1)),
-                        net: 0,
-                        total_spent: 0,
-                        items: []
-                    }
-                );
+                    data_records.unshift(
+                        {
+                            date: moment(data_records[0].date).add(1,'d').format(),
+                            net: 0,
+                            total_spent: 0,
+                            items: []
+                        }
+                    );
             }
-
-            return {statistical_data,data_records,categorical_records}
+            return {statistical_data,data_records}
         case 'ADD_RECORD':
-            while(
-                new Date(data_records[0].date).getFullYear()!=action.date.getFullYear() &&
-                new Date(data_records[0].date).getMonth()!=action.date.getMonth() &&
-                new Date(data_records[0].date).getDate()!=action.date.getDate() &&
-                new Date(data_records[0].date).getDay()!=action.date.getDay() ){
+            while( data_records[0].date.substring(0,10)!=date_today.substring(0,10) ){
                     
                 data_records.unshift(
                     {
-                        date: new Date(new Date().setDate(data_records[0].date.getDate() + 1)),
+                        date: moment(data_records[0].date).add(1,'d').format(),
                         net: 0,
                         total_spent: 0,
                         items: []
@@ -90,7 +83,7 @@ const recordsReducer = (state = INITIAL_STATE,action) => {
                 data_records[0].total_spent = parseFloat(data_records[0].total_spent) + action.payload.cost
             }
 
-            return {statistical_data,data_records,categorical_records}
+            return {statistical_data,data_records}
         default: 
             return state
     }
@@ -103,21 +96,19 @@ export default combineReducers({
 export const addRecord = (inout, details, category, cost) =>(
     {
         type: 'ADD_RECORD',
-        date: new Date(),
         payload: {
             inout: inout,
             details: details,
             category: category,
             cost: cost,
-            time: new Date().toLocaleTimeString()
+            time: moment().format('LTS')
         }
     }
 )
 
 export const addDate = () => (
     {
-        type: 'ADD_DATE',
-        date: new Date()
+        type: 'ADD_DATE'
     }
 )
 

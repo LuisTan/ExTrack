@@ -7,6 +7,8 @@ import Icon from 'react-native-vector-icons/FontAwesome'
 import { FAB, Button } from 'react-native-paper';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import moment from 'moment';
+
 
 import {  addRecord, addDate } from './RecordsReducer.js';
 import HomeScreen from './HomeScreen'

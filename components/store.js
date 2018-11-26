@@ -5,7 +5,7 @@ import { createStore } from 'redux';
 import recordsReducer from './RecordsReducer.js';
 
 const persistConfig = {
-    key: 'v9',
+    key: 'v15.3',
     storage: AsyncStorage
 };
 
