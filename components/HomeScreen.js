@@ -5,7 +5,8 @@ import {
     View,
     FlatList,
     ScrollView,
-    Platform
+    Platform,
+    SectionList
 } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -66,8 +67,23 @@ class HomeScreen extends Component {
                 }
             }
         }
-        return spendingRecord;
+        return spendingRecord.filter(record => record.cost > 0);
     }
+
+    getItemSections=()=>{
+        sectioning = [];
+        for(x = 0; x < this.props.records.data_records.length; x++){
+          date = new Date(this.props.records.data_records[x].date)
+          sectioning.push({
+            date: date,
+            title: date.toLocaleDateString(),
+            data: this.props.records.data_records[x].items,
+          })
+        }
+        chosendate = new Date();
+        return sectioning.filter(section => section.date.toLocaleDateString() == chosendate.toLocaleDateString());
+    }
+
 
     pesoString=(money,inout)=>{
         absValMoney = money;
@@ -221,34 +237,50 @@ class HomeScreen extends Component {
                             borderBottomColor: 'black',
                             borderBottomWidth: 2,
                         }}/>
-                    <View style={
-                        [
-                            styles.homeContainer,
-                            {
-                                borderBottomColor: 'black',
-                                borderBottomWidth: 1,
-                                flex:4,
-                            }
-                        ]}>
-                        <Text style={styles.welcome}>Cumulative Spending Today</Text>
-                    </View>
                     <FlatList
                             data={this.getSpendRecords()}
                             keyExtractor={(item)=>item.category}
                             renderItem={({item}) => this.renderSpentItem(item)}
+                            ListHeaderComponent={
+                                <View style={
+                                    [
+                                        styles.homeContainer,
+                                        {
+                                            backgroundColor:"grey",
+                                        }
+                                    ]}>
+                                    <Text style={[styles.welcome,{color:"white"}]}>Cumulative Spending Today</Text>
+                                </View>}
                         />
                     <View style={{
                             borderBottomColor: 'black',
                             borderBottomWidth: 2,
                         }}/>
-                    <View style={[styles.homeContainer, {flex:4}]}>
-                        <Text style={styles.welcome}>Transaction History Today</Text>
-                    </View>
-                    <FlatList
-                            data={this.getHistoryItems()}
-                            keyExtractor={(item,index)=>item.category + " " + index}
-                            renderItem={({item}) => this.renderHistoryItem(item)}
-                        />
+                    <SectionList
+                        sections={this.getItemSections()}
+                        keyExtractor={(item)=>item.date}
+                        ListHeaderComponent={
+                            <View style={
+                                [
+                                    styles.homeContainer,
+                                    {
+                                        backgroundColor:"grey",
+                                    }
+                                ]}>
+                                <Text style={[styles.welcome,{color:"white"}]}>Transaction History Today</Text>
+                            </View>
+                        }
+                        renderSectionHeader={({section: {title}}) => (
+                            <View style={
+                                [{
+                                    backgroundColor:"#c0c0c0",
+                                }]
+                            }>
+                                <Text style={[styles.welcome,{fontWeight:"bold"}]}>{title}</Text>
+                            </View>
+                        )}
+                        renderItem={({item}) => this.renderHistoryItem(item)}
+                    />
                     {/*  */}
                 </ScrollView>
             </View>
