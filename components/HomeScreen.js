@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import moment from 'moment';
 
 import { addRecord } from './RecordsReducer.js';
 import styles from './Style.js';
@@ -29,19 +30,18 @@ class HomeScreen extends Component {
     }
 
     getSpent=()=>{
-        var date = new Date();
-        date.setHours(0,0,0,0);
+        var date = moment();
         if(this.props.records.data_records.length == 0
-            || this.props.records.data_records[0].date.toLocaleDateString != date.toLocaleDateString)
+            || moment(this.props.records.data_records[0].date).format("MM-DD-YYYY") != date.format("MM-DD-YYYY"))
             return 0;
         else
             return this.props.records.data_records[0].total_spent;
     }
 
     getHistoryItems=()=>{
-        date = new Date();
+        date = moment();
         if(this.props.records.data_records.length == 0
-            || this.props.records.data_records[0].date.toLocaleDateString != date.toLocaleDateString)
+            || moment(this.props.records.data_records[0].date).format("MM-DD-YYYY") != date.format("MM-DD-YYYY"))
             return [];
         else {
             return this.props.records.data_records[0].items;
@@ -73,15 +73,15 @@ class HomeScreen extends Component {
     getItemSections=()=>{
         sectioning = [];
         for(x = 0; x < this.props.records.data_records.length; x++){
-          date = new Date(this.props.records.data_records[x].date)
+          date = moment(this.props.records.data_records[x].date)
           sectioning.push({
             date: date,
-            title: date.toLocaleDateString(),
+            title: date.format("ddd MMM DD, YYYY"),
             data: this.props.records.data_records[x].items,
           })
         }
-        chosendate = new Date();
-        return sectioning.filter(section => section.date.toLocaleDateString() == chosendate.toLocaleDateString());
+        chosendate = moment();
+        return sectioning.filter(section => section.date.format("MM-DD-YYYY") == chosendate.format("MM-DD-YYYY"));
     }
 
 
