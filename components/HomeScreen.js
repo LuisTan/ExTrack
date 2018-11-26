@@ -13,36 +13,41 @@ import { bindActionCreators } from 'redux';
 import { addRecord } from './RecordsReducer.js';
 import styles from './Style.js';
 import AppNoLeftHeader from './AppNoLeftHeader.js';
-import { pesoString } from './ExTrackParsers.js';
-import HistoryItem from './HistoryItem.js';
 
 class HomeScreen extends Component {
     constructor(props){
         super(props);
 
-        currdate = new Date();
-        currdateString = currdate.toLocaleDateString();
-        if(this.props.records.data_records.length <= 0)
-            mydate = new Date();
+        this.state = {
+            refreshing: false,
+        };
+    }
+
+    getCurrent=()=>{
+        return this.props.records.statistical_data.current;
+    }
+
+    getSpent=()=>{
+        var date = new Date();
+        date.setHours(0,0,0,0);
+        if(this.props.records.data_records.length == 0
+            || this.props.records.data_records[0].date.toLocaleDateString != date.toLocaleDateString)
+            return 0;
         else
-            mydate = new Date(this.props.records.data_records[0].date);
-        mydateString = mydate.toLocaleDateString();
-        if(currdateString == mydateString){
-            if(this.props.records.data_records.length <= 0){
-                moneySpent = 0;
-                items = [];
-            }
-            else{
-                moneySpent = this.props.records.data_records[0].total_spent;
-                items = this.props.records.data_records[0].items;
-            }
-        }
-        else{
-            moneySpent = 0.00;
-            items = [];
-        }
-        
-        spendCategories = ["Food & Drinks", "Bills", "Transportation", "Grocery", "Shopping/Entertainment", "Maintenance/Repair", "Health/Medication", "Lost", "Others"];
+            return this.props.records.data_records[0].total_spent;
+    }
+
+    getHistoryItems=()=>{
+        date = new Date();
+        if(this.props.records.data_records.length == 0
+            || this.props.records.data_records[0].date.toLocaleDateString != date.toLocaleDateString)
+            return [];
+        else
+            return this.props.records.data_records[0].items;
+    }
+
+    getSpendRecords=()=>{
+        const spendCategories = ["Food & Drinks", "Bills", "Transportation", "Grocery", "Shopping/Entertainment", "Maintenance/Repair", "Health/Medication", "Lost", "Others"];
         spendingRecord = [];
 
         for(x = 0; x < spendCategories.length; x++){
@@ -52,6 +57,7 @@ class HomeScreen extends Component {
             })
         }
 
+        items = this.getHistoryItems();
         for(x = 0; x < items.length; x++){
             for(c = 0; c < spendingRecord.length; c++){
                 if(spendingRecord[c].category === items[x].category){
@@ -59,47 +65,39 @@ class HomeScreen extends Component {
                 }
             }
         }
-
-        this.state = {
-            amount: this.props.records.statistical_data.current,
-            spent: moneySpent,
-            spentToday: spendingRecord,
-            historyToday: items,
-            refreshing: false,
-        };
+        return spendingRecord;
     }
 
-    update=()=>{
-        currdate = new Date();
-        currdateString = currdate.toLocaleDateString();
-        mydate = new Date(this.props.records.data_records[0].date);
-        mydateString = mydate.toLocaleDateString();
-        if(currdateString == mydateString){
-            moneySpent = this.props.records.data_records[0].total_spent;
-            items = this.props.records.data_records[0].items;
+    pesoString=(money,inout)=>{
+        absValMoney = money;
+        if(money < 0)
+            absValMoney = -money;
+        sentimo = Math.floor(absValMoney * 100) % 100;
+        peso = Math.floor(absValMoney);
+        pesoStr = '';
+        sentimoStr = '';
+        if(inout === "Spend" && money != 0){
+            pesoStr = '-';
+            sentimoStr = '-';
+        }
+        pesoStr = pesoStr + '₱' + peso + ".";
+        sentimoStr = sentimoStr + sentimo + '¢';
+        if(sentimo > 0){
+            if(peso == 0){
+                return sentimoStr;
+            }
+            if(sentimo < 10){
+                pesoStr = pesoStr + "0" + sentimo;
+                return pesoStr;
+            }
+            else{
+                pesoStr = pesoStr + sentimo;
+            }
         }
         else{
-            moneySpent = 0.00;
-            items = [];
+            pesoStr = pesoStr + "00";
         }
-        
-        spendCategories = ["Food & Drinks", "Bills", "Transportation", "Grocery", "Shopping/Entertainment", "Maintenance/Repair", "Health/Medication", "Lost", "Others"];
-        spendingRecord = [];
-
-        for(x = 0; x < spendCategories.length; x++){
-            spendingRecord.push({
-                category: spendCategories[x],
-                cost: 0,
-            })
-        }
-
-        this.setState({
-            amount: this.props.records.statistical_data.current,
-            spent: moneySpent,
-            spentToday: spendingRecord,
-            historyToday: items,
-            refreshing: false
-        })
+        return pesoStr;
     }
     
     renderSpentItem=(item)=>{
@@ -132,8 +130,50 @@ class HomeScreen extends Component {
                                 {flex:1}
                             ]
                         }>
-                        {pesoString(item.cost,"Spend")}
+                        {this.pesoString(item.cost,"Spend")}
                     </Text>
+                </View>
+            </View>
+        );
+    }
+
+    renderHistoryItem=(item)=>{
+        return(
+            <View style={[styles.background,{flex:1}]}>
+                <View style={{
+                        borderBottomColor: 'black',
+                        borderBottomWidth: 1,
+                    }}/>
+                <View style={[styles.homeContainer,{flexDirection:'row',flex:1,marginTop:1}]}>
+                    <View style={{alignItems:'flex-start', width:'70%'}}>
+                        <Text style={[styles.listItems,{flex:1}]}>
+                            {item.details}
+                        </Text>
+                    </View>
+                    <View style={{alignItems:'flex-end', width:'30%'}}>
+                        <Text style={[styles.listItems,{flex:1}]}>
+                            {item.time}
+                        </Text>
+                    </View>
+                </View>
+                <View style={[styles.homeContainer,{flexDirection:'row',flex:2}]}>
+                    <View style={{alignItems:'flex-start', width:'70%'}}>
+                        <Text style={[styles.listItems,{flex:1}]}>
+                            {item.category}
+                        </Text>
+                    </View>
+                    <View style={{alignItems:'flex-end', width:'30%'}}>
+                        <Text
+                            style={
+                                [
+                                    styles.listItems,
+                                    item.inout === 'Spend' ? styles.moneySpent:styles.moneyEarned,
+                                    {flex:1}
+                                ]
+                                }>
+                            {this.pesoString(item.cost,item.inout)}
+                        </Text>
+                    </View>
                 </View>
             </View>
         );
@@ -160,7 +200,7 @@ class HomeScreen extends Component {
                     <View style={[styles.homeContainer,{flex:1}]}>
                         <Text style={[styles.welcome,{}]}>Current Money</Text>
                         <Text style={[styles.moneyDisplay,
-                            this.state.amount <= 0 ? styles.moneySpent:styles.moneyEarned,{}]}>{pesoString(this.state.amount,"Earn")}</Text>
+                            this.getCurrent() <= 0 ? styles.moneySpent:styles.moneyEarned,{}]}>{this.pesoString(this.getCurrent(),"Earn")}</Text>
                     </View>
                     <View style={{
                             borderBottomColor: 'black',
@@ -168,7 +208,13 @@ class HomeScreen extends Component {
                         }}/>
                     <View style={[styles.homeContainer,{flex:1}]}>
                         <Text style={[styles.welcome,{}]}>Spent Today</Text>
-                        <Text style={[styles.moneyDisplay,this.state.spent > 0 ? styles.moneySpent:styles.moneyEarned,{marginTop:0}]}>{pesoString(this.state.spent,"Spend")}</Text>
+                        <Text style={[
+                            styles.moneyDisplay,
+                            this.getSpent() > 0 ? styles.moneySpent:styles.moneyEarned,
+                            {marginTop:0}
+                            ]}>
+                            {this.pesoString(this.getSpent(),"Spend")}
+                        </Text>
                     </View>
                     <View style={{
                             borderBottomColor: 'black',
@@ -178,15 +224,15 @@ class HomeScreen extends Component {
                         [
                             styles.homeContainer,
                             {
-                                flex:4,
                                 borderBottomColor: 'black',
                                 borderBottomWidth: 1,
+                                flex:4,
                             }
                         ]}>
                         <Text style={styles.welcome}>Cumulative Spending Today</Text>
                     </View>
                     <FlatList
-                            data={this.state.spentToday}
+                            data={this.getSpendRecords()}
                             keyExtractor={(item)=>item.category}
                             renderItem={({item}) => this.renderSpentItem(item)}
                         />
@@ -195,12 +241,12 @@ class HomeScreen extends Component {
                             borderBottomWidth: 2,
                         }}/>
                     <View style={[styles.homeContainer, {flex:4}]}>
-                        <Text style={styles.welcome}>Spending Today History</Text>
+                        <Text style={styles.welcome}>Transaction History Today</Text>
                     </View>
                     <FlatList
-                            data={this.state.historyToday}
-                            keyExtractor={(item,index)=>item.category + index}
-                            renderItem={({item}) => <HistoryItem item={item}/>}
+                            data={this.getHistoryItems()}
+                            keyExtractor={(item,index)=>item.category + " " + index}
+                            renderItem={({item}) => this.renderHistoryItem(item)}
                         />
                     {/*  */}
                 </ScrollView>

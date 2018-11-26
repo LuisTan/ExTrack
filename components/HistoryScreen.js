@@ -19,8 +19,6 @@ import styles from './Style.js';
 import AppNoLeftHeader from './AppNoLeftHeader.js';
 import { Button } from 'react-native-paper';
 
-import HistoryItem from './HistoryItem.js';
-
 class HistoryScreen extends Component {
     constructor(props){
       super(props)
@@ -42,7 +40,81 @@ class HistoryScreen extends Component {
         filtering: false,
       };
     }
+    
+    pesoString=(money,inout)=>{
+        absValMoney = money;
+        if(money < 0)
+            absValMoney = -money;
+        sentimo = Math.floor(absValMoney * 100) % 100;
+        peso = Math.floor(absValMoney);
+        pesoStr = '';
+        sentimoStr = '';
+        if(inout === "Spend" && money != 0){
+            pesoStr = '-';
+            sentimoStr = '-';
+        }
+        pesoStr = pesoStr + '₱' + peso + ".";
+        sentimoStr = sentimoStr + sentimo + '¢';
+        if(sentimo > 0){
+            if(peso == 0){
+                return sentimoStr;
+            }
+            if(sentimo < 10){
+                pesoStr = pesoStr + "0" + sentimo;
+                return pesoStr;
+            }
+            else{
+                pesoStr = pesoStr + sentimo;
+            }
+        }
+        else{
+            pesoStr = pesoStr + "00";
+        }
+        return pesoStr;
+    }
 
+    renderHistoryItem=(item)=>{
+        return(
+            <View style={[styles.background,{flex:1}]}>
+                <View style={{
+                        borderBottomColor: 'black',
+                        borderBottomWidth: 1,
+                    }}/>
+                <View style={[styles.homeContainer,{flexDirection:'row',flex:1,marginTop:1}]}>
+                    <View style={{alignItems:'flex-start', width:'70%'}}>
+                        <Text style={[styles.listItems,{flex:1}]}>
+                            {item.details}
+                        </Text>
+                    </View>
+                    <View style={{alignItems:'flex-end', width:'30%'}}>
+                        <Text style={[styles.listItems,{flex:1}]}>
+                            {item.time}
+                        </Text>
+                    </View>
+                </View>
+                <View style={[styles.homeContainer,{flexDirection:'row',flex:2}]}>
+                    <View style={{alignItems:'flex-start', width:'70%'}}>
+                        <Text style={[styles.listItems,{flex:1}]}>
+                            {item.category}
+                        </Text>
+                    </View>
+                    <View style={{alignItems:'flex-end', width:'30%'}}>
+                        <Text
+                            style={
+                                [
+                                    styles.listItems,
+                                    item.inout === 'Spend' ? styles.moneySpent:styles.moneyEarned,
+                                    {flex:1}
+                                ]
+                                }>
+                            {this.pesoString(item.cost,item.inout)}
+                        </Text>
+                    </View>
+                </View>
+            </View>
+        );
+    }
+    
     render() {
       return (
         <View style={{flex:1,justifyContent:"center"}}>
@@ -95,7 +167,6 @@ class HistoryScreen extends Component {
                             sectioning: section,
                             filtering: true,
                         });
-                        this.forceUpdate();
                     }}
                 />
                 <Icon.Button
@@ -126,7 +197,6 @@ class HistoryScreen extends Component {
                         else{
                             Alert.alert("All Dates are Shown");
                         }
-                        this.forceUpdate();   
                     }}
                     />
             </View>
@@ -138,7 +208,7 @@ class HistoryScreen extends Component {
                       renderSectionHeader={({section: {title}}) => (
                         <Text style={[styles.welcome,{fontWeight: 'bold'}]}>{title}</Text>
                       )}
-                      renderItem={({item}) => <HistoryItem item={item}/>}
+                      renderItem={({item}) => this.renderHistoryItem(item)}
                   />
           </ScrollView>
         </View>
