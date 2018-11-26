@@ -157,8 +157,8 @@ class HistoryScreen extends Component {
                     mode="date"
                     placeholder="select date"
                     format="MM/DD/YYYY"
-                    minDate={this.state.data_records[this.state.data_records.length-1].date}
-                    maxDate={this.state.data_records[0].date}
+                    minDate={new Date(this.state.data_records[this.state.data_records.length-1].date)}
+                    maxDate={new Date(this.state.data_records[0].date)}
                     confirmBtnText="Confirm"
                     cancelBtnText="Cancel"
                     customStyles={{
@@ -217,7 +217,13 @@ class HistoryScreen extends Component {
                     sections={this.getItemSections()}
                     keyExtractor={(item)=>item.date}
                     renderSectionHeader={({section: {title}}) => (
-                    <Text style={[styles.welcome,{fontWeight: 'bold'}]}>{title}</Text>
+                        <View style={
+                            [{
+                                backgroundColor:"#c0c0c0",
+                            }]
+                        }>
+                            <Text style={[styles.welcome,{fontWeight:"bold"}]}>{title}</Text>
+                        </View>
                     )}
                     renderItem={({item}) => this.renderHistoryItem(item)}
                 />
