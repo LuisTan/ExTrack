@@ -21,18 +21,7 @@ import { Button } from 'react-native-paper';
 
 class HistoryScreen extends Component {
     constructor(props){
-      super(props)
-
-      sectioning = [];
-      for(x = 0; x < this.props.records.data_records.length; x++){
-        date = new Date(this.props.records.data_records[x].date)
-        sectioning.push({
-          date: date,
-          title: date.toLocaleDateString(),
-          data: this.props.records.data_records[x].items,
-        })
-      }
-      date = new Date();
+      super(props);
       this.state = {
         data_records: this.props.records.data_records,
         date: '',
