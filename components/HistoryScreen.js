@@ -32,15 +32,33 @@ class HistoryScreen extends Component {
           data: this.props.records.data_records[x].items,
         })
       }
-      date= new Date();
+      date = new Date();
       this.state = {
-        originalhistory: sectioning,
-        history: sectioning,
+        data_records: this.props.records.data_records,
         date: '',
         filtering: false,
       };
     }
     
+    getItemSections=()=>{
+        sectioning = [];
+        for(x = 0; x < this.props.records.data_records.length; x++){
+          date = new Date(this.props.records.data_records[x].date)
+          sectioning.push({
+            date: date,
+            title: date.toLocaleDateString(),
+            data: this.props.records.data_records[x].items,
+          })
+        }
+        if(this.state.filtering){
+            chosendate = new Date(this.state.date);
+            return sectioning.filter(section => section.date.toLocaleDateString() == chosendate.toLocaleDateString());
+        }
+        else{
+            return sectioning;
+        }   
+    }
+
     pesoString=(money,inout)=>{
         absValMoney = money;
         if(money < 0)
@@ -139,8 +157,8 @@ class HistoryScreen extends Component {
                     mode="date"
                     placeholder="select date"
                     format="MM/DD/YYYY"
-                    minDate={this.state.originalhistory[this.state.originalhistory.length-1].date}
-                    maxDate={this.state.originalhistory[0].date}
+                    minDate={this.state.data_records[this.state.data_records.length-1].date}
+                    maxDate={this.state.data_records[0].date}
                     confirmBtnText="Confirm"
                     cancelBtnText="Cancel"
                     customStyles={{
@@ -157,14 +175,8 @@ class HistoryScreen extends Component {
                     }}
                     onDateChange={(date)=>{
                         section = [];
-                        for(x = 0; x < this.state.originalhistory.length; x++){
-                            if(date == this.state.originalhistory[x].date.toLocaleDateString){
-                                section.push(this.state.originalhistory[x]);
-                            }
-                        }
                         this.setState({
                             date: date,
-                            sectioning: section,
                             filtering: true,
                         });
                     }}
@@ -179,7 +191,7 @@ class HistoryScreen extends Component {
                     name="times"
                     backgroundColor="skyblue"
                     borderRadius={0}
-                    size={30}
+                    size={32}
                     iconStyle={
                         {
                             alignItems:'center',
@@ -190,7 +202,6 @@ class HistoryScreen extends Component {
                         if(this.state.filtering){
                             this.setState({
                                 filtering: false,
-                                history: this.state.originalhistory,
                                 date: '',
                             });
                         }
@@ -198,19 +209,19 @@ class HistoryScreen extends Component {
                             Alert.alert("All Dates are Shown");
                         }
                     }}
-                    />
+                />
             </View>
-          {/*Content*/}
-          <ScrollView style={[styles.background,{flex:20}]}>
-              <SectionList
-                      sections={this.state.history}
-                      keyExtractor={(item)=>item.date}
-                      renderSectionHeader={({section: {title}}) => (
-                        <Text style={[styles.welcome,{fontWeight: 'bold'}]}>{title}</Text>
-                      )}
-                      renderItem={({item}) => this.renderHistoryItem(item)}
-                  />
-          </ScrollView>
+            {/*Content*/}
+            <ScrollView style={[styles.background,{flex:20}]}>
+                <SectionList
+                    sections={this.getItemSections()}
+                    keyExtractor={(item)=>item.date}
+                    renderSectionHeader={({section: {title}}) => (
+                    <Text style={[styles.welcome,{fontWeight: 'bold'}]}>{title}</Text>
+                    )}
+                    renderItem={({item}) => this.renderHistoryItem(item)}
+                />
+            </ScrollView>
         </View>
       );
     }

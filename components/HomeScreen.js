@@ -42,8 +42,9 @@ class HomeScreen extends Component {
         if(this.props.records.data_records.length == 0
             || this.props.records.data_records[0].date.toLocaleDateString != date.toLocaleDateString)
             return [];
-        else
+        else {
             return this.props.records.data_records[0].items;
+        }
     }
 
     getSpendRecords=()=>{
