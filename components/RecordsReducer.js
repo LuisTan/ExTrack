@@ -44,7 +44,6 @@ const recordsReducer = (state = INITIAL_STATE,action) => {
                     }
                 );
             }
-            alert("48 ----" + data_records[0].date);
             while( data_records[0].date.substring(0,10)!=date_today.substring(0,10) ){
                     
                     data_records.unshift(
@@ -74,13 +73,13 @@ const recordsReducer = (state = INITIAL_STATE,action) => {
             if (action.payload.inout=='Earn') {
                 statistical_data.current = parseFloat(statistical_data.current) + action.payload.cost;
                 statistical_data.total_earned = parseFloat(statistical_data.total_earned) + action.payload.cost;
-                data_records[0].net = parseFloat(data_records[0].net) + action.payload.cost;
+                data_records[0].net = parseFloat( statistical_data.current);
             }
             else{
                 statistical_data.current = parseFloat(statistical_data.current)-  action.payload.cost;
                 statistical_data.total_spent = parseFloat(statistical_data.total_spent) + action.payload.cost;
-                data_records[0].net = parseFloat(data_records[0].net) + (action.payload.cost*-1)
-                data_records[0].total_spent = parseFloat(data_records[0].total_spent) + action.payload.cost
+                data_records[0].net = parseFloat( statistical_data.current);
+                data_records[0].total_spent = parseFloat(data_records[0].total_spent) + action.payload.cost;
             }
 
             return {statistical_data,data_records}

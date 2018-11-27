@@ -211,7 +211,7 @@ class HistoryScreen extends Component {
                     renderSectionHeader={({section: {title}}) => (
                         <View style={
                             [{
-                                backgroundColor:"#c0c0c0",
+                                backgroundColor:"#3aafb9",
                             }]
                         }>
                             <Text style={[styles.welcome,{fontWeight:"bold"}]}>{title}</Text>

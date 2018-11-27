@@ -208,7 +208,7 @@ class HomeScreen extends Component {
                         height: 56,
                     }
                 })]}>
-                    <AppNoLeftHeader route={this.props.navigation.state.routeName} />
+                    <AppNoLeftHeader route={this.props.navigation.state.routeName}/>
                 </View>
 
                 {/*Content*/}
@@ -246,7 +246,7 @@ class HomeScreen extends Component {
                                     [
                                         styles.homeContainer,
                                         {
-                                            backgroundColor:"grey",
+                                            backgroundColor:"#3aafb9",
                                         }
                                     ]}>
                                     <Text style={[styles.welcome,{color:"white"}]}>Cumulative Spending Today</Text>
@@ -264,7 +264,7 @@ class HomeScreen extends Component {
                                 [
                                     styles.homeContainer,
                                     {
-                                        backgroundColor:"grey",
+                                        backgroundColor:"#3aafb9",
                                     }
                                 ]}>
                                 <Text style={[styles.welcome,{color:"white"}]}>Transaction History Today</Text>
@@ -273,7 +273,7 @@ class HomeScreen extends Component {
                         renderSectionHeader={({section: {title}}) => (
                             <View style={
                                 [{
-                                    backgroundColor:"#c0c0c0",
+                                    backgroundColor:"#97c8eb",
                                 }]
                             }>
                                 <Text style={[styles.welcome,{fontWeight:"bold"}]}>{title}</Text>

@@ -6,7 +6,7 @@ import {
 export default StyleSheet.create({
   
     background: {
-      backgroundColor: '#C0C0C0'
+      backgroundColor: '#FFFFFF'
     },
     buttons:{
       color: 'white',
@@ -39,10 +39,9 @@ export default StyleSheet.create({
     },
     fab: {
       position: 'absolute',
-      zIndex:0,
       margin: 0,
       right: 0,
-      bottom: 60,
+      bottom: 60
     },
     sub_fab:{
       position: 'absolute',
@@ -75,7 +74,7 @@ export default StyleSheet.create({
     homeContainer: {
       justifyContent: 'center',
       alignItems: 'center',
-      backgroundColor: 'white',
+      backgroundColor: '#ffffff',
       margin: 0,
     },
 });

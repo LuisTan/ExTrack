@@ -10,11 +10,14 @@ import {
     KeyboardAvoidingView, 
     Button 
 } from 'react-native';
-import { Container, Header, Left, Body, Right, Title, Subtitle } from 'native-base';
+import { Container, Header, Left, Body, Right, Title, Subtitle,StyleProvider } from 'native-base';
+import getTheme from './native-base-theme/components';
+import extrackTheme from './native-base-theme/variables/extrackTheme'
 
 class AppNoLeftHeader extends Component<Props>{
     render(){
         return(
+            <StyleProvider style={getTheme(extrackTheme)}>
             <Container>
                 <Header noLeft>
                 <Left/>
@@ -24,6 +27,7 @@ class AppNoLeftHeader extends Component<Props>{
                 <Right/>
                 </Header>
             </Container>
+            </StyleProvider>
         );
     }
 }

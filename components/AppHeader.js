@@ -8,22 +8,26 @@ import {
     TextInput, 
     View, 
     KeyboardAvoidingView, 
-    Button 
+    Button
 } from 'react-native';
-import { Container, Header, Left, Body, Right, Title } from 'native-base';
+import { Container, Header, Left, Body, Right, Title, StyleProvider } from 'native-base';
+import getTheme from './native-base-theme/components';
+import extrackTheme from './native-base-theme/variables/extrackTheme'
 
 class AppHeader extends Component<Props>{
     render(){
         return(
-            <Container>
-                <Header>
-                <Left/>
-                <Body>
-                    <Title>{this.props.route}</Title>
-                </Body>
-                <Right/>
-                </Header>
-            </Container>
+            <StyleProvider style={getTheme(extrackTheme)}>
+                <Container>
+                    <Header>
+                        <Left/>
+                            <Body>
+                                <Title>{this.props.route}</Title>
+                            </Body>
+                        <Right/>
+                    </Header>
+                </Container>
+            </StyleProvider>
         );
     }
 }

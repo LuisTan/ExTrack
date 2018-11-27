@@ -33,7 +33,6 @@ class StatusScreen extends Component<Props> {
     constructor(props){
       super(props)
       this.state = {
-        hide_date_max: true,
         text: '',
         data_length: '',
         //date_min: 0,
@@ -44,12 +43,6 @@ class StatusScreen extends Component<Props> {
     }
 
     componentDidMount(){
-      //alert(this.props.records.data_records);
-
-      //No Records
-      
-      //Finding the first element in the range
-      //alert(this.props.records.data_records[index].date+this.state.date_min)
     }
 
     checkDate = (date1,date2)=>{
@@ -65,7 +58,6 @@ class StatusScreen extends Component<Props> {
         return 0;
       }
       
-      alert("70----" + JSON.stringify(this.props.records.data_records[0]))
       //Finding the first element in the range
       while(this.checkDate(this.props.records.data_records[index].date, this.state.date_min)){
         index -= 1;
@@ -246,6 +238,37 @@ class StatusScreen extends Component<Props> {
       return array;
     }
 
+    pesoString=(money,inout)=>{
+      absValMoney = money;
+      if(money < 0)
+          absValMoney = -money;
+      sentimo = Math.floor(absValMoney * 100) % 100;
+      peso = Math.floor(absValMoney);
+      pesoStr = '';
+      sentimoStr = '';
+      if(inout === "Spend" && money != 0){
+          pesoStr = '-';
+          sentimoStr = '-';
+      }
+      pesoStr = pesoStr + '₱' + peso + ".";
+      sentimoStr = sentimoStr + sentimo + '¢';
+      if(sentimo > 0){
+          if(peso == 0){
+              return sentimoStr;
+          }
+          if(sentimo < 10){
+              pesoStr = pesoStr + "0" + sentimo;
+              return pesoStr;
+          }
+          else{
+              pesoStr = pesoStr + sentimo;
+          }
+      }
+      else{
+          pesoStr = pesoStr + "00";
+      }
+      return pesoStr;
+    }
 
     render() {
       var category = [["Choose Category", "Food & Drinks", "Bills", "Transportation", "Grocery", "Shopping/Entertainment", "Maintenance/Repair", "Health/Medication", "Lost", "Others"]]
@@ -262,52 +285,50 @@ class StatusScreen extends Component<Props> {
           {/*Content*/}
           <View  style={{flex:9}}>
             <ScrollView>
-              {/*From*/}
-              <Text>
-                {JSON.stringify(this.props.records.data_records)}
-              </Text>
-              <View style={[styles.homeContainer,{margin: 10, flex:1, flexDirection: 'row'}]}>
-                <Text>
-                  From: 
-                </Text>
-                <DatePicker
-                  style={{width: 200}}
-                  date={this.props.records.data_records[0].date.substring(0,10)}
-                  mode="date"
-                  placeholder="select date"
-                  format="YYYY-MM-DD"
-                  minDate={this.props.records.data_records[this.props.records.data_records.length-1].date.substring(0,10)}
-                  //minDate="2018-11-05"
-                  maxDate={this.props.records.data_records[0].date.substring(0,10)}
-                  confirmBtnText="Confirm"
-                  cancelBtnText="Cancel"
-                  customStyles={{
-                    dateIcon: {
-                      position: 'absolute',
-                      left: 0,
-                      top: 4,
-                      marginLeft: 0
-                    },
-                    dateInput: {
-                      marginLeft: 36
-                    }
-                    // ... You can check the source to find the other keys.
-                  }}
-                  onDateChange={(date) => {
-                    this.setState({date_min: date});
-                    this.setState({hide_date_max: false});
-                  }}
-                />
-              </View>
+              
+              {/*DatePicker*/}
+              <View style={[styles.homeContainer,{borderColor: '#0000000', padding: 10, paddingLeft: 17, paddingRight: 0, flex:1, flexDirection: 'row'}]}>
+                {/*From*/}
+                <View style={[{flex:2, flexDirection: 'row'}]}>
+                  <Text style={{paddingTop: 8}}>
+                    From: 
+                  </Text>
+                  <DatePicker
+                    style={{width: 150}}
+                    date={this.state.date_min}
+                    mode="date"
+                    placeholder="select date"
+                    format="YYYY-MM-DD"
+                    minDate={this.props.records.data_records[this.props.records.data_records.length-1].date.substring(0,10)}
+                    //minDate="2018-11-05"
+                    maxDate={this.state.date_max}
+                    confirmBtnText="Confirm"
+                    cancelBtnText="Cancel"
+                    customStyles={{
+                      dateIcon: {
+                        position: 'absolute',
+                        left: 0,
+                        top: 4,
+                        marginLeft: 0
+                      },
+                      dateInput: {
+                        marginLeft: 36
+                      }
+                      // ... You can check the source to find the other keys.
+                    }}
+                    onDateChange={(date) => {
+                      this.setState({date_min: date});
+                    }}
+                  />
+                </View>
               {/*To*/}
-              <View style={[{margin: 10,flex:1}]}>
-                <View style={[{flex:1, flexDirection: 'row'}]}>
-                  <Text>
+                <View style={[{flex:2, flexDirection: 'row'}]}>
+                  <Text style={{paddingTop: 8}}>
                     To: 
                   </Text>
                   <DatePicker
-                    style={{width: 200}}
-                    date={this.props.records.data_records[0].date.substring(0,10)}
+                    style={{width: 150}}
+                    date={this.state.date_max}
                     mode="date"
                     placeholder="select date"
                     format="YYYY-MM-DD"
@@ -315,7 +336,6 @@ class StatusScreen extends Component<Props> {
                     maxDate={this.props.records.data_records[0].date.substring(0,10)}
                     confirmBtnText="Confirm"
                     cancelBtnText="Cancel"
-                    disabled={this.state.hide_date_max}
                     customStyles={{
                       dateIcon: {
                         position: 'absolute',
@@ -330,38 +350,90 @@ class StatusScreen extends Component<Props> {
                     }}
                     onDateChange={(date) => {
                       this.setState({date_max: date});
-                      this.setState({hide_date_max: true});
                     }}
                   />
                 </View>
-                <Text>
-                    {(this.state.hide_date_max?<Text style={{color: 'red'}}>First choose a min date</Text>:<Text></Text>)}
+              </View>
+              <View style={{ borderBottomColor: 'black', borderBottomWidth: 2, }}/>
+              
+              {/*OverallEarned*/}       
+              <View styles={[{backgroundColor: 'white', flex:1}]}>
+                <Text style={[styles.welcome]}>
+                  Overall Earned
+                </Text>
+                <Text style={[
+                    styles.moneyDisplay,
+                    styles.moneyEarned,
+                    {marginTop:0}
+                    ]}>
+                    {this.pesoString(this.getOverall('Earn'),"Earn")}
                 </Text>
               </View>
+              <View style={{ borderBottomColor: 'grey', borderBottomWidth: 1, }}/>
 
-              <Text>
-                Overall Earned: {this.getOverall('Earn')}
-              </Text>
-              <Text>
-                Overall Spent: {this.getOverall('Spend')}
-              </Text>
-              <Text>
-                Average remaining money per day: {this.getAverage('net')}
-              </Text>
-              <Text>
-                Average spent per day: {this.getAverage('total_spent')}
-              </Text>
-              <Text>
-                Line Graph of Spendings Each Day
-              </Text>
-              {/*<Text>
-                {JSON.stringify(this.getTotalSpent())}
-              </Text>*/}
-              <PureChart data={this.getTotalSpent()} type='line'/>
+              {/*Overall Spent*/}
+              <View styles={[styles.homeContainer,{flex:1}]}>
+                <Text style={[styles.welcome]}>
+                  Overall Spent
+                </Text>
+                <Text style={[
+                    styles.moneyDisplay,
+                    styles.moneySpent,
+                    {marginTop:0}
+                    ]}>
+                    {this.pesoString(this.getOverall('Spend'),"Spend")}
+                </Text>
+              </View>
+              <View style={{ borderBottomColor: 'grey', borderBottomWidth: 1, }}/>
+
+
+              {/*Average Net*/}
+              <View styles={[styles.homeContainer,{flex:1}]}>
+                <Text style={[styles.welcome]}>
+                  Average remaining money per day
+                </Text>
+                <Text style={[
+                    styles.moneyDisplay,
+                    this.getAverage('net') > 0 ? styles.moneyEarned: styles.moneySpent,
+                    {marginTop:0}
+                    ]}>
+                    {this.pesoString(this.getAverage('net'),"Earn")}
+                </Text>
+              </View>
+              <View style={{ borderBottomColor: 'grey', borderBottomWidth: 1, }}/>
+              {/*Average Spent*/}
+              <View styles={[styles.homeContainer,{flex:1}]}>
+                <Text style={[styles.welcome]}>
+                  Average spent money per day
+                </Text>
+                <Text style={[
+                    styles.moneyDisplay,
+                    styles.moneySpent,
+                    {marginTop:0}
+                    ]}>
+                    {this.pesoString(this.getAverage('total_spent'),"Spent")}
+                </Text>
+              </View>
+              <View style={{ borderBottomColor: 'grey', borderBottomWidth: 1, }}/>
+
+              {/*Line Graph of Spendings*/}
+                <Text style={[styles.welcome]}>
+                  Daily Spendings
+                </Text>
+                <View styles={{padding: 20, marginLeft: 1000}}>
+                  <PureChart backgroundColor={'#F6F6F6'} numberOfYAxisGuideLine={10} gap={80} data={[0,1000,200,10]} type='line'/>
+                </View>
+              
+              <View style={{ borderBottomColor: 'grey', borderBottomWidth: 1, }}/>
+              
+              {/*Line Graph of Net*/}
               <Text>
                 Line Graph of Net Money Each Day
               </Text>
               <PureChart data={this.getNet()} type='line'/>
+              <View style={{ borderBottomColor: 'grey', borderBottomWidth: 1, }}/>
+              
+              {/*Bar Graph of Spending*/}
               <Text>
                 Bar Graph of Overall Spendings for each category:
               </Text>
@@ -396,6 +468,9 @@ class StatusScreen extends Component<Props> {
                   />
                 </VictoryChart>
               </View>
+              <View style={{ borderBottomColor: 'grey', borderBottomWidth: 1, }}/>
+              
+              {/*Bar Graph of Earning*/}
               <Text>
                 Bar Graph of Overall Earnings for each category:
               </Text>
@@ -426,6 +501,7 @@ class StatusScreen extends Component<Props> {
                   />
                 </VictoryChart>
               </View>
+              <View style={{ borderBottomColor: 'grey', borderBottomWidth: 1, }}/>
             </ScrollView>
           </View>
         </View>

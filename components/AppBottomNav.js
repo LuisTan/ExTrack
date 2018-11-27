@@ -4,7 +4,7 @@ import {
   } from 'react-native';
 import {createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs'
 import Icon from 'react-native-vector-icons/FontAwesome'
-import { FAB, Button } from 'react-native-paper';
+import { FAB, Portal } from 'react-native-paper';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import moment from 'moment';
@@ -33,16 +33,19 @@ class AppBottomNav extends Component{
         return (
             <View style={{flex:1}}>
                 <BottomNav/>
+                <Portal>
                 <FAB.Group
-                    style={styles.fab} 
+                    style={styles.fab}
+                    color={"#093A3E"}
                     open={this.state.open}
-                    icon={this.state.open ? 'today' : 'add'}
+                    icon={this.state.open ? 'money-off' : 'monetization-on'}
                     actions={[
-                    { icon: 'update', label: 'Earn', onPress: () => this.props.navigation.navigate('Earn') },
-                    { icon: 'add', label: 'Spend', onPress: () => this.props.navigation.navigate('Spend')},
+                    { icon: 'add', color: "#093A3E", label: 'Earn', onPress: () => this.props.navigation.navigate('Earn') },
+                    { icon: 'remove', color: "#093A3E", label: 'Spend', onPress: () => this.props.navigation.navigate('Spend')},
                     ]}
                     onStateChange={({ open }) => this.setState({ open })}
                 />
+                </Portal>
             </View>
         )
     }
@@ -52,7 +55,6 @@ const BottomNav = createMaterialBottomTabNavigator({
     Home: {
       screen:HomeScreen,
       navigationOptions:{
-        tabBarColor: 'green',
         tabBarLabel: 'Home',
         tabBarIcon:({tintColor}) =>(
           <Icon name='home' color={tintColor} size={24}/>
@@ -62,7 +64,6 @@ const BottomNav = createMaterialBottomTabNavigator({
     Status:{
       screen:StatusScreen,
       navigationOptions:{
-        tabBarColor: 'blue',
         tabBarLabel: 'Status',
         tabBarIcon:({tintColor}) =>(
           <Icon name='bar-chart' color={tintColor} size={24}/>
@@ -72,7 +73,6 @@ const BottomNav = createMaterialBottomTabNavigator({
     History:{
       screen:HistoryScreen,
       navigationOptions:{
-        tabBarColor: 'red',
         tabBarLabel: 'History',
         tabBarIcon:({tintColor}) =>(
           <Icon name='history' color={tintColor} size={24}/>
@@ -81,8 +81,11 @@ const BottomNav = createMaterialBottomTabNavigator({
     }
   },{
     initialRouteName: 'Home',
-    activeTintColor: 'orange',
-    shifting:true
+    activeTintColor: '#97c8eb',
+    shifting:true,
+    barStyle:{
+      backgroundColor: '#093A3E'
+    }
   }
 )
 
