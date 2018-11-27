@@ -7,7 +7,7 @@ import {
     Alert
 } from 'react-native';
 import { 
-  VictoryArea, 
+  VictoryTooltip                                                                                                                                                                                                                                                                        , 
   VictoryBar, 
   VictoryLine, 
   VictoryPie,
@@ -284,7 +284,7 @@ class StatusScreen extends Component<Props> {
           </View>
           {/*Content*/}
           <View  style={{flex:9}}>
-            <ScrollView>
+            <ScrollView style={{backgroundColor: '#ffffff'}}>
               
               {/*DatePicker*/}
               <View style={[styles.homeContainer,{borderColor: '#0000000', padding: 10, paddingLeft: 17, paddingRight: 0, flex:1, flexDirection: 'row'}]}>
@@ -357,7 +357,7 @@ class StatusScreen extends Component<Props> {
               <View style={{ borderBottomColor: 'black', borderBottomWidth: 2, }}/>
               
               {/*OverallEarned*/}       
-              <View styles={[{backgroundColor: 'white', flex:1}]}>
+              <View styles={[styles.homeContainer, {flex:1}]}>
                 <Text style={[styles.welcome]}>
                   Overall Earned
                 </Text>
@@ -386,7 +386,6 @@ class StatusScreen extends Component<Props> {
               </View>
               <View style={{ borderBottomColor: 'grey', borderBottomWidth: 1, }}/>
 
-
               {/*Average Net*/}
               <View styles={[styles.homeContainer,{flex:1}]}>
                 <Text style={[styles.welcome]}>
@@ -401,6 +400,7 @@ class StatusScreen extends Component<Props> {
                 </Text>
               </View>
               <View style={{ borderBottomColor: 'grey', borderBottomWidth: 1, }}/>
+              
               {/*Average Spent*/}
               <View styles={[styles.homeContainer,{flex:1}]}>
                 <Text style={[styles.welcome]}>
@@ -417,91 +417,92 @@ class StatusScreen extends Component<Props> {
               <View style={{ borderBottomColor: 'grey', borderBottomWidth: 1, }}/>
 
               {/*Line Graph of Spendings*/}
+              <View style={[styles.homeContainer,{flex:1}]}>
                 <Text style={[styles.welcome]}>
                   Daily Spendings
                 </Text>
-                <View styles={{padding: 20, marginLeft: 1000}}>
-                  <PureChart backgroundColor={'#F6F6F6'} numberOfYAxisGuideLine={10} gap={80} data={[0,1000,200,10]} type='line'/>
+                <View>
+                  <PureChart numberOfYAxisGuideLine={10} data={this.getTotalSpent()} type='line'/>
                 </View>
-              
+              </View>
               <View style={{ borderBottomColor: 'grey', borderBottomWidth: 1, }}/>
               
               {/*Line Graph of Net*/}
-              <Text>
-                Line Graph of Net Money Each Day
-              </Text>
-              <PureChart data={this.getNet()} type='line'/>
+              <View style={[styles.homeContainer,{flex:1}]}>
+                <Text style={[styles.welcome]}>
+                  Daily Net Money
+                </Text>
+                <View>
+                  <PureChart numberOfYAxisGuideLine={10} data={this.getNet()} type='line'/>
+                </View>
+              </View>
               <View style={{ borderBottomColor: 'grey', borderBottomWidth: 1, }}/>
               
               {/*Bar Graph of Spending*/}
-              <Text>
-                Bar Graph of Overall Spendings for each category:
-              </Text>
-              <View pointerEvents="none" style={{padding: 10}}>
-                <VictoryChart 
-                    //containerComponent={<VictoryZoomContainer
-                    //  zoomDimension="x"
-                    //  allowZoom={false}
-                    //  zoomDomain={{x:[1,6]}}
-                    ///>}
-                    domainPadding={25}
-                    theme={VictoryTheme.material}>
-                  <VictoryBar horizontal
-                    barWidth={25}
-                    style={{
-                      data: { fill: "#c43a31" }
-                    }}
-                    data={[
-                      {category: cat[0][1], cost: this.getCategories(category[0][1])},
-                      {category: cat[0][2], cost: this.getCategories(category[0][2])},
-                      {category: cat[0][3], cost: this.getCategories(category[0][3])},
-                      {category: cat[0][4], cost: this.getCategories(category[0][4])},
-                      {category: cat[0][5], cost: this.getCategories(category[0][5])},
-                      {category: cat[0][6], cost: this.getCategories(category[0][6])},
-                      {category: cat[0][7], cost: this.getCategories(category[0][7])},
-                      {category: cat[0][8], cost: this.getCategories(category[0][8])},
-                      {category: cat[0][9], cost: this.getCategories(category[0][9])}
-                    ]}
-                    labels={[this.getCategories(category[0][1]),this.getCategories(category[0][2]),this.getCategories(category[0][3]),this.getCategories(category[0][4]),this.getCategories(category[0][5]),this.getCategories(category[0][6]),this.getCategories(category[0][7]),this.getCategories(category[0][8]),this.getCategories(category[0][9])]}
-                    x="category"
-                    y="cost"
-                  />
-                </VictoryChart>
+              <View style={[styles.homeContainer,{flex:1}]}>
+                <View pointerEvents="none" style={{padding: 10}}>
+                  <VictoryChart width={375} domainPadding={25} theme={VictoryTheme.material}>
+                    <VictoryLabel style={{fontSize: 20}} text="Spendings for each Category" x={210} y={30} textAnchor="middle"/>
+                    <VictoryBar horizontal
+                      labelComponent={<VictoryTooltip active={true} activateData={true}/>}
+                      barWidth={25}
+                      animate={{duration: 1000}}
+                      style={{
+                        data: { fill: "#c43a31" }
+                      }}
+                      data={[
+                        {category: cat[0][1], cost: this.getCategories(category[0][1]), label: category[0][1]},
+                        {category: cat[0][2], cost: this.getCategories(category[0][2]), label: category[0][2]},
+                        {category: cat[0][3], cost: this.getCategories(category[0][3]), label: category[0][3]},
+                        {category: cat[0][4], cost: this.getCategories(category[0][4]), label: category[0][4]},
+                        {category: cat[0][5], cost: this.getCategories(category[0][5]), label: category[0][5]},
+                        {category: cat[0][6], cost: this.getCategories(category[0][6]), label: category[0][6]},
+                        {category: cat[0][7], cost: this.getCategories(category[0][7]), label: category[0][7]},
+                        {category: cat[0][8], cost: this.getCategories(category[0][8]), label: category[0][8]},
+                        {category: cat[0][9], cost: this.getCategories(category[0][9]), label: category[0][9]}
+                      ]}
+                      labels={[this.getCategories(category[0][1]),this.getCategories(category[0][2]),this.getCategories(category[0][3]),this.getCategories(category[0][4]),this.getCategories(category[0][5]),this.getCategories(category[0][6]),this.getCategories(category[0][7]),this.getCategories(category[0][8]),this.getCategories(category[0][9])]}
+                      x="category"
+                      y="cost"
+                    />
+                  </VictoryChart>
+                </View>
               </View>
               <View style={{ borderBottomColor: 'grey', borderBottomWidth: 1, }}/>
               
               {/*Bar Graph of Earning*/}
-              <Text>
-                Bar Graph of Overall Earnings for each category:
-              </Text>
-              <View pointerEvents="none" style={{padding: 10}}>
-                <VictoryChart 
-                    //containerComponent={<VictoryZoomContainer
-                    //  zoomDimension="x"
-                    //  allowZoom={false}
-                    //  zoomDomain={{x:[1,6]}}
-                    ///>}
-                    domainPadding={25}
-                    theme={VictoryTheme.material}>
-                  <VictoryBar horizontal
-                    barWidth={25}
-                    style={{
-                      data: { fill: "#c43a31" }
-                    }}
-                    animate={{duration: 1000}}
-                    data={[
-                      {category: ecategory[0][1], cost: this.getCategories(ecategory[0][1])},
-                      {category: ecategory[0][2], cost: this.getCategories(ecategory[0][2])},
-                      {category: ecategory[0][3], cost: this.getCategories(ecategory[0][3])},
-                      {category: ecategory[0][4], cost: this.getCategories(ecategory[0][4])}
-                    ]}
-                    labels={[this.getCategories(ecategory[0][1]),this.getCategories(ecategory[0][2]),this.getCategories(ecategory[0][3]),this.getCategories(ecategory[0][4])]}
-                    x="category"
-                    y="cost"
-                  />
-                </VictoryChart>
+              <View style={[styles.homeContainer,{flex:1}]}>
+                <View pointerEvents="none" style={{padding: 10}}>
+                  <VictoryChart 
+                      //containerComponent={<VictoryZoomContainer
+                      //  zoomDimension="x"
+                      //  allowZoom={false}
+                      //  zoomDomain={{x:[1,6]}}
+                      ///>}
+                      domainPadding={25}
+                      theme={VictoryTheme.material}>
+                    <VictoryLabel style={{fontSize: 20}} text="Earnings for each Category" x={210} y={30} textAnchor="middle"/>
+                    <VictoryBar horizontal
+                      barWidth={25}
+                      style={{
+                        data: { fill: "#c43a31" }
+                      }}
+                      animate={{duration: 1000}}
+                      data={[
+                        {category: ecategory[0][1], cost: this.getCategories(ecategory[0][1])},
+                        {category: ecategory[0][2], cost: this.getCategories(ecategory[0][2])},
+                        {category: ecategory[0][3], cost: this.getCategories(ecategory[0][3])},
+                        {category: ecategory[0][4], cost: this.getCategories(ecategory[0][4])}
+                      ]}
+                      labels={[this.getCategories(ecategory[0][1]),this.getCategories(ecategory[0][2]),this.getCategories(ecategory[0][3]),this.getCategories(ecategory[0][4])]}
+                      x="category"
+                      y="cost"
+                    />
+                  </VictoryChart>
+                </View>
               </View>
               <View style={{ borderBottomColor: 'grey', borderBottomWidth: 1, }}/>
+            
             </ScrollView>
           </View>
         </View>

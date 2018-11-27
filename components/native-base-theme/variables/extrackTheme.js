@@ -17,9 +17,9 @@ export default {
 
   //Accordion
   headerStyle: "#edebed",
-  iconStyle: "#000",
+  iconStyle: "#fff",
   contentStyle: "#f5f4f5",
-  expandedIconStyle: "#000",
+  expandedIconStyle: "#fff",
   accordionBorderColor: "#d3d3d3",
 
   //Android

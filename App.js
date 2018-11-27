@@ -44,18 +44,21 @@ const AppStackNav = createStackNavigator({
   AppBottomNav: {
     screen: AppBottomNav,
     navigationOptions: {
+      headerTintColor: '#97c8eb',
       header: null      
     }
   },
   Earn: {
     screen: EarnScreen,
     navigationOptions: {
+      headerTintColor: '#97c8eb',
       headerTransparent: true,   
     }
   },
   Spend: {
     screen: SpendScreen,
     navigationOptions: {
+      headerTintColor: '#97c8eb',
       headerTransparent: true,
     }
   },

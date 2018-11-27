@@ -33,7 +33,6 @@ class AppBottomNav extends Component{
         return (
             <View style={{flex:1}}>
                 <BottomNav/>
-                <Portal>
                 <FAB.Group
                     style={styles.fab}
                     color={"#093A3E"}
@@ -45,7 +44,6 @@ class AppBottomNav extends Component{
                     ]}
                     onStateChange={({ open }) => this.setState({ open })}
                 />
-                </Portal>
             </View>
         )
     }

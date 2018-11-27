@@ -40,8 +40,8 @@ export default StyleSheet.create({
     fab: {
       position: 'absolute',
       margin: 0,
-      right: 0,
-      bottom: 60
+      right: -5,
+      bottom: 45
     },
     sub_fab:{
       position: 'absolute',
