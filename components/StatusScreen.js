@@ -7,7 +7,7 @@ import {
     Alert
 } from 'react-native';
 import { 
-  VictoryTooltip                                                                                                                                                                                                                                                                        , 
+  VictoryAxis, 
   VictoryBar, 
   VictoryLine, 
   VictoryPie,
@@ -20,6 +20,7 @@ import {
 import DatePicker from 'react-native-datepicker'
 import PureChart from 'react-native-pure-chart';
 import moment from 'moment'
+import { Dimensions } from 'react-native'
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -37,6 +38,8 @@ class StatusScreen extends Component<Props> {
         data_length: '',
         //date_min: 0,
         //date_max: 0
+        screen_width: Dimensions.get('window').width,
+        screen_height: Dimensions.get('window').height,
         date_min: this.props.records.data_records[this.props.records.data_records.length-1].date,
         date_max: this.props.records.data_records[0].date
       };
@@ -272,7 +275,7 @@ class StatusScreen extends Component<Props> {
 
     render() {
       var category = [["Choose Category", "Food & Drinks", "Bills", "Transportation", "Grocery", "Shopping/Entertainment", "Maintenance/Repair", "Health/Medication", "Lost", "Others"]]
-      var cat = [["cc", "F & D","Bills","Trans","Grcry","S & E", "M & R", "H & M", "Lost", "Others"]]
+      var cat = [["cc", "Foods","Bills","Transp","Grcry","Shop", "Repair", "Health", "Lost", "Others"]]
       var ecategory = [["Choose Category", "Salary", "Allowance", "Found", "Others"]]
       var sampleData = [100,200,2000]
       
@@ -287,14 +290,14 @@ class StatusScreen extends Component<Props> {
             <ScrollView style={{backgroundColor: '#ffffff'}}>
               
               {/*DatePicker*/}
-              <View style={[styles.homeContainer,{borderColor: '#0000000', padding: 10, paddingLeft: 17, paddingRight: 0, flex:1, flexDirection: 'row'}]}>
+              <View style={[styles.homeContainer,{backgroundColor: '#3aafb9',borderColor: '#0000000', padding: 10, paddingLeft: 17, paddingRight: 0, flex:1, flexDirection: 'row'}]}>
                 {/*From*/}
                 <View style={[{flex:2, flexDirection: 'row'}]}>
-                  <Text style={{paddingTop: 8}}>
+                  <Text style={{paddingTop: 10, color: 'white',fontWeight:'bold'}}>
                     From: 
                   </Text>
                   <DatePicker
-                    style={{width: 150}}
+                    style={{width: this.state.screen_width/2.74}}
                     date={this.state.date_min}
                     mode="date"
                     placeholder="select date"
@@ -312,22 +315,23 @@ class StatusScreen extends Component<Props> {
                         marginLeft: 0
                       },
                       dateInput: {
-                        marginLeft: 36
+                        marginLeft: 36,
+                        backgroundColor: '#ffffff'
                       }
                       // ... You can check the source to find the other keys.
-                    }}
+                    }}getItem
                     onDateChange={(date) => {
                       this.setState({date_min: date});
-                    }}
+                    }}  
                   />
                 </View>
               {/*To*/}
                 <View style={[{flex:2, flexDirection: 'row'}]}>
-                  <Text style={{paddingTop: 8}}>
+                  <Text style={{paddingTop: 10, color: 'white',fontWeight:'bold'}}>
                     To: 
                   </Text>
                   <DatePicker
-                    style={{width: 150}}
+                    style={{width: this.state.screen_width/2.74}}
                     date={this.state.date_max}
                     mode="date"
                     placeholder="select date"
@@ -344,7 +348,8 @@ class StatusScreen extends Component<Props> {
                         marginLeft: 0
                       },
                       dateInput: {
-                        marginLeft: 36
+                        marginLeft: 36,
+                        backgroundColor: '#ffffff'
                       }
                       // ... You can check the source to find the other keys.
                     }}
@@ -441,27 +446,25 @@ class StatusScreen extends Component<Props> {
               {/*Bar Graph of Spending*/}
               <View style={[styles.homeContainer,{flex:1}]}>
                 <View pointerEvents="none" style={{padding: 10}}>
-                  <VictoryChart width={375} domainPadding={25} theme={VictoryTheme.material}>
-                    <VictoryLabel style={{fontSize: 20}} text="Spendings for each Category" x={210} y={30} textAnchor="middle"/>
+                  <VictoryChart width={this.state.screen_width*.83} domainPadding={25} theme={VictoryTheme.material}>
+                    <VictoryLabel style={{fontSize: this.state.screen_width/20.55}} text="Spendings for each Category" x={this.state.screen_width/2.4176} y={20} textAnchor="middle"/>
                     <VictoryBar horizontal
-                      labelComponent={<VictoryTooltip active={true} activateData={true}/>}
                       barWidth={25}
                       animate={{duration: 1000}}
                       style={{
                         data: { fill: "#c43a31" }
                       }}
                       data={[
-                        {category: cat[0][1], cost: this.getCategories(category[0][1]), label: category[0][1]},
-                        {category: cat[0][2], cost: this.getCategories(category[0][2]), label: category[0][2]},
-                        {category: cat[0][3], cost: this.getCategories(category[0][3]), label: category[0][3]},
-                        {category: cat[0][4], cost: this.getCategories(category[0][4]), label: category[0][4]},
-                        {category: cat[0][5], cost: this.getCategories(category[0][5]), label: category[0][5]},
-                        {category: cat[0][6], cost: this.getCategories(category[0][6]), label: category[0][6]},
-                        {category: cat[0][7], cost: this.getCategories(category[0][7]), label: category[0][7]},
-                        {category: cat[0][8], cost: this.getCategories(category[0][8]), label: category[0][8]},
-                        {category: cat[0][9], cost: this.getCategories(category[0][9]), label: category[0][9]}
+                        {category: cat[0][1], cost: this.getCategories(category[0][1]), label: this.getCategories(category[0][1])},
+                        {category: cat[0][2], cost: this.getCategories(category[0][2]), label: this.getCategories(category[0][2])},
+                        {category: cat[0][3], cost: this.getCategories(category[0][3]), label: this.getCategories(category[0][3])},
+                        {category: cat[0][4], cost: this.getCategories(category[0][4]), label: this.getCategories(category[0][4])},
+                        {category: cat[0][5], cost: this.getCategories(category[0][5]), label: this.getCategories(category[0][5])},
+                        {category: cat[0][6], cost: this.getCategories(category[0][6]), label: this.getCategories(category[0][6])},
+                        {category: cat[0][7], cost: this.getCategories(category[0][7]), label: this.getCategories(category[0][7])},
+                        {category: cat[0][8], cost: this.getCategories(category[0][8]), label: this.getCategories(category[0][8])},
+                        {category: cat[0][9], cost: this.getCategories(category[0][9]), label: this.getCategories(category[0][9])}
                       ]}
-                      labels={[this.getCategories(category[0][1]),this.getCategories(category[0][2]),this.getCategories(category[0][3]),this.getCategories(category[0][4]),this.getCategories(category[0][5]),this.getCategories(category[0][6]),this.getCategories(category[0][7]),this.getCategories(category[0][8]),this.getCategories(category[0][9])]}
                       x="category"
                       y="cost"
                     />
@@ -473,15 +476,8 @@ class StatusScreen extends Component<Props> {
               {/*Bar Graph of Earning*/}
               <View style={[styles.homeContainer,{flex:1}]}>
                 <View pointerEvents="none" style={{padding: 10}}>
-                  <VictoryChart 
-                      //containerComponent={<VictoryZoomContainer
-                      //  zoomDimension="x"
-                      //  allowZoom={false}
-                      //  zoomDomain={{x:[1,6]}}
-                      ///>}
-                      domainPadding={25}
-                      theme={VictoryTheme.material}>
-                    <VictoryLabel style={{fontSize: 20}} text="Earnings for each Category" x={210} y={30} textAnchor="middle"/>
+                  <VictoryChart width={this.state.screen_width*.83} height={200} theme={VictoryTheme.material}>
+                    <VictoryLabel style={{fontSize: this.state.screen_width/20.55}} text="Earnings for each Category" x={this.state.screen_width/2.4176} y={10} textAnchor="middle"/>
                     <VictoryBar horizontal
                       barWidth={25}
                       style={{
@@ -490,7 +486,7 @@ class StatusScreen extends Component<Props> {
                       animate={{duration: 1000}}
                       data={[
                         {category: ecategory[0][1], cost: this.getCategories(ecategory[0][1])},
-                        {category: ecategory[0][2], cost: this.getCategories(ecategory[0][2])},
+                        {category: 'Allwnc', cost: this.getCategories(ecategory[0][2])},
                         {category: ecategory[0][3], cost: this.getCategories(ecategory[0][3])},
                         {category: ecategory[0][4], cost: this.getCategories(ecategory[0][4])}
                       ]}

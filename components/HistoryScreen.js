@@ -13,6 +13,7 @@ import { bindActionCreators } from 'redux';
 import DatePicker from 'react-native-datepicker';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import moment from 'moment';
+import { Dimensions } from 'react-native'
 
 
 import {  addRecord } from './RecordsReducer.js';
@@ -146,7 +147,7 @@ class HistoryScreen extends Component {
                 <AppNoLeftHeader route={this.props.navigation.state.routeName} />
                 <DatePicker
                     style={[styles.datepicker,{
-                        flex: 1,
+                        flex: 1
                     }]}
                     date={this.state.date}
                     mode="date"
