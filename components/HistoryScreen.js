@@ -88,29 +88,37 @@ class HistoryScreen extends Component {
                         borderBottomColor: 'black',
                         borderBottomWidth: 1,
                     }}/>
-                <View style={[styles.homeContainer,{flexDirection:'row',flex:1,marginTop:1}]}>
-                    <View style={{alignItems:'flex-start', width:'70%'}}>
-                        <Text style={[styles.listItems,{flex:1}]}>
-                            {item.details}
+                <View style={[
+                    styles.homeContainer,
+                    styles.historyItemRow,
+                    {flex:1, marginTop:1}]}>
+                    <View style={{alignItems:'flex-start',flexBasis:'60%'}}>
+                        <Text style={[styles.listItems,styles.historyItemCategory,{flex:1}]}>
+                            {item.category}
                         </Text>
                     </View>
-                    <View style={{alignItems:'flex-end', width:'30%'}}>
-                        <Text style={[styles.listItems,{flex:1}]}>
+                    <View style={{alignItems:'flex-end',flexBasis:'40%'}}>
+                        <Text style={[styles.listItems,styles.historyItemTime,{flex:1}]}>
                             {item.time}
                         </Text>
                     </View>
                 </View>
-                <View style={[styles.homeContainer,{flexDirection:'row',flex:2}]}>
-                    <View style={{alignItems:'flex-start', width:'70%'}}>
-                        <Text style={[styles.listItems,{flex:1}]}>
-                            {item.category}
+                <View style={[
+                    styles.homeContainer,
+                    styles.historyItemRow,
+                    {flex:2,
+                    width:'100%'}]}>
+                    <View style={{alignItems:'flex-start',flexBasis:'60%'}}>
+                        <Text style={[styles.listItems,styles.historyItemDetail,{flex:1}]}>
+                            {item.details}
                         </Text>
                     </View>
-                    <View style={{alignItems:'flex-end', width:'30%'}}>
+                    <View style={{alignItems:'flex-end',flexBasis:'40%'}}>
                         <Text
                             style={
                                 [
                                     styles.listItems,
+                                    styles.historyItemCost,
                                     item.inout === 'Spend' ? styles.moneySpent:styles.moneyEarned,
                                     {flex:1}
                                 ]
@@ -137,12 +145,9 @@ class HistoryScreen extends Component {
             })]}>
                 <AppNoLeftHeader route={this.props.navigation.state.routeName} />
                 <DatePicker
-                    style={{
+                    style={[styles.datepicker,{
                         flex: 1,
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        backgroundColor: 'skyblue'
-                    }}
+                    }]}
                     date={this.state.date}
                     mode="date"
                     placeholder="Select Date"
@@ -159,7 +164,9 @@ class HistoryScreen extends Component {
                         marginLeft: 0
                     },
                     dateInput: {
-                        marginLeft: 36
+                        marginLeft: 36,
+                        backgroundColor: 'white'
+
                     }
                 // ... You can check the source to find the other keys.
                     }}
@@ -180,7 +187,7 @@ class HistoryScreen extends Component {
                         }
                     }
                     name="times"
-                    backgroundColor="skyblue"
+                    backgroundColor="#093A3E"
                     borderRadius={0}
                     size={36}
                     iconStyle={
