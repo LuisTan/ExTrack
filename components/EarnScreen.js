@@ -24,9 +24,9 @@ class EarnScreen extends Component<Props> {
         earn: 0,
       };
     }
-  
+
     _InpValidation = () => {
-      if(this.state.category == "Choose Category" || this.state.details == '' || isNaN(this.state.earn)){
+      if(this.state.category == "" || this.state.details == '' || isNaN(this.state.earn)){
         Alert.alert("Please fill up all fields with valid input");
       } else {
         this.props.addRecord('Earn',this.state.details,this.state.category, parseFloat(this.state.earn))
@@ -77,7 +77,7 @@ class EarnScreen extends Component<Props> {
                       <Input onChangeText={(earn) => this.setState({earn})}/>
                     </Item>
                   </Form>
-
+                  <View style={[styles.enterButton,{flex:1}]}>
                   <Button onPress={ ()=>
                     // this._confirm()
                     // this.EmptyInp
@@ -88,7 +88,7 @@ class EarnScreen extends Component<Props> {
                     //   this.setState(() => ({ nameError: null}));
                     // }
                   }><NBText>Confirm</NBText></Button>
-
+                  </View>
                 </Content>
               </Container>
             </DropdownMenu>

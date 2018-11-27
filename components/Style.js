@@ -1,10 +1,13 @@
 
 import {
-    StyleSheet
+    StyleSheet,
+    Dimensions
 } from 'react-native';
 
+import RF from 'react-native-responsive-fontsize';
+
 export default StyleSheet.create({
-  
+
     background: {
       backgroundColor: '#FFFFFF'
     },
@@ -12,7 +15,7 @@ export default StyleSheet.create({
       color: 'white',
       flex: 1,
       alignItems: 'center',
-      height: 40, 
+      height: 40,
       margin: 20
     },
     borders: {
@@ -28,7 +31,7 @@ export default StyleSheet.create({
       margin: 10,
     },
     welcome: {
-      fontSize: 20,
+      fontSize: RF(2.5),
       textAlign: 'center',
       margin: 10,
     },
@@ -52,12 +55,12 @@ export default StyleSheet.create({
     },
     moneyDisplay:{
         textAlign: 'center',
-        fontSize: 30,
+        fontSize: RF(4),
         margin: 10,
     },
     moneyList:{
         textAlign: 'center',
-        fontSize: 20,
+        fontSize: RF(2.5),
         margin: 10,
     },
     moneySpent:{
@@ -68,7 +71,7 @@ export default StyleSheet.create({
     },
     listItems:{
         textAlign: 'left',
-        fontSize: 20,
+        fontSize: RF(2.5),
         margin: 5
     },
     homeContainer: {
@@ -77,5 +80,40 @@ export default StyleSheet.create({
       backgroundColor: '#ffffff',
       margin: 0,
     },
+    enterButton: {
+      justifyContent: 'center',
+      alignItems: 'center',
+      height: 40,
+      margin: 20
+    },
+    datepicker: {
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: '#093A3E',
+    },
+    historyItemRow: {
+      flexDirection:'row',
+      flexBasis:'100%',
+      justifyContent:'space-between'
+    },
+    historyItemCategory: {
+      fontStyle: 'italic',
+      color: 'black',
+      fontSize: RF(2.5),
+    },
+    historyItemDetail: {
+      color: 'black',
+      fontSize: RF(3),
+    },
+    historyItemTime: {
+      color: 'black',
+      fontSize: RF(2.5),
+    },
+    historyItemCost: {
+      fontSize: RF(3),
+    },
+    spentItem:{
+      color: 'black',
+      fontSize: RF(2.75)
+    }
 });
-
