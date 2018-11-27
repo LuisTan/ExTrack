@@ -19,7 +19,6 @@ import AppNoLeftHeader from './AppNoLeftHeader.js';
 class HomeScreen extends Component {
     constructor(props){
         super(props);
-
         this.state = {
             refreshing: false,
         };
@@ -62,11 +61,16 @@ class HomeScreen extends Component {
         items = this.getHistoryItems();
         for(x = 0; x < items.length; x++){
             for(c = 0; c < spendingRecord.length; c++){
-                if(spendingRecord[c].category === items[x].category){
+                if(spendingRecord[c].category === items[x].category && items[x].inout != 'Earn'){
                     spendingRecord[c].cost = spendingRecord[c].cost + items[x].cost;
                 }
             }
         }
+
+        // for(x=0; x < spendingRecord.length; x++){
+        //     spendingRecord[x].category = spendingRecord[x].category.replace("/", " or ");
+        // }
+
         return spendingRecord.filter(record => record.cost > 0);
     }
 
@@ -122,31 +126,39 @@ class HomeScreen extends Component {
             <View style={
                 [
                     styles.homeContainer,
+                    styles.historyItemRow,
                     {
-                        flexDirection:'row',
                         marginTop:0,
                         flex:1,
                         borderBottomColor: 'black',
                         borderBottomWidth: 1,
+                        flexWrap: "nowrap"
                     }
                 ]}>
                 <View style={
                     {
                         alignItems:'flex-start',
-                        width:'70%'
+                        flexWrap: 'wrap',
+                        flexBasis: '60%'
                     }}>
-                    <Text style={[styles.listItems,{flex:1}]}>
+                    <Text style={[
+                        styles.listItems,
+                        styles.spentItem,
+                        {
+                            flex:1,
+                            flexGrow: 5
+                        }]}>
                         {item.category}
                     </Text>
                 </View>
-                <View style={{alignItems:'flex-end',width:'30%'}}>
+                <View style={{alignItems:'flex-end', flexBasis:'40%',flexWrap:'nowrap'}}>
                     <Text
-                        style={
-                            [
-                                styles.listItems,item.cost > 0 ? styles.moneySpent:styles.moneyEarned,
-                                {flex:1}
-                            ]
-                        }>
+                        style={[
+                            styles.listItems,
+                            styles.spentItem,
+                            item.cost > 0 ? styles.moneySpent:styles.moneyEarned,
+                            {flex:1}
+                        ]}>
                         {this.pesoString(item.cost,"Spend")}
                     </Text>
                 </View>
@@ -161,29 +173,37 @@ class HomeScreen extends Component {
                         borderBottomColor: 'black',
                         borderBottomWidth: 1,
                     }}/>
-                <View style={[styles.homeContainer,{flexDirection:'row',flex:1,marginTop:1}]}>
-                    <View style={{alignItems:'flex-start', width:'70%'}}>
-                        <Text style={[styles.listItems,{flex:1}]}>
-                            {item.details}
+                <View style={[
+                    styles.homeContainer,
+                    styles.historyItemRow,
+                    {flex:1, marginTop:1}]}>
+                    <View style={{alignItems:'flex-start',flexBasis:'60%'}}>
+                        <Text style={[styles.listItems,styles.historyItemCategory,{flex:1}]}>
+                            {item.category}
                         </Text>
                     </View>
-                    <View style={{alignItems:'flex-end', width:'30%'}}>
-                        <Text style={[styles.listItems,{flex:1}]}>
+                    <View style={{alignItems:'flex-end',flexBasis:'40%'}}>
+                        <Text style={[styles.listItems,styles.historyItemTime,{flex:1}]}>
                             {item.time}
                         </Text>
                     </View>
                 </View>
-                <View style={[styles.homeContainer,{flexDirection:'row',flex:2}]}>
-                    <View style={{alignItems:'flex-start', width:'70%'}}>
-                        <Text style={[styles.listItems,{flex:1}]}>
-                            {item.category}
+                <View style={[
+                    styles.homeContainer,
+                    styles.historyItemRow,
+                    {flex:2,
+                    width:'100%'}]}>
+                    <View style={{alignItems:'flex-start',flexBasis:'60%'}}>
+                        <Text style={[styles.listItems,styles.historyItemDetail,{flex:1}]}>
+                            {item.details}
                         </Text>
                     </View>
-                    <View style={{alignItems:'flex-end', width:'30%'}}>
+                    <View style={{alignItems:'flex-end',flexBasis:'40%'}}>
                         <Text
                             style={
                                 [
                                     styles.listItems,
+                                    styles.historyItemCost,
                                     item.inout === 'Spend' ? styles.moneySpent:styles.moneyEarned,
                                     {flex:1}
                                 ]
@@ -215,16 +235,17 @@ class HomeScreen extends Component {
                 <ScrollView 
                     style={[styles.background,{flex:1}]}>
                     <View style={[styles.homeContainer,{flex:1}]}>
-                        <Text style={[styles.welcome,{}]}>Current Money</Text>
+                        <Text style={[styles.welcome,{marginBottom:0}]}>Current Money</Text>
                         <Text style={[styles.moneyDisplay,
-                            this.getCurrent() <= 0 ? styles.moneySpent:styles.moneyEarned,{}]}>{this.pesoString(this.getCurrent(),"Earn")}</Text>
+                            this.getCurrent() <= 0 ? styles.moneySpent:styles.moneyEarned,
+                            {marginTop:0}]}>{this.pesoString(this.getCurrent(),"Earn")}</Text>
                     </View>
                     <View style={{
                             borderBottomColor: 'black',
                             borderBottomWidth: 2,
                         }}/>
                     <View style={[styles.homeContainer,{flex:1}]}>
-                        <Text style={[styles.welcome,{}]}>Spent Today</Text>
+                        <Text style={[styles.welcome,{marginBottom:0}]}>Spent Today</Text>
                         <Text style={[
                             styles.moneyDisplay,
                             this.getSpent() > 0 ? styles.moneySpent:styles.moneyEarned,
