@@ -4,7 +4,7 @@ import {
 } from 'react-native';
 
 export default StyleSheet.create({
-  
+
     background: {
       backgroundColor: '#C0C0C0'
     },
@@ -12,7 +12,7 @@ export default StyleSheet.create({
       color: 'white',
       flex: 1,
       alignItems: 'center',
-      height: 40, 
+      height: 40,
       margin: 20
     },
     borders: {
@@ -78,5 +78,10 @@ export default StyleSheet.create({
       backgroundColor: 'white',
       margin: 0,
     },
+    enterButton: {
+      justifyContent: 'center',
+      alignItems: 'center',
+      height: 40,
+      margin: 20
+    },
 });
-
