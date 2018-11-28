@@ -120,5 +120,13 @@ export default StyleSheet.create({
     spentItem:{
       color: 'black',
       fontSize: RF(2.75)
+    },
+    modalContent: {
+      backgroundColor: 'white',
+      padding: 22,
+      justifyContent: 'center',
+      alignItems: 'center',
+      borderRadius: 4,
+      borderColor: 'rgba(0, 0, 0, 0.1)',
     }
 });

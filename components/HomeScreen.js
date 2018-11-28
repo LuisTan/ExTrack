@@ -6,13 +6,17 @@ import {
     FlatList,
     ScrollView,
     Platform,
-    SectionList
+    SectionList,
+    TouchableOpacity
 } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import moment from 'moment';
+import Swipeout from 'react-native-swipeout';
+import Modal from "react-native-modal";
+import { Dimensions } from 'react-native'
 
-import { addRecord } from './RecordsReducer.js';
+import { addRecord, removeRecord } from './RecordsReducer.js';
 import styles from './Style.js';
 import AppNoLeftHeader from './AppNoLeftHeader.js';
 
@@ -21,8 +25,12 @@ class HomeScreen extends Component {
         super(props);
         this.state = {
             refreshing: false,
+            isModalVisible: false,
+            removeDate:null,
+            removeTime: null
         };
     }
+    
 
     getCurrent=()=>{
         return this.props.records.statistical_data.current;
@@ -165,9 +173,25 @@ class HomeScreen extends Component {
             </View>
         );
     }
+    
+    _toggleModal = (item) => {
+        this.setState({removeTime: item.time, removeDate: this.props.records.data_records[0].date})
+    }
 
     renderHistoryItem=(item)=>{
+
+        var swipeoutBtns = [
+            {
+              text: 'Delete',
+              backgroundColor: '#E63535',
+              onPress: () => { 
+                  this.setState({ isModalVisible: true })
+                  this._toggleModal(item)
+                }
+            }
+          ]
         return(
+            <Swipeout left={swipeoutBtns} right={swipeoutBtns}>
             <View style={[styles.background,{flex:1}]}>
                 <View style={{
                         borderBottomColor: 'black',
@@ -213,8 +237,10 @@ class HomeScreen extends Component {
                     </View>
                 </View>
             </View>
+            </Swipeout>
         );
     }
+
 
     render() {
         return (
@@ -232,6 +258,26 @@ class HomeScreen extends Component {
                 </View>
 
                 {/*Content*/}
+
+                <Modal isVisible={this.state.isModalVisible} onBackdropPress={() => this.setState({ isModalVisible: false })} >
+                    <View style={[styles.modalContent]}>
+                        <Text style={{fontSize:15, marginBottom: 20}}>Are you sure you want to delete this record?</Text>
+                        <View style={{flexDirection: 'row'}}>
+                            <TouchableOpacity style= {{  marginRight: 10, backgroundColor: '#DADADA', padding: 10}} onPress={()=> this.setState({isModalVisible: false})}>
+                                <Text>Cancel</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={{ marginLeft: 10, backgroundColor: '#E63535', padding: 10}} 
+                                onPress={() => {
+                                    this.props.removeRecord(this.state.removeDate, this.state.removeTime);
+                                    this.setState({ isModalVisible: false });
+                                }}
+                            >
+                                <Text style={{color: '#ffffff'}}>Delete</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </Modal>
+
                 <ScrollView 
                     style={[styles.background,{flex:1}]}>
                     <View style={[styles.homeContainer,{flex:1}]}>
@@ -317,6 +363,7 @@ const mapStatetoProps = (state) => {
 const mapDispatchToProps = dispatch => (
   bindActionCreators({
     addRecord,
+    removeRecord
   }, dispatch)
 );
 
