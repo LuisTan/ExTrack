@@ -82,9 +82,14 @@ export default StyleSheet.create({
     },
     enterButton: {
       justifyContent: 'center',
-      alignItems: 'center',
       height: 40,
       margin: 20
+    },
+    enterButtonAndroid: {
+      alignSelf: 'flex-end'
+    },
+    enterButtonIOS: {
+      alignItems: 'center',
     },
     datepicker: {
       justifyContent: 'center',
@@ -115,5 +120,13 @@ export default StyleSheet.create({
     spentItem:{
       color: 'black',
       fontSize: RF(2.75)
+    },
+    modalContent: {
+      backgroundColor: 'white',
+      padding: 22,
+      justifyContent: 'center',
+      alignItems: 'center',
+      borderRadius: 4,
+      borderColor: 'rgba(0, 0, 0, 0.1)',
     }
 });
