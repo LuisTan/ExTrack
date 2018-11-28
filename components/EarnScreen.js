@@ -3,6 +3,7 @@ import { Button, Container, Content, Form, Item, Input, Label, Text as NBText  }
 import {StyleSheet, TextInput, Alert} from 'react-native';
 import {
     View,
+    Platform,
     AsyncStorage
 } from 'react-native';
 import { connect } from 'react-redux';
@@ -77,7 +78,10 @@ class EarnScreen extends Component<Props> {
                       <Input onChangeText={(earn) => this.setState({earn})}/>
                     </Item>
                   </Form>
-                  <View style={[styles.enterButton,{flex:1}]}>
+                  <View style={[styles.enterButton,Platform.select({
+                        ios: styles.enterButtonIOS,
+                        android: styles.enterButtonAndroid,
+                    }),{flex:1}]}>
                   <Button onPress={ ()=>
                     // this._confirm()
                     // this.EmptyInp
