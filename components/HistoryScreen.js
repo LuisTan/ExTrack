@@ -136,7 +136,7 @@ class HistoryScreen extends Component {
       return (
         <View style={{flex:1,justifyContent:"center"}}>
             {/*Header*/}
-            <View style={[{flexDirection:'row'}, Platform.select({
+            <View style={[{}, Platform.select({
                 ios:{
                     height: 64,
                 },
@@ -145,6 +145,8 @@ class HistoryScreen extends Component {
                 }
             })]}>
                 <AppNoLeftHeader route={this.props.navigation.state.routeName} />
+            </View>
+            <View style={{flexDirection:'row'}}>
                 <DatePicker
                     style={[styles.datepicker,{
                         flex: 1
