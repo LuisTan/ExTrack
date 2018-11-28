@@ -82,9 +82,14 @@ export default StyleSheet.create({
     },
     enterButton: {
       justifyContent: 'center',
-      alignItems: 'center',
       height: 40,
       margin: 20
+    },
+    enterButtonAndroid: {
+      alignSelf: 'flex-end'
+    },
+    enterButtonIOS: {
+      alignItems: 'center',
     },
     datepicker: {
       justifyContent: 'center',
