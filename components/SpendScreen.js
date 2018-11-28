@@ -2,7 +2,8 @@ import React, {Component} from 'react';
 import { Button, Container, Content, Form, Item, Input, Label, Text as NBText  } from 'native-base';
 import {StyleSheet, TextInput, Alert} from 'react-native';
 import {
-    View
+    View,
+    Platform,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
