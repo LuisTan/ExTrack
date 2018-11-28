@@ -40,6 +40,14 @@ export default StyleSheet.create({
       color: '#333333',
       marginBottom: 5,
     },
+    modalContent: {
+      backgroundColor: 'white',
+      padding: 22,
+      justifyContent: 'center',
+      alignItems: 'center',
+      borderRadius: 4,
+      borderColor: 'rgba(0, 0, 0, 0.1)',
+    },
     fab: {
       position: 'absolute',
       margin: 0,
@@ -64,7 +72,7 @@ export default StyleSheet.create({
         margin: 10,
     },
     moneySpent:{
-        color:'red',
+        color:'#E63535',
     },
     moneyEarned:{
         color:'green',
@@ -81,10 +89,10 @@ export default StyleSheet.create({
       margin: 0,
     },
     enterButton: {
-      margin: 15,
-      position:'absolute',
-      right: 10,
-      bottom: -70
+      justifyContent: 'center',
+      alignSelf: 'flex-end',
+      height: 40,
+      margin: 20
     },
     datepicker: {
       justifyContent: 'center',
