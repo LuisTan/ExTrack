@@ -76,7 +76,10 @@ class SpendScreen extends Component<Props> {
                         <Input onChangeText={(spend) => this.setState({spend})}/>
                       </Item>
                     </Form>
-                    <View style={[styles.enterButton,{flex:1}]}>
+                    <View style={[styles.enterButton,Platform.select({
+                        ios: styles.enterButtonIOS,
+                        android: styles.enterButtonAndroid
+                    }),{flex:1}]}>
                     <Button onPress={ ()=>
                       // this._confirm()
                       // this.EmptyInp

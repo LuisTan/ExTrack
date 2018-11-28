@@ -18,7 +18,7 @@ const INITIAL_STATE = {
                 //    details: 'Example',
                 //    category: 'Food and Drinks' or 'Salary',
                 //    cost: 1000,
-                //    time: '22:34:22'
+                //    time: '12:34:22 PM'
                 //}
             //],[
 
