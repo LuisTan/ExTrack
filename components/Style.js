@@ -81,10 +81,10 @@ export default StyleSheet.create({
       margin: 0,
     },
     enterButton: {
-      margin: 15,
-      position:'absolute',
-      right: 10,
-      bottom: -70
+      justifyContent: 'center',
+      alignSelf: 'flex-end',
+      height: 40,
+      margin: 20
     },
     datepicker: {
       justifyContent: 'center',

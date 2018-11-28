@@ -215,7 +215,7 @@ class HistoryScreen extends Component {
             <ScrollView style={[styles.background,{flex:20}]}>
                 <SectionList
                     sections={this.getItemSections()}
-                    keyExtractor={(item)=>item.date}
+                    keyExtractor={(item,index)=>item + index}
                     renderSectionHeader={({section: {title}}) => (
                         <View style={
                             [{
