@@ -40,14 +40,6 @@ export default StyleSheet.create({
       color: '#333333',
       marginBottom: 5,
     },
-    modalContent: {
-      backgroundColor: 'white',
-      padding: 22,
-      justifyContent: 'center',
-      alignItems: 'center',
-      borderRadius: 4,
-      borderColor: 'rgba(0, 0, 0, 0.1)',
-    },
     fab: {
       position: 'absolute',
       margin: 0,
@@ -72,7 +64,7 @@ export default StyleSheet.create({
         margin: 10,
     },
     moneySpent:{
-        color:'#E63535',
+        color:'red',
     },
     moneyEarned:{
         color:'green',
@@ -123,5 +115,13 @@ export default StyleSheet.create({
     spentItem:{
       color: 'black',
       fontSize: RF(2.75)
+    },
+    modalContent: {
+      backgroundColor: 'white',
+      padding: 22,
+      justifyContent: 'center',
+      alignItems: 'center',
+      borderRadius: 4,
+      borderColor: 'rgba(0, 0, 0, 0.1)',
     }
 });

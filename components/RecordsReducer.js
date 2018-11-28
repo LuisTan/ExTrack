@@ -85,7 +85,9 @@ const recordsReducer = (state = INITIAL_STATE,action) => {
             return {statistical_data,data_records}
         case 'DELETE_RECORD':
             let index = 0;
-            //alert(JSON.stringify(action)+"\n\n"+JSON.stringify(data_records))
+            if(action.payload.date == null || action.payload.time == null) {
+                return state;
+            }
             while(data_records[index].date!=action.payload.date){
                 index++;
             }
@@ -94,7 +96,7 @@ const recordsReducer = (state = INITIAL_STATE,action) => {
 
             while(data_records[index].items[i].time!=action.payload.time){
                 i++;
-            }            
+            }
 
             data_records[index].items.splice(i,1)
 
