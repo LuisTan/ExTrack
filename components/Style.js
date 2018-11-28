@@ -82,7 +82,6 @@ export default StyleSheet.create({
     },
     enterButton: {
       justifyContent: 'center',
-      alignSelf: 'flex-end',
       alignItems: 'center',
       height: 40,
       margin: 20
