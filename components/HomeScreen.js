@@ -279,7 +279,7 @@ class HomeScreen extends Component {
                         }}/>
                     <SectionList
                         sections={this.getItemSections()}
-                        keyExtractor={(item)=>item.date}
+                        keyExtractor={(item,index)=>item + index}
                         ListHeaderComponent={
                             <View style={
                                 [
