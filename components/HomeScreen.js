@@ -60,7 +60,9 @@ class HomeScreen extends Component {
         items = this.getHistoryItems();
         for(item in items){
             if(item.inout != 'Earn'){
-                indx = spendingRecord.findIndex(rec => rec.category == item.category);
+                indx = -1;
+                if(spendingRecord.length > 0)
+                    indx = spendingRecord.findIndex(rec => rec.category == item.category);            
                 if(indx >= 0){
                     spendingRecord[indx].cost += item.cost;
                 }
@@ -72,7 +74,7 @@ class HomeScreen extends Component {
                 }
             }
         }
-        return spendingRecord.filter(record => record.cost > 0);
+        return spendingRecord;
     }
 
     getItemSections=()=>{
