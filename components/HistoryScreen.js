@@ -27,6 +27,7 @@ class HistoryScreen extends Component {
       this.state = {
         data_records: this.props.records.data_records,
         date: '',
+        todate: '',
         filtering: false,
       };
     }
@@ -34,7 +35,12 @@ class HistoryScreen extends Component {
     getItemSections=()=>{
         sectioning = [];
         for(x = 0; x < this.props.records.data_records.length; x++){
-          date = moment(this.props.records.data_records[x].date)
+          date = moment(this.props.records.data_records[x].date).set({
+            'hour':0,
+            'minute': 0,
+            'second': 0,
+            'millisecond':0
+            });
           sectioning.push({
             date: date,
             title: date.format("ddd MMM DD, YYYY"),
@@ -42,8 +48,35 @@ class HistoryScreen extends Component {
           })
         }
         if(this.state.filtering){
-            chosendate = moment(this.state.date);
-            return sectioning.filter(section => section.date.format("MM-DD-YYYY") == chosendate.format("MM-DD-YYYY"));
+            if(this.state.todate)
+                toDate = moment(this.state.todate).set({
+                    'hour':0,
+                    'minute': 0,
+                    'second': 0,
+                    'millisecond':0
+                });
+            else
+                toDate = moment().set({
+                    'hour':0,
+                    'minute': 0,
+                    'second': 0,
+                    'millisecond':0
+                });
+            if(this.state.date)
+                chosendate = moment(this.state.date).set({
+                    'hour':0,
+                    'minute': 0,
+                    'second': 0,
+                    'millisecond':0
+                });
+            else
+                chosendate = moment(this.state.data_records[this.state.data_records.length-1].date).set({
+                    'hour':0,
+                    'minute': 0,
+                    'second': 0,
+                    'millisecond':0
+                });
+            return sectioning.filter(section => section.date.diff(chosendate, 'days') >= 0 && section.date.diff(toDate, 'days') <= 0);
         }
         else{
             return sectioning;
@@ -146,13 +179,15 @@ class HistoryScreen extends Component {
                 }
             })]}>
                 <AppNoLeftHeader route={this.props.navigation.state.routeName} />
+            </View>
+            <View style = {[{flexDirection:'row',borderBottomColor:'black',borderBottomWidth:1}]}>
                 <DatePicker
                     style={[styles.datepicker,{
                         flex: 1
                     }]}
                     date={this.state.date}
                     mode="date"
-                    placeholder="Select Date"
+                    placeholder="From Date"
                     format="YYYY-MM-DD"
                     minDate={moment(this.state.data_records[this.state.data_records.length-1].date).toDate()}
                     maxDate={moment(this.state.data_records[0].date).toDate()}
@@ -173,9 +208,41 @@ class HistoryScreen extends Component {
                 // ... You can check the source to find the other keys.
                     }}
                     onDateChange={(date)=>{
-                        section = [];
                         this.setState({
                             date: date,
+                            filtering: true,
+                        });
+                    }}
+                />
+                <DatePicker
+                    style={[styles.datepicker,{
+                        flex: 1
+                    }]}
+                    date={this.state.todate}
+                    mode="date"
+                    placeholder="To Date"
+                    format="YYYY-MM-DD"
+                    minDate={moment(this.state.data_records[this.state.data_records.length-1].date).toDate()}
+                    maxDate={moment(this.state.data_records[0].date).toDate()}
+                    confirmBtnText="Confirm"
+                    cancelBtnText="Cancel"
+                    customStyles={{
+                    dateIcon: {
+                        position: 'absolute',
+                        left: 0,
+                        top: 4,
+                        marginLeft: 0
+                    },
+                    dateInput: {
+                        marginLeft: 36,
+                        backgroundColor: 'white'
+
+                    }
+                // ... You can check the source to find the other keys.
+                    }}
+                    onDateChange={(date)=>{
+                        this.setState({
+                            todate: date,
                             filtering: true,
                         });
                     }}
@@ -189,12 +256,12 @@ class HistoryScreen extends Component {
                         }
                     }
                     name="times"
-                    backgroundColor="#093A3E"
+                    backgroundColor="#3aafb9"
                     borderRadius={0}
                     size={36}
                     iconStyle={
                         {
-                            alignItems:'center',
+                            alignItems:'flex-end',
                             justifyContent:"center",
                             margin: 0,
                         }
@@ -204,6 +271,7 @@ class HistoryScreen extends Component {
                             this.setState({
                                 filtering: false,
                                 date: '',
+                                todate: '',
                             });
                         }
                         else{
