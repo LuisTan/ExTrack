@@ -94,7 +94,7 @@ export default StyleSheet.create({
     datepicker: {
       justifyContent: 'center',
       alignItems: 'center',
-      backgroundColor: '#093A3E',
+      backgroundColor: '#3aafb9',
     },
     historyItemRow: {
       flexDirection:'row',
