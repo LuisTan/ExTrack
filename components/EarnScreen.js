@@ -25,10 +25,12 @@ class EarnScreen extends Component<Props> {
         earn: 0,
       };
     }
-
     _InpValidation = () => {
-      if(this.state.category == "" || this.state.details == '' || isNaN(this.state.earn)){
+      if(this.state.category == "" || this.state.details == '' || isNaN(this.state.earn) || (this.state.category == "Others" && this.state.others == undefined)){
         Alert.alert("Please fill up all fields with valid input");
+      } else if(this.state.category == "Others" && this.state.others != undefined){
+        //Put the add record here with this.state.others as the new category
+        this.props.navigation.goBack();
       } else {
         this.props.addRecord('Earn',this.state.details,this.state.category, parseFloat(this.state.earn))
         this.props.navigation.goBack();
@@ -76,6 +78,10 @@ class EarnScreen extends Component<Props> {
                     <Item floatingLabel>
                       <Label>Earnings (Number only)</Label>
                       <Input onChangeText={(earn) => this.setState({earn})}/>
+                    </Item>
+                    <Item floatingLabel>
+                      <Label>New Category (Required: "Others")</Label>
+                      <Input onChangeText={(others) => this.setState({others})}/>
                     </Item>
                   </Form>
                   <View style={[styles.enterButton,Platform.select({
