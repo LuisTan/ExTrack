@@ -56,29 +56,22 @@ class HomeScreen extends Component {
     }
 
     getSpendRecords=()=>{
-        const spendCategories = ["Food & Drinks", "Bills", "Transportation", "Grocery", "Shopping/Entertainment", "Maintenance/Repair", "Health/Medication", "Lost", "Others"];
         spendingRecord = [];
-
-        for(x = 0; x < spendCategories.length; x++){
-            spendingRecord.push({
-                category: spendCategories[x],
-                cost: 0,
-            })
-        }
-
         items = this.getHistoryItems();
-        for(x = 0; x < items.length; x++){
-            for(c = 0; c < spendingRecord.length; c++){
-                if(spendingRecord[c].category === items[x].category && items[x].inout != 'Earn'){
-                    spendingRecord[c].cost = spendingRecord[c].cost + items[x].cost;
+        for(item in items){
+            if(item.inout != 'Earn'){
+                indx = spendingRecord.findIndex(rec => rec.category == item.category);
+                if(indx >= 0){
+                    spendingRecord[indx].cost += item.cost;
+                }
+                else{
+                    spendingRecord.push({
+                        category: item.category,
+                        cost: item.cost,
+                    })
                 }
             }
         }
-
-        // for(x=0; x < spendingRecord.length; x++){
-        //     spendingRecord[x].category = spendingRecord[x].category.replace("/", " or ");
-        // }
-
         return spendingRecord.filter(record => record.cost > 0);
     }
 
