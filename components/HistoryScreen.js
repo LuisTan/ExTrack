@@ -30,7 +30,7 @@ class HistoryScreen extends Component {
         filtering: false,
       };
     }
-    
+
     getItemSections=()=>{
         sectioning = [];
         for(x = 0; x < this.props.records.data_records.length; x++){
@@ -47,7 +47,7 @@ class HistoryScreen extends Component {
         }
         else{
             return sectioning;
-        }   
+        }
     }
 
     pesoString=(money,inout)=>{
@@ -131,7 +131,7 @@ class HistoryScreen extends Component {
             </View>
         );
     }
-    
+
     render() {
       return (
         <View style={{flex:1,justifyContent:"center"}}>

@@ -2,8 +2,7 @@ import React, {Component} from 'react';
 import { Button, Container, Content, Form, Item, Input, Label, Text as NBText  } from 'native-base';
 import {StyleSheet, TextInput, Alert, Platform} from 'react-native';
 import {
-    View,
-    Platform,
+    View
 } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -24,10 +23,13 @@ class SpendScreen extends Component<Props> {
     }
 
     _InpValidation = () => {
-      if(this.state.category == "" || this.state.details == '' || isNaN(this.state.spend)){
+      if(this.state.category == "" || this.state.details == '' || isNaN(this.state.spend) || (this.state.category == "Others" && this.state.others == undefined)){
         Alert.alert("Please fill up all fields with valid input");
       } else if (this.state.spend > this.props.records.statistical_data.current){
         Alert.alert("Please spend as up to how much you have.");
+      } else if (this.state.category == "Others" && this.state.others != undefined){
+        //Put the add record here with this.state.others as the new category
+        this.props.navigation.goBack();
       } else {
         this.props.addRecord('Spend',this.state.details,this.state.category, parseFloat(this.state.spend))
         this.props.navigation.goBack();
@@ -75,6 +77,10 @@ class SpendScreen extends Component<Props> {
                       <Item floatingLabel>
                         <Label>Spendings (Number only)</Label>
                         <Input onChangeText={(spend) => this.setState({spend})}/>
+                      </Item>
+                      <Item floatingLabel>
+                        <Label>New Category (Required: "Others")</Label>
+                        <Input onChangeText={(others) => this.setState({others})}/>
                       </Item>
                     </Form>
                     <View style={[styles.enterButton,Platform.select({
