@@ -133,7 +133,7 @@ class StatusScreen extends Component<Props> {
       return cost/count;
     }
 
-    getCategories = (category) =>{
+    getCategories = (category, inout) =>{
       let index = this.props.records.data_records.length - 1;
       let cost = 0;
 
@@ -150,7 +150,7 @@ class StatusScreen extends Component<Props> {
       //Calculating the earned in the range and finding the last element in the range
       while(this.checkDate(this.props.records.data_records[index].date, this.state.date_max)){
         this.props.records.data_records[index].items.forEach(element => {
-          if(element.category == category){
+          if(element.category == category && element.inout == inout){
             cost+=element.cost;
           }
         });
@@ -159,7 +159,7 @@ class StatusScreen extends Component<Props> {
 
       //For the last element
       this.props.records.data_records[index].items.forEach(element => {
-        if(element.category == category){
+        if(element.category == category && element.inout == inout){
           cost+=element.cost;
         }
       });
@@ -455,15 +455,15 @@ class StatusScreen extends Component<Props> {
                         data: { fill: "#c43a31" }
                       }}
                       data={[
-                        {category: cat[0][1], cost: this.getCategories(category[0][1]), label: this.getCategories(category[0][1])},
-                        {category: cat[0][2], cost: this.getCategories(category[0][2]), label: this.getCategories(category[0][2])},
-                        {category: cat[0][3], cost: this.getCategories(category[0][3]), label: this.getCategories(category[0][3])},
-                        {category: cat[0][4], cost: this.getCategories(category[0][4]), label: this.getCategories(category[0][4])},
-                        {category: cat[0][5], cost: this.getCategories(category[0][5]), label: this.getCategories(category[0][5])},
-                        {category: cat[0][6], cost: this.getCategories(category[0][6]), label: this.getCategories(category[0][6])},
-                        {category: cat[0][7], cost: this.getCategories(category[0][7]), label: this.getCategories(category[0][7])},
-                        {category: cat[0][8], cost: this.getCategories(category[0][8]), label: this.getCategories(category[0][8])},
-                        {category: cat[0][9], cost: this.getCategories(category[0][9]), label: this.getCategories(category[0][9])}
+                        {category: cat[0][1], cost: this.getCategories(category[0][1],"Spend"), label: this.getCategories(category[0][1])},
+                        {category: cat[0][2], cost: this.getCategories(category[0][2],"Spend"), label: this.getCategories(category[0][2])},
+                        {category: cat[0][3], cost: this.getCategories(category[0][3],"Spend"), label: this.getCategories(category[0][3])},
+                        {category: cat[0][4], cost: this.getCategories(category[0][4],"Spend"), label: this.getCategories(category[0][4])},
+                        {category: cat[0][5], cost: this.getCategories(category[0][5],"Spend"), label: this.getCategories(category[0][5])},
+                        {category: cat[0][6], cost: this.getCategories(category[0][6],"Spend"), label: this.getCategories(category[0][6])},
+                        {category: cat[0][7], cost: this.getCategories(category[0][7],"Spend"), label: this.getCategories(category[0][7])},
+                        {category: cat[0][8], cost: this.getCategories(category[0][8],"Spend"), label: this.getCategories(category[0][8])},
+                        {category: cat[0][9], cost: this.getCategories(category[0][9],"Spend"), label: this.getCategories(category[0][9])}
                       ]}
                       x="category"
                       y="cost"
@@ -485,10 +485,10 @@ class StatusScreen extends Component<Props> {
                       }}
                       animate={{duration: 1000}}
                       data={[
-                        {category: ecategory[0][1], cost: this.getCategories(ecategory[0][1])},
-                        {category: 'Allwnc', cost: this.getCategories(ecategory[0][2])},
-                        {category: ecategory[0][3], cost: this.getCategories(ecategory[0][3])},
-                        {category: ecategory[0][4], cost: this.getCategories(ecategory[0][4])}
+                        {category: ecategory[0][1], cost: this.getCategories(ecategory[0][1],"Earn")},
+                        {category: 'Allwnc', cost: this.getCategories(ecategory[0][2],"Earn")},
+                        {category: ecategory[0][3], cost: this.getCategories(ecategory[0][3],"Earn")},
+                        {category: ecategory[0][4], cost: this.getCategories(ecategory[0][4],"Earn")}
                       ]}
                       labels={[this.getCategories(ecategory[0][1]),this.getCategories(ecategory[0][2]),this.getCategories(ecategory[0][3]),this.getCategories(ecategory[0][4])]}
                       x="category"
