@@ -9,32 +9,47 @@ const INITIAL_STATE = {
     },
     data_records: [
         //{per date ang isang element sa data_records
-            //date: '2018 Oct 31',
-            //net: 0,
-            //total_spent: 0,
-            //items: [
-                //{
-                //    inout: 'Earn' or 'Spend',
-                //    details: 'Example',
-                //    category: 'Food and Drinks' or 'Salary',
-                //    cost: 1000,
-                //    time: '12:34:22 PM'
-                //}
-            //],[
+        //date: '2018 Oct 31',
+        //net: 0,
+        //total_spent: 0,
+        //items: [
+        //{
+        //    inout: 'Earn' or 'Spend',
+        //    details: 'Example',
+        //    category: 'Food and Drinks' or 'Salary',
+        //    cost: 1000,
+        //    time: '12:34:22 PM'
+        //}
+        //],[
 
-            //]
+        //]
         //},{
 
         //}
+    ],
+    categories: [
+        //["category1", "Earn"],
+        //["category2", "Spend"],
     ]
 }
 
-const recordsReducer = (state = INITIAL_STATE,action) => {
-    const {statistical_data,data_records} = state;
+const check = (element, array) => {
+    let i = 0;
+    const n = array.length;
+    while (i != n) {
+        if (element.toString() === array[i].toString()) return true;
+        else i++;
+    }
+    return false;
+}
+
+const recordsReducer = (state = INITIAL_STATE, action) => {
+    const { statistical_data, data_records, categories } = state;
     const date_today = moment().format()
-    switch(action.type) {
+
+    switch (action.type) {
         case 'ADD_DATE':
-            if (data_records.length == 0){
+            if (data_records.length == 0) {
                 data_records.unshift(
                     {
                         date: date_today,
@@ -44,73 +59,77 @@ const recordsReducer = (state = INITIAL_STATE,action) => {
                     }
                 );
             }
-            while( data_records[0].date.substring(0,10)!=date_today.substring(0,10) ){
-                    
-                    data_records.unshift(
-                        {
-                            date: moment(data_records[0].date).add(1,'d').format(),
-                            net: 0,
-                            total_spent: 0,
-                            items: []
-                        }
-                    );
-            }
-            return {statistical_data,data_records}
-        case 'ADD_RECORD':
-            while( data_records[0].date.substring(0,10)!=date_today.substring(0,10) ){
-                    
+            while (data_records[0].date.substring(0, 10) != date_today.substring(0, 10)) {
+
                 data_records.unshift(
                     {
-                        date: moment(data_records[0].date).add(1,'d').format(),
+                        date: moment(data_records[0].date).add(1, 'd').format(),
                         net: 0,
                         total_spent: 0,
                         items: []
                     }
                 );
             }
+            return { statistical_data, data_records }
+        case 'ADD_RECORD':
+            while (data_records[0].date.substring(0, 10) != date_today.substring(0, 10)) {
+
+                data_records.unshift(
+                    {
+                        date: moment(data_records[0].date).add(1, 'd').format(),
+                        net: 0,
+                        total_spent: 0,
+                        items: []
+                    }
+                );
+            }
+            if (!check([action.category, action.inout], categories)) {
+                categories.unshift([action.category, action.inout])
+            }
             data_records[0].items.unshift(action.payload);
 
-            if (action.payload.inout=='Earn') {
+            if (action.payload.inout == 'Earn') {
+
                 statistical_data.current = parseFloat(statistical_data.current) + action.payload.cost;
                 statistical_data.total_earned = parseFloat(statistical_data.total_earned) + action.payload.cost;
-                data_records[0].net = parseFloat( statistical_data.current);
+                data_records[0].net = parseFloat(statistical_data.current);
             }
-            else{
-                statistical_data.current = parseFloat(statistical_data.current)-  action.payload.cost;
+            else {
+                statistical_data.current = parseFloat(statistical_data.current) - action.payload.cost;
                 statistical_data.total_spent = parseFloat(statistical_data.total_spent) + action.payload.cost;
-                data_records[0].net = parseFloat( statistical_data.current);
+                data_records[0].net = parseFloat(statistical_data.current);
                 data_records[0].total_spent = parseFloat(data_records[0].total_spent) + action.payload.cost;
             }
 
-            return {statistical_data,data_records}
+            return { statistical_data, data_records }
         case 'DELETE_RECORD':
             let index = 0;
-            if(action.payload.date == null || action.payload.time == null) {
+            if (action.payload.date == null || action.payload.time == null) {
                 return state;
             }
-            while(data_records[index].date!=action.payload.date){
+            while (data_records[index].date != action.payload.date) {
                 index++;
             }
 
             let i = 0;
 
-            while(data_records[index].items[i].time!=action.payload.time){
+            while (data_records[index].items[i].time != action.payload.time) {
                 i++;
             }
 
-            data_records[index].items.splice(i,1)
+            data_records[index].items.splice(i, 1)
 
-            return {statistical_data,data_records}
-        default: 
+            return { statistical_data, data_records, categories }
+        default:
             return state
     }
 }
 
 export default combineReducers({
     records: recordsReducer,
-})  
+})
 
-export const addRecord = (inout, details, category, cost) =>(
+export const addRecord = (inout, details, category, cost) => (
     {
         type: 'ADD_RECORD',
         payload: {
