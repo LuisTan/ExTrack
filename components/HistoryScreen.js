@@ -22,28 +22,61 @@ import AppNoLeftHeader from './AppNoLeftHeader.js';
 import { Button } from 'react-native-paper';
 
 class HistoryScreen extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            data_records: this.props.records.data_records,
-            date: '',
-            filtering: false,
-        };
+    constructor(props){
+      super(props);
+      this.state = {
+        data_records: this.props.records.data_records,
+        date: '',
+        todate: '',
+        filtering: false,
+      };
     }
 
-    getItemSections = () => {
+    getItemSections=()=>{
         sectioning = [];
-        for (x = 0; x < this.props.records.data_records.length; x++) {
-            date = moment(this.props.records.data_records[x].date)
-            sectioning.push({
-                date: date,
-                title: date.format("ddd MMM DD, YYYY"),
-                data: this.props.records.data_records[x].items,
-            })
+        for(x = 0; x < this.props.records.data_records.length; x++){
+          date = moment(this.props.records.data_records[x].date).set({
+            'hour':0,
+            'minute': 0,
+            'second': 0,
+            'millisecond':0
+            });
+          sectioning.push({
+            date: date,
+            title: date.format("ddd MMM DD, YYYY"),
+            data: this.props.records.data_records[x].items,
+          })
         }
-        if (this.state.filtering) {
-            chosendate = moment(this.state.date);
-            return sectioning.filter(section => section.date.format("MM-DD-YYYY") == chosendate.format("MM-DD-YYYY"));
+        if(this.state.filtering){
+            if(this.state.todate)
+                toDate = moment(this.state.todate).set({
+                    'hour':0,
+                    'minute': 0,
+                    'second': 0,
+                    'millisecond':0
+                });
+            else
+                toDate = moment().set({
+                    'hour':0,
+                    'minute': 0,
+                    'second': 0,
+                    'millisecond':0
+                });
+            if(this.state.date)
+                chosendate = moment(this.state.date).set({
+                    'hour':0,
+                    'minute': 0,
+                    'second': 0,
+                    'millisecond':0
+                });
+            else
+                chosendate = moment(this.state.data_records[this.state.data_records.length-1].date).set({
+                    'hour':0,
+                    'minute': 0,
+                    'second': 0,
+                    'millisecond':0
+                });
+            return sectioning.filter(section => section.date.diff(chosendate, 'days') >= 0 && section.date.diff(toDate, 'days') <= 0);
         }
         else {
             return sectioning;
@@ -135,52 +168,112 @@ class HistoryScreen extends Component {
     }
 
     render() {
-        return (
-            <View style={{ flex: 1, justifyContent: "center" }}>
-                {/*Header*/}
-                <View style={[{
-                    flexDirection:
-                        'row'
-                }, Platform.select({
-                    ios: {
-                        height: 64,
+      return (
+        <View style={{flex:1,justifyContent:"center"}}>
+            {/*Header*/}
+            <View style={[{flexDirection:
+            'row'}, Platform.select({
+                ios:{
+                    height: 64,
+                },
+                android:{
+                    height: 56,
+                }
+            })]}>
+                <AppNoLeftHeader route={this.props.navigation.state.routeName} />
+            </View>
+            <View style = {[{flexDirection:'row',borderBottomColor:'black',borderBottomWidth:1}]}>
+                <DatePicker
+                    style={[styles.datepicker,{
+                        flex: 1
+                    }]}
+                    date={this.state.date}
+                    mode="date"
+                    placeholder="From Date"
+                    format="YYYY-MM-DD"
+                    minDate={moment(this.state.data_records[this.state.data_records.length-1].date).toDate()}
+                    maxDate={moment(this.state.data_records[0].date).toDate()}
+                    confirmBtnText="Confirm"
+                    cancelBtnText="Cancel"
+                    customStyles={{
+                    dateIcon: {
+                        position: 'absolute',
+                        left: 0,
+                        top: 4,
+                        marginLeft: 0
                     },
-                    android: {
-                        height: 56,
-                    }
-                })]}>
-                    <AppNoLeftHeader route={this.props.navigation.state.routeName} />
-                    <DatePicker
-                        style={[styles.datepicker, {
-                            flex: 1
-                        }]}
-                        date={this.state.date}
-                        mode="date"
-                        placeholder="Select Date"
-                        format="YYYY-MM-DD"
-                        minDate={moment(this.state.data_records[this.state.data_records.length - 1].date).toDate()}
-                        maxDate={moment(this.state.data_records[0].date).toDate()}
-                        confirmBtnText="Confirm"
-                        cancelBtnText="Cancel"
-                        customStyles={{
-                            dateIcon: {
-                                position: 'absolute',
-                                left: 0,
-                                top: 4,
-                                marginLeft: 0
-                            },
-                            dateInput: {
-                                marginLeft: 36,
-                                backgroundColor: 'white'
+                    dateInput: {
+                        marginLeft: 36,
+                        backgroundColor: 'white'
 
-                            }
-                            // ... You can check the source to find the other keys.
-                        }}
-                        onDateChange={(date) => {
-                            section = [];
+                    }
+                // ... You can check the source to find the other keys.
+                    }}
+                    onDateChange={(date)=>{
+                        this.setState({
+                            date: date,
+                            filtering: true,
+                        });
+                    }}
+                />
+                <DatePicker
+                    style={[styles.datepicker,{
+                        flex: 1
+                    }]}
+                    date={this.state.todate}
+                    mode="date"
+                    placeholder="To Date"
+                    format="YYYY-MM-DD"
+                    minDate={moment(this.state.data_records[this.state.data_records.length-1].date).toDate()}
+                    maxDate={moment(this.state.data_records[0].date).toDate()}
+                    confirmBtnText="Confirm"
+                    cancelBtnText="Cancel"
+                    customStyles={{
+                    dateIcon: {
+                        position: 'absolute',
+                        left: 0,
+                        top: 4,
+                        marginLeft: 0
+                    },
+                    dateInput: {
+                        marginLeft: 36,
+                        backgroundColor: 'white'
+
+                    }
+                // ... You can check the source to find the other keys.
+                    }}
+                    onDateChange={(date)=>{
+                        this.setState({
+                            todate: date,
+                            filtering: true,
+                        });
+                    }}
+                />
+                <Icon.Button
+                    style={
+                        {
+                            alignItems:'center',
+                            justifyContent:"center",
+                            margin: 0,
+                        }
+                    }
+                    name="times"
+                    backgroundColor="#3aafb9"
+                    borderRadius={0}
+                    size={36}
+                    iconStyle={
+                        {
+                            alignItems:'flex-end',
+                            justifyContent:"center",
+                            margin: 0,
+                        }
+                    }
+                    onPress={()=>{
+                        if(this.state.filtering){
                             this.setState({
-                                date: date,
-                                filtering: true,
+                                filtering: false,
+                                date: '',
+                                todate: '',
                             });
                         }}
                     />

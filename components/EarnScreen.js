@@ -108,6 +108,10 @@ class EarnScreen extends Component<Props> {
                       <Label>Earnings (Number only)</Label>
                       <Input onChangeText={(earn) => this.setState({ earn })} />
                     </Item>
+                    <Item floatingLabel>
+                      <Label>New Category (Required: "Others")</Label>
+                      <Input onChangeText={(others) => this.setState({others})}/>
+                    </Item>
                   </Form>
                   <View style={[styles.enterButton, Platform.select({
                     ios: styles.enterButtonIOS,
