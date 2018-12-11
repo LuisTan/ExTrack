@@ -5,6 +5,7 @@
 	};
 	objectVersion = 46;
 	objects = {
+
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -47,6 +48,7 @@
 		379288CEAD4746FC9F15D757 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 14C3CD08E2ED446D9F007781 /* SimpleLineIcons.ttf */; };
 		493E51655C244367A08417F2 /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8EBD23B42C3945D8AC456594 /* Ionicons.ttf */; };
 		50B2DB8ABCEA43CCBAD8096B /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C76EF47B6A514FA888DB9AEC /* Entypo.ttf */; };
+		5525852560E04D058CADEC39 /* libSplashScreen.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 33C994E0469E490A8FF06E45 /* libSplashScreen.a */; };
 		558AB96A59B048A4B61F556F /* libReactNativeNavigation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B69B2A9E7BB4838A9CC9DC0 /* libReactNativeNavigation.a */; };
 		579816C39FD145FE893696E2 /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 579FC10DD8404C0DA3CB2700 /* Zocial.ttf */; };
 		5D924D6BF3004053B6AFDF67 /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9467BEFEF7044ED7BD7D1758 /* MaterialIcons.ttf */; };
@@ -73,7 +75,6 @@
 		C6D944BB063141B1ACB7360C /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 72E94858E378480481433B75 /* Foundation.ttf */; };
 		C6E4A552F6504D0EB54465EC /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BF1BFA7EEE9248E382A0D179 /* Foundation.ttf */; };
 		DBE24BE15ED74C8085B118A7 /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C69101B2CED647A89D2A8AC5 /* EvilIcons.ttf */; };
-		5525852560E04D058CADEC39 /* libSplashScreen.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 33C994E0469E490A8FF06E45 /* libSplashScreen.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -406,6 +407,13 @@
 			remoteGlobalIDString = A39873CE1EA65EE60051E01A;
 			remoteInfo = "RNVectorIcons-tvOS";
 		};
+		F1A9385F21C07F7000DE0E7B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 089FF85B9C1A4C878DCE21EB /* SplashScreen.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3D7682761D8E76B80014119E;
+			remoteInfo = SplashScreen;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -418,6 +426,7 @@
 		00E356EE1AD99517003FC87E /* ExTrackTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ExTrackTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* ExTrackTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ExTrackTests.m; sourceTree = "<group>"; };
+		089FF85B9C1A4C878DCE21EB /* SplashScreen.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = SplashScreen.xcodeproj; path = "../node_modules/react-native-splash-screen/ios/SplashScreen.xcodeproj"; sourceTree = "<group>"; };
 		12E01D0EEE764FA3980F8495 /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/native-base/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
 		139105B61AF99BAD00B5F7CC /* RCTSettings.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTSettings.xcodeproj; path = "../node_modules/react-native/Libraries/Settings/RCTSettings.xcodeproj"; sourceTree = "<group>"; };
 		139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTWebSocket.xcodeproj; path = "../node_modules/react-native/Libraries/WebSocket/RCTWebSocket.xcodeproj"; sourceTree = "<group>"; };
@@ -437,6 +446,7 @@
 		2D02E47B1E0B4A5D006451C7 /* ExTrack-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ExTrack-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* ExTrack-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ExTrack-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D16E6891FA4F8E400B85C8A /* libReact.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libReact.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		33C994E0469E490A8FF06E45 /* libSplashScreen.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libSplashScreen.a; sourceTree = "<group>"; };
 		378EAD4C45004ED5AAB6E94A /* Feather.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Feather.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Feather.ttf"; sourceTree = "<group>"; };
 		37E13C0354CD47F7AB9F653D /* libRNSVG-tvOS.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = "libRNSVG-tvOS.a"; sourceTree = "<group>"; };
 		42DA7A07AE0B4092BC7523D6 /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/native-base/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
@@ -475,8 +485,6 @@
 		EB72801DD822460BB45A38CB /* libRNVectorIcons.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNVectorIcons.a; sourceTree = "<group>"; };
 		F37B0EAC0413439CB4087854 /* ReactNativeNavigationTests.xctest */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = ReactNativeNavigationTests.xctest; sourceTree = "<group>"; };
 		FB73DFCBE8FE49D590F275DD /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
-		089FF85B9C1A4C878DCE21EB /* SplashScreen.xcodeproj */ = {isa = PBXFileReference; name = "SplashScreen.xcodeproj"; path = "../node_modules/react-native-splash-screen/ios/SplashScreen.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
-		33C994E0469E490A8FF06E45 /* libSplashScreen.a */ = {isa = PBXFileReference; name = "libSplashScreen.a"; path = "libSplashScreen.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -807,6 +815,7 @@
 				A66798E9A3B44759939334D1 /* libRNVectorIcons-tvOS.a */,
 				9064EA2FE63946A4846C1A65 /* libRNSVG.a */,
 				37E13C0354CD47F7AB9F653D /* libRNSVG-tvOS.a */,
+				33C994E0469E490A8FF06E45 /* libSplashScreen.a */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -834,6 +843,14 @@
 			children = (
 				F159D06A2180220700D373BC /* libReactNativeNavigation.a */,
 				F159D06C2180220700D373BC /* ReactNativeNavigationTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F1A9382F21C07F7000DE0E7B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F1A9386021C07F7000DE0E7B /* libSplashScreen.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1016,6 +1033,10 @@
 				{
 					ProductGroup = F159D05B2180220700D373BC /* Products */;
 					ProjectRef = 9E0BEB55FD73458EB87F15DA /* RNVectorIcons.xcodeproj */;
+				},
+				{
+					ProductGroup = F1A9382F21C07F7000DE0E7B /* Products */;
+					ProjectRef = 089FF85B9C1A4C878DCE21EB /* SplashScreen.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -1344,6 +1365,13 @@
 			remoteRef = F159D0712180220700D373BC /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		F1A9386021C07F7000DE0E7B /* libSplashScreen.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libSplashScreen.a;
+			remoteRef = F1A9385F21C07F7000DE0E7B /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
@@ -1518,7 +1546,7 @@
 					"$(SRCROOT)/../node_modules/react-native-linear-gradient/BVLinearGradient",
 					"$(SRCROOT)/../node_modules/react-native-navigation/lib/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-svg/ios/**",
-					"$(SRCROOT)\..\node_modules\react-native-splash-screen\ios",
+					"$(SRCROOT)..\node_modules\neact-native-splash-screenios",
 				);
 				INFOPLIST_FILE = ExTrackTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -1556,7 +1584,7 @@
 					"$(SRCROOT)/../node_modules/react-native-linear-gradient/BVLinearGradient",
 					"$(SRCROOT)/../node_modules/react-native-navigation/lib/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-svg/ios/**",
-					"$(SRCROOT)\..\node_modules\react-native-splash-screen\ios",
+					"$(SRCROOT)..\node_modules\neact-native-splash-screenios",
 				);
 				INFOPLIST_FILE = ExTrackTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -1595,7 +1623,7 @@
 					"$(SRCROOT)/../node_modules/react-native-linear-gradient/BVLinearGradient",
 					"$(SRCROOT)/../node_modules/react-native-navigation/lib/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-svg/ios/**",
-					"$(SRCROOT)\..\node_modules\react-native-splash-screen\ios",
+					"$(SRCROOT)..\node_modules\neact-native-splash-screenios",
 				);
 				INFOPLIST_FILE = ExTrack/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1622,7 +1650,7 @@
 					"$(SRCROOT)/../node_modules/react-native-linear-gradient/BVLinearGradient",
 					"$(SRCROOT)/../node_modules/react-native-navigation/lib/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-svg/ios/**",
-					"$(SRCROOT)\..\node_modules\react-native-splash-screen\ios",
+					"$(SRCROOT)..\node_modules\neact-native-splash-screenios",
 				);
 				INFOPLIST_FILE = ExTrack/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1655,7 +1683,7 @@
 					"$(SRCROOT)/../node_modules/react-native-linear-gradient/BVLinearGradient",
 					"$(SRCROOT)/../node_modules/react-native-navigation/lib/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-svg/ios/**",
-					"$(SRCROOT)\..\node_modules\react-native-splash-screen\ios",
+					"$(SRCROOT)..\node_modules\neact-native-splash-screenios",
 				);
 				INFOPLIST_FILE = "ExTrack-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1700,7 +1728,7 @@
 					"$(SRCROOT)/../node_modules/react-native-linear-gradient/BVLinearGradient",
 					"$(SRCROOT)/../node_modules/react-native-navigation/lib/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-svg/ios/**",
-					"$(SRCROOT)\..\node_modules\react-native-splash-screen\ios",
+					"$(SRCROOT)..\node_modules\neact-native-splash-screenios",
 				);
 				INFOPLIST_FILE = "ExTrack-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1744,7 +1772,7 @@
 					"$(SRCROOT)/../node_modules/react-native-linear-gradient/BVLinearGradient",
 					"$(SRCROOT)/../node_modules/react-native-navigation/lib/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-svg/ios/**",
-					"$(SRCROOT)\..\node_modules\react-native-splash-screen\ios",
+					"$(SRCROOT)..\node_modules\neact-native-splash-screenios",
 				);
 				INFOPLIST_FILE = "ExTrack-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -1788,7 +1816,7 @@
 					"$(SRCROOT)/../node_modules/react-native-linear-gradient/BVLinearGradient",
 					"$(SRCROOT)/../node_modules/react-native-navigation/lib/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-svg/ios/**",
-					"$(SRCROOT)\..\node_modules\react-native-splash-screen\ios",
+					"$(SRCROOT)..\node_modules\neact-native-splash-screenios",
 				);
 				INFOPLIST_FILE = "ExTrack-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
