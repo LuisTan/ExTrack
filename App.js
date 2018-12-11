@@ -9,12 +9,14 @@
 import React, {Component} from 'react';
 import {
   View,
-  ActivityIndicator
+  ActivityIndicator,
+  StatusBar
   } from 'react-native';
 import { createStackNavigator } from 'react-navigation'
 import { Provider as NPProvider } from 'react-native-paper'
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react'
+import SplashScreen from 'react-native-splash-screen'
 
 import AppBottomNav from './components/AppBottomNav'
 import EarnScreen from './components/EarnScreen'
@@ -24,12 +26,20 @@ import {store,persistor} from './components/store.js'
 
 export default class App extends Component {
 
+  componentDidMount(){
+    SplashScreen.hide();
+  }
+
   render(){
     return (
       <Provider store = { store }>
         <PersistGate persistor={persistor}>
           <NPProvider>
             <View style={{flex:1}}>
+              <StatusBar
+                backgroundColor="#083A3E"
+                barStyle="light-content"
+              />
               <AppStackNav/>
             </View>
           </NPProvider>
