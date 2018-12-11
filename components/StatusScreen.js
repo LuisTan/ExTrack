@@ -277,21 +277,22 @@ class StatusScreen extends Component<Props> {
     let output = []
     category[0].forEach((categ) => {
       if (categ != "Choose Category") {
-        output.push({ category: categ.substring(0, 5), cost: this.getCategories(categ, inout), label: this.getCategories(categ, inout) })
+        output.push({ category: categ.substring(0, 6), cost: this.getCategories(categ, inout), label: this.getCategories(categ, inout) })
       }
     })
     return output
   }
+
 
   render() {
     let category = [["Choose Category"]]
     let ecategory = [["Choose Category"]]
     this.props.records.categories.forEach((categ) => {
       if (categ[1] == "Spend") {
-        category.push(categ[0])
+        category[0].push(categ[0])
       }
       else {
-        ecategory.push(categ[0])
+        ecategory[0].push(categ[0])
       }
     })
 
@@ -463,10 +464,13 @@ class StatusScreen extends Component<Props> {
             {/*Bar Graph of Spending*/}
             <View style={[styles.homeContainer, { flex: 1 }]}>
               <View pointerEvents="none" style={{ padding: 10 }}>
-                <VictoryChart width={this.state.screen_width * .83} domainPadding={25} theme={VictoryTheme.material}>
-                  <VictoryLabel style={{ fontSize: this.state.screen_width / 20.55 }} text="Spendings for each Category" x={this.state.screen_width / 2.4176} y={20} textAnchor="middle" />
+                { category[0].length == 1 ? <Text style={{ fontSize: this.state.screen_width / 20.55 }} >No Spending Logs Yet</Text>
+                :
+                <VictoryChart width={this.state.screen_width * .83} domainPadding={{ y: 10 }} height={(category[0].length+1)*40} theme={VictoryTheme.material}>
+                  <VictoryLabel style={{ fontSize: this.state.screen_width / 20.55 }} text="Spendings for each Category" x={this.state.screen_width / 2.4176} y={10} textAnchor="middle" />
                   <VictoryBar horizontal
-                    barWidth={25}
+                    alignment="start"
+                    barWidth={20}
                     animate={{ duration: 1000 }}
                     style={{
                       data: { fill: "#c43a31" }
@@ -475,7 +479,7 @@ class StatusScreen extends Component<Props> {
                     x="category"
                     y="cost"
                   />
-                </VictoryChart>
+                </VictoryChart>}
               </View>
             </View>
             <View style={{ borderBottomColor: 'grey', borderBottomWidth: 1, }} />
@@ -483,19 +487,23 @@ class StatusScreen extends Component<Props> {
             {/*Bar Graph of Earning*/}
             <View style={[styles.homeContainer, { flex: 1 }]}>
               <View pointerEvents="none" style={{ padding: 10 }}>
-                <VictoryChart width={this.state.screen_width * .83} height={200} theme={VictoryTheme.material}>
-                  <VictoryLabel style={{ fontSize: this.state.screen_width / 20.55 }} text="Earnings for each Category" x={this.state.screen_width / 2.4176} y={10} textAnchor="middle" />
-                  <VictoryBar horizontal
-                    barWidth={25}
-                    style={{
-                      data: { fill: "#c43a31" }
-                    }}
-                    animate={{ duration: 1000 }}
-                    data={this.getData(ecategory, "Earn")}
-                    x="category"
-                    y="cost"
-                  />
-                </VictoryChart>
+                  { ecategory[0].length == 1 ? <Text style={{ fontSize: this.state.screen_width / 20.55 }}>No Earning Logs Yet</Text>
+                  :
+                  <VictoryChart width={this.state.screen_width * .83} domainPadding={{ y: 10 }} height={(ecategory[0].length+1)*40} theme={VictoryTheme.material}>
+                    <VictoryLabel style={{ fontSize: this.state.screen_width / 20.55 }} text="Earnings for each Category" x={this.state.screen_width / 2.4176} y={10} textAnchor="middle" />
+                    <VictoryBar horizontal
+                      alignment="start"
+                      barWidth={20}
+                      style={{
+                        data: { fill: "#c43a31" }
+                      }}
+                      animate={{ duration: 1000 }}
+                      data={this.getData(ecategory, "Earn")}
+                      x="category"
+                      y="cost"
+                    />
+                  </VictoryChart>
+                  }
               </View>
             </View>
             <View style={{ borderBottomColor: 'grey', borderBottomWidth: 1, }} />

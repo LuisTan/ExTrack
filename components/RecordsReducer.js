@@ -37,7 +37,7 @@ const check = (element, array) => {
     let i = 0;
     const n = array.length;
     while (i != n) {
-        if (element.toString() === array[i].toString()) return true;
+        if (element.toString().toLowerCase().replace(/ /g,'') === array[i].toString().toLowerCase().replace(/ /g,'') ) return true;
         else i++;
     }
     return false;
@@ -48,6 +48,11 @@ const recordsReducer = (state = INITIAL_STATE, action) => {
     const date_today = moment().format()
 
     switch (action.type) {
+        case 'ADD_CATEGORY':
+            if (!check([action.payload.category, action.payload.inout], categories)) {
+                categories.unshift([action.payload.category, action.payload.inout])
+            }
+            return { statistical_data, data_records, categories }
         case 'ADD_DATE':
             if (data_records.length == 0) {
                 data_records.unshift(
@@ -70,7 +75,7 @@ const recordsReducer = (state = INITIAL_STATE, action) => {
                     }
                 );
             }
-            return { statistical_data, data_records }
+            return { statistical_data, data_records, categories }
         case 'ADD_RECORD':
             while (data_records[0].date.substring(0, 10) != date_today.substring(0, 10)) {
 
@@ -82,9 +87,6 @@ const recordsReducer = (state = INITIAL_STATE, action) => {
                         items: []
                     }
                 );
-            }
-            if (!check([action.category, action.inout], categories)) {
-                categories.unshift([action.category, action.inout])
             }
             data_records[0].items.unshift(action.payload);
 
@@ -101,7 +103,7 @@ const recordsReducer = (state = INITIAL_STATE, action) => {
                 data_records[0].total_spent = parseFloat(data_records[0].total_spent) + action.payload.cost;
             }
 
-            return { statistical_data, data_records }
+            return { statistical_data, data_records, categories }
         case 'DELETE_RECORD':
             let index = 0;
             if (action.payload.date == null || action.payload.time == null) {
@@ -154,6 +156,16 @@ export const removeRecord = (date, time) => (
         payload: {
             date: date,
             time: time
+        }
+    }
+)
+
+export const addCategory = (category, inout) => (
+    {
+        type: 'ADD_CATEGORY',
+        payload: {
+            category: category,
+            inout: inout
         }
     }
 )

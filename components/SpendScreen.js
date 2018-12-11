@@ -1,14 +1,19 @@
 import React, { Component } from 'react';
 import { Button, Container, Content, Form, Item, Input, Label, Text as NBText } from 'native-base';
-import { StyleSheet, TextInput, Alert, Platform } from 'react-native';
 import {
   View,
   Platform,
+  TouchableOpacity,
+  Text,
+  Dimensions,
+  TextInput,
+  Alert
 } from 'react-native';
+import Modal from "react-native-modal";
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { addRecord } from './RecordsReducer.js';
+import { addRecord, addCategory } from './RecordsReducer.js';
 import styles from './Style.js';
 import AppHeader from './AppHeader.js';
 import DropdownMenu from 'react-native-dropdown-menu';
@@ -17,9 +22,14 @@ class SpendScreen extends Component<Props> {
   constructor(props) {
     super(props)
     this.state = {
+      text: '',
       details: '',
       category: '',
+      query: '',
       spend: 0,
+      isModalVisible: false,
+      screen_width: Dimensions.get('window').width,
+      screen_height: Dimensions.get('window').height,
     };
   }
 
@@ -39,7 +49,13 @@ class SpendScreen extends Component<Props> {
   }
 
   render() {
-    var data = [["Choose Category", "Food & Drinks", "Bills", "Transportation", "Grocery", "Shopping/Entertainment", "Maintenance/Repair", "Health/Medication", "Lost", "Others"]]
+    var data = [["Choose Category"]]
+    //"Food & Drinks", "Bills", "Transportation", "Grocery", "Shopping/Entertainment", "Maintenance/Repair", "Health/Medication", "Lost", "Others"
+    this.props.records.categories.forEach((categ) => {
+      if (categ[1] == "Spend") {
+        data[0].push(categ[0])
+      }
+    })
 
     return (
       <View style={{ flex: 1 }}>
@@ -64,7 +80,23 @@ class SpendScreen extends Component<Props> {
               handler={(selection, row) => this.setState({ category: data[selection][row] })}
               data={data}
             >
-
+              <TouchableOpacity style={{
+                borderRadius: 3,
+                zIndex: 1,
+                marginTop: -40,
+                marginLeft: this.state.screen_width/1.37,
+                height: 33,
+                width: 47,
+                backgroundColor: '#4050B5',
+                padding: 10,
+                paddingTop: 7
+              }}
+                  onPress={() => {
+                      this.setState({ isModalVisible: true });
+                  }}
+              >
+                <Text style={{ color: '#ffffff' }}>Add</Text>
+              </TouchableOpacity>
               <Container>
                 <Content padder >
                   <Form>
@@ -96,6 +128,29 @@ class SpendScreen extends Component<Props> {
               </Container>
             </DropdownMenu>
           </View>
+          <Modal isVisible={this.state.isModalVisible} onBackdropPress={() => this.setState({ isModalVisible: false })} >
+                <View style={[styles.modalContent]}>
+                    <Text style={{ fontSize: 15 }}>Add a New Category</Text>
+                    <TextInput
+                      style={{height: 40, marginBottom: 15}}
+                      placeholder="e.g. Lost, Donation, Foods"
+                      onChangeText={(text) => this.setState({text})}
+                    />
+                    <View style={{ flexDirection: 'row' }}>
+                        <TouchableOpacity style={{ marginRight: 10, backgroundColor: 'green', padding: 10 }}
+                            onPress={() => {
+                                this.setState({ isModalVisible: false });
+                                this.props.addCategory(this.state.text,"Spend")
+                            }}
+                        >
+                            <Text style={{ color: '#ffffff' }}>Confirm</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={{ marginLeft: 10, backgroundColor: '#DADADA', padding: 10 }} onPress={() => this.setState({ isModalVisible: false })}>
+                            <Text>Cancel</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+        </Modal>
         </View>
       </View>
     );
@@ -110,6 +165,7 @@ const mapStatetoProps = (state) => {
 const mapDispatchToProps = dispatch => (
   bindActionCreators({
     addRecord,
+    addCategory
   }, dispatch)
 );
 

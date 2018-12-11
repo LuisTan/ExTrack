@@ -31,6 +31,9 @@ class HomeScreen extends Component {
         };
     }
 
+    componentDidMount(){
+        alert(JSON.stringify(this.props.records))
+    }
 
     getCurrent = () => {
         return this.props.records.statistical_data.current;
