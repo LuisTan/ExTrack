@@ -6,7 +6,7 @@
  * @flow
  */
 
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   View,
   ActivityIndicator,
@@ -22,7 +22,7 @@ import AppBottomNav from './components/AppBottomNav'
 import EarnScreen from './components/EarnScreen'
 import SpendScreen from './components/SpendScreen'
 
-import {store,persistor} from './components/store.js'
+import { store, persistor } from './components/store.js'
 
 export default class App extends Component {
 
@@ -32,7 +32,7 @@ export default class App extends Component {
 
   render(){
     return (
-      <Provider store = { store }>
+      <Provider store={store}>
         <PersistGate persistor={persistor}>
           <NPProvider>
             <View style={{flex:1}}>
@@ -55,14 +55,14 @@ const AppStackNav = createStackNavigator({
     screen: AppBottomNav,
     navigationOptions: {
       headerTintColor: '#97c8eb',
-      header: null      
+      header: null
     }
   },
   Earn: {
     screen: EarnScreen,
     navigationOptions: {
       headerTintColor: '#97c8eb',
-      headerTransparent: true,   
+      headerTransparent: true,
     }
   },
   Spend: {

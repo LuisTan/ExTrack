@@ -1,7 +1,7 @@
 
 import {
-    StyleSheet,
-    Dimensions
+  StyleSheet,
+  Dimensions
 } from 'react-native';
 
 import RF from 'react-native-responsive-fontsize';

@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 
 import {
     Text,
@@ -16,7 +16,7 @@ import moment from 'moment';
 import { Dimensions } from 'react-native'
 
 
-import {  addRecord } from './RecordsReducer.js';
+import { addRecord } from './RecordsReducer.js';
 import styles from './Style.js';
 import AppNoLeftHeader from './AppNoLeftHeader.js';
 import { Button } from 'react-native-paper';
@@ -78,61 +78,61 @@ class HistoryScreen extends Component {
                 });
             return sectioning.filter(section => section.date.diff(chosendate, 'days') >= 0 && section.date.diff(toDate, 'days') <= 0);
         }
-        else{
+        else {
             return sectioning;
         }
     }
 
-    pesoString=(money,inout)=>{
+    pesoString = (money, inout) => {
         absValMoney = money;
-        if(money < 0)
+        if (money < 0)
             absValMoney = -money;
         sentimo = Math.floor(absValMoney * 100) % 100;
         peso = Math.floor(absValMoney);
         pesoStr = '';
         sentimoStr = '';
-        if(inout === "Spend" && money != 0){
+        if (inout === "Spend" && money != 0) {
             pesoStr = '-';
             sentimoStr = '-';
         }
         pesoStr = pesoStr + '₱' + peso + ".";
         sentimoStr = sentimoStr + sentimo + '¢';
-        if(sentimo > 0){
-            if(peso == 0){
+        if (sentimo > 0) {
+            if (peso == 0) {
                 return sentimoStr;
             }
-            if(sentimo < 10){
+            if (sentimo < 10) {
                 pesoStr = pesoStr + "0" + sentimo;
                 return pesoStr;
             }
-            else{
+            else {
                 pesoStr = pesoStr + sentimo;
             }
         }
-        else{
+        else {
             pesoStr = pesoStr + "00";
         }
         return pesoStr;
     }
 
-    renderHistoryItem=(item)=>{
-        return(
-            <View style={[styles.background,{flex:1}]}>
+    renderHistoryItem = (item) => {
+        return (
+            <View style={[styles.background, { flex: 1 }]}>
                 <View style={{
-                        borderBottomColor: 'black',
-                        borderBottomWidth: 1,
-                    }}/>
+                    borderBottomColor: 'black',
+                    borderBottomWidth: 1,
+                }} />
                 <View style={[
                     styles.homeContainer,
                     styles.historyItemRow,
-                    {flex:1, marginTop:1}]}>
-                    <View style={{alignItems:'flex-start',flexBasis:'60%'}}>
-                        <Text style={[styles.listItems,styles.historyItemCategory,{flex:1}]}>
+                    { flex: 1, marginTop: 1 }]}>
+                    <View style={{ alignItems: 'flex-start', flexBasis: '60%' }}>
+                        <Text style={[styles.listItems, styles.historyItemCategory, { flex: 1 }]}>
                             {item.category}
                         </Text>
                     </View>
-                    <View style={{alignItems:'flex-end',flexBasis:'40%'}}>
-                        <Text style={[styles.listItems,styles.historyItemTime,{flex:1}]}>
+                    <View style={{ alignItems: 'flex-end', flexBasis: '40%' }}>
+                        <Text style={[styles.listItems, styles.historyItemTime, { flex: 1 }]}>
                             {item.time}
                         </Text>
                     </View>
@@ -140,24 +140,26 @@ class HistoryScreen extends Component {
                 <View style={[
                     styles.homeContainer,
                     styles.historyItemRow,
-                    {flex:2,
-                    width:'100%'}]}>
-                    <View style={{alignItems:'flex-start',flexBasis:'60%'}}>
-                        <Text style={[styles.listItems,styles.historyItemDetail,{flex:1}]}>
+                    {
+                        flex: 2,
+                        width: '100%'
+                    }]}>
+                    <View style={{ alignItems: 'flex-start', flexBasis: '60%' }}>
+                        <Text style={[styles.listItems, styles.historyItemDetail, { flex: 1 }]}>
                             {item.details}
                         </Text>
                     </View>
-                    <View style={{alignItems:'flex-end',flexBasis:'40%'}}>
+                    <View style={{ alignItems: 'flex-end', flexBasis: '40%' }}>
                         <Text
                             style={
                                 [
                                     styles.listItems,
                                     styles.historyItemCost,
-                                    item.inout === 'Spend' ? styles.moneySpent:styles.moneyEarned,
-                                    {flex:1}
+                                    item.inout === 'Spend' ? styles.moneySpent : styles.moneyEarned,
+                                    { flex: 1 }
                                 ]
-                                }>
-                            {this.pesoString(item.cost,item.inout)}
+                            }>
+                            {this.pesoString(item.cost, item.inout)}
                         </Text>
                     </View>
                 </View>
@@ -273,44 +275,40 @@ class HistoryScreen extends Component {
                                 date: '',
                                 todate: '',
                             });
-                        }
-                        else{
-                            Alert.alert("All Dates are Shown");
-                        }
-                    }}
-                />
+                        }}}
+                    />
+                </View>
+                {/*Content*/}
+                <ScrollView style={[styles.background, { flex: 20 }]}>
+                    <SectionList
+                        sections={this.getItemSections()}
+                        keyExtractor={(item, index) => item + index}
+                        renderSectionHeader={({ section: { title } }) => (
+                            <View style={
+                                [{
+                                    backgroundColor: "#3aafb9",
+                                }]
+                            }>
+                                <Text style={[styles.welcome, { fontWeight: "bold" }]}>{title}</Text>
+                            </View>
+                        )}
+                        renderItem={({ item }) => this.renderHistoryItem(item)}
+                    />
+                </ScrollView>
             </View>
-            {/*Content*/}
-            <ScrollView style={[styles.background,{flex:20}]}>
-                <SectionList
-                    sections={this.getItemSections()}
-                    keyExtractor={(item,index)=>item + index}
-                    renderSectionHeader={({section: {title}}) => (
-                        <View style={
-                            [{
-                                backgroundColor:"#3aafb9",
-                            }]
-                        }>
-                            <Text style={[styles.welcome,{fontWeight:"bold"}]}>{title}</Text>
-                        </View>
-                    )}
-                    renderItem={({item}) => this.renderHistoryItem(item)}
-                />
-            </ScrollView>
-        </View>
-      );
+        );
     }
 }
 
 const mapStatetoProps = (state) => {
-  const { records } = state
-  return { records }
+    const { records } = state
+    return { records }
 }
 
 const mapDispatchToProps = dispatch => (
-  bindActionCreators({
-    addRecord,
-  }, dispatch)
+    bindActionCreators({
+        addRecord,
+    }, dispatch)
 );
 
 export default connect(mapStatetoProps, mapDispatchToProps)(HistoryScreen)
