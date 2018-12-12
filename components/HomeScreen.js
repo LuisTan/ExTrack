@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import {
     Text,
+    Alert,
     View,
     FlatList,
     ScrollView,
@@ -30,7 +31,7 @@ class HomeScreen extends Component {
             removeTime: null
         };
     }
-    
+
     getCurrent = () => {
         return this.props.records.statistical_data.current;
     }
@@ -62,7 +63,7 @@ class HomeScreen extends Component {
             if(item.inout != 'Earn'){
                 indx = -1;
                 if(spendingRecord.length > 0)
-                    indx = spendingRecord.findIndex(rec => rec.category == item.category);            
+                    indx = spendingRecord.findIndex(rec => rec.category == item.category);
                 if(indx >= 0)
                     spendingRecord[indx].cost += item.cost;
                 else
@@ -238,6 +239,7 @@ class HomeScreen extends Component {
 
 
     render() {
+        Alert.alert("Privacy Policy: https://brianpesy.github.io/");
         return (
             <View style={{ flex: 1 }}>
                 {/*Header*/}
