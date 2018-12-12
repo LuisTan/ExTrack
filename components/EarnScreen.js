@@ -38,7 +38,7 @@ class EarnScreen extends Component<Props> {
 
   _InpValidation = () => {
     if (this.state.category == "" || this.state.category == "Choose Category" || this.state.details == '' || isNaN(this.state.earn)) {
-      Alert.alert("Please fill up all fields with valid input");
+      Alert.alert("Valid Input Please","Please fill up all fields with valid input");
     }
     else {
       this.setState({disabled: true})

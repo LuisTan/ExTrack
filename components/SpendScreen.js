@@ -36,9 +36,9 @@ class SpendScreen extends Component<Props> {
 
   _InpValidation = () => {
     if (this.state.category == "" ||  this.state.category == "Choose Category" || this.state.details == '' || isNaN(this.state.spend)) {
-      Alert.alert("Please fill up all fields with valid input");
+      Alert.alert("Valid Input Please","Please fill up all fields with valid input");
     } else if (this.state.spend > this.props.records.statistical_data.current) {
-      Alert.alert("Please spend as up to how much you have.");
+      Alert.alert("Negative Money","Please spend as up to how much you have.");
     } else {
       this.setState({disabled: true})
       this.props.addRecord('Spend', this.state.details, this.state.category, parseFloat(this.state.spend))

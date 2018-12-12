@@ -32,6 +32,10 @@ class HomeScreen extends Component {
         };
     }
 
+    componentDidMount(){
+        Alert.alert("Read More","Please visit our Privacy Policy for more details: https://brianpesy.github.io/");
+    }
+
     getCurrent = () => {
         return this.props.records.statistical_data.current;
     }
@@ -239,7 +243,6 @@ class HomeScreen extends Component {
 
 
     render() {
-        Alert.alert("Privacy Policy: https://brianpesy.github.io/");
         return (
             <View style={{ flex: 1 }}>
                 {/*Header*/}

@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux'
 import moment from 'moment'
+import {Alert} from 'react-native'
 
 const INITIAL_STATE = {
     statistical_data: {
@@ -121,7 +122,7 @@ const recordsReducer = (state = INITIAL_STATE, action) => {
 
             if (data_records[index].items[i].inout == "Earn"){
                 if( statistical_data.current - data_records[index].items[i].cost < 0){
-                    alert("You'll have negative money if you proceed. Please settle this problem first.")
+                    Alert.alert("Negative Money","You'll have negative money if you proceed. Please settle this problem first.")
                     return state;
                 }
                 data_records[index].net -= data_records[index].items[i].cost
