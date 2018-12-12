@@ -275,38 +275,7 @@ class HistoryScreen extends Component {
                                 date: '',
                                 todate: '',
                             });
-                        }}
-                    />
-                    <Icon.Button
-                        style={
-                            {
-                                alignItems: 'center',
-                                justifyContent: "center",
-                                margin: 0,
-                            }
-                        }
-                        name="times"
-                        backgroundColor="#093A3E"
-                        borderRadius={0}
-                        size={36}
-                        iconStyle={
-                            {
-                                alignItems: 'center',
-                                justifyContent: "center",
-                                margin: 0,
-                            }
-                        }
-                        onPress={() => {
-                            if (this.state.filtering) {
-                                this.setState({
-                                    filtering: false,
-                                    date: '',
-                                });
-                            }
-                            else {
-                                Alert.alert("All Dates are Shown");
-                            }
-                        }}
+                        }}}
                     />
                 </View>
                 {/*Content*/}

@@ -24,6 +24,7 @@ class EarnScreen extends Component<Props> {
   constructor(props) {
     super(props)
     this.state = {
+      disabled: false,
       text: '',
       details: '',
       category: '',
@@ -36,9 +37,11 @@ class EarnScreen extends Component<Props> {
   }
 
   _InpValidation = () => {
-    if (this.state.category == "" || this.state.details == '' || isNaN(this.state.earn)) {
+    if (this.state.category == "" || this.state.category == "Choose Category" || this.state.details == '' || isNaN(this.state.earn)) {
       Alert.alert("Please fill up all fields with valid input");
-    } else {
+    }
+    else {
+      this.setState({disabled: true})
       this.props.addRecord('Earn', this.state.details, this.state.category, parseFloat(this.state.earn))
       this.props.navigation.goBack();
     }
@@ -108,16 +111,14 @@ class EarnScreen extends Component<Props> {
                       <Label>Earnings (Number only)</Label>
                       <Input onChangeText={(earn) => this.setState({ earn })} />
                     </Item>
-                    <Item floatingLabel>
-                      <Label>New Category (Required: "Others")</Label>
-                      <Input onChangeText={(others) => this.setState({others})}/>
-                    </Item>
                   </Form>
                   <View style={[styles.enterButton, Platform.select({
                     ios: styles.enterButtonIOS,
                     android: styles.enterButtonAndroid,
                   }), { flex: 1 }]}>
-                    <Button onPress={() =>
+                    <Button 
+                      disabled={this.state.disabled}
+                      onPress={() =>
                       // this._confirm()
                       // this.EmptyInp
                       this._InpValidation()

@@ -119,6 +119,22 @@ const recordsReducer = (state = INITIAL_STATE, action) => {
                 i++;
             }
 
+            if (data_records[index].items[i].inout == "Earn"){
+                if( statistical_data.current - data_records[index].items[i].cost < 0){
+                    alert("You'll have negative money if you proceed. Please settle this problem first.")
+                    return state;
+                }
+                data_records[index].net -= data_records[index].items[i].cost
+                statistical_data.current -= data_records[index].items[i].cost
+                statistical_data.total_earned -= data_records[index].items[i].cost
+            }
+            else{
+                data_records[index].net += data_records[index].items[i].cost
+                data_records[index].total_spent -= data_records[index].items[i].cost
+                statistical_data.current += data_records[index].items[i].cost
+                statistical_data.total_spent -= data_records[index].items[i].cost
+            }
+
             data_records[index].items.splice(i, 1)
 
             return { statistical_data, data_records, categories }

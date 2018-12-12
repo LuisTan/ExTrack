@@ -22,6 +22,7 @@ class SpendScreen extends Component<Props> {
   constructor(props) {
     super(props)
     this.state = {
+      disabled: false,
       text: '',
       details: '',
       category: '',
@@ -34,11 +35,12 @@ class SpendScreen extends Component<Props> {
   }
 
   _InpValidation = () => {
-    if (this.state.category == "" || this.state.details == '' || isNaN(this.state.spend)) {
+    if (this.state.category == "" ||  this.state.category == "Choose Category" || this.state.details == '' || isNaN(this.state.spend)) {
       Alert.alert("Please fill up all fields with valid input");
     } else if (this.state.spend > this.props.records.statistical_data.current) {
       Alert.alert("Please spend as up to how much you have.");
     } else {
+      this.setState({disabled: true})
       this.props.addRecord('Spend', this.state.details, this.state.category, parseFloat(this.state.spend))
       this.props.navigation.goBack();
     }
@@ -113,7 +115,9 @@ class SpendScreen extends Component<Props> {
                     ios: styles.enterButtonIOS,
                     android: styles.enterButtonAndroid
                   }), { flex: 1 }]}>
-                    <Button onPress={() =>
+                    <Button 
+                      disabled={this.state.disabled}
+                      onPress={() =>
                       // this._confirm()
                       // this.EmptyInp
                       this._InpValidation()
